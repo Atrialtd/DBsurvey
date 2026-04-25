@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DeliveryBoy Survey — Earn as You Answer</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F1F8F1;color:#1C1C1C;min-height:100vh;padding-bottom:3rem}
+.app{max-width:480px;margin:0 auto;padding:1rem}
+.screen{display:none}
+.screen.active{display:block}
+
+/* Cards */
+.card{background:#fff;border:1px solid #E0E0E0;border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:1rem}
+
+/* Wallet bar */
+.wallet-bar{background:#1B5E20;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.wl{font-size:12px;color:#A5D6A7;font-weight:500}
+.wa{font-size:26px;font-weight:700;color:#fff}
+.ws{font-size:12px;color:#A5D6A7;margin-top:2px}
+
+/* Buttons */
+.btn{width:100%;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;margin-bottom:.5rem}
+.btn-green{background:#1B5E20;color:#fff}
+.btn-green:hover{background:#2E7D32}
+.btn-green:active{opacity:.85}
+.btn-green:disabled{background:#9E9E9E;cursor:not-allowed}
+.btn-outline{background:#fff;color:#1C1C1C;border:1px solid #D0D0D0;font-weight:500}
+.btn-outline:hover{background:#F5F5F5}
+.btn-red{background:#C62828;color:#fff}
+.btn-red:hover{background:#B71C1C}
+.btn-sm{width:auto;padding:.45rem 1rem;font-size:13px;border-radius:8px;background:#1B5E20;color:#fff;border:none;cursor:pointer}
+.btn-sm:hover{background:#2E7D32}
+
+/* Forms */
+.fl{font-size:13px;color:#555;font-weight:500;display:block;margin-bottom:4px}
+.fg{margin-bottom:.85rem}
+input[type=text],input[type=tel],input[type=email],input[type=password],input[type=number],select,textarea{
+  width:100%;border:1px solid #D0D0D0;border-radius:10px;padding:.65rem .9rem;
+  font-size:15px;font-family:inherit;color:#1C1C1C;background:#fff;outline:none;
+  transition:border-color .15s,box-shadow .15s;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:#2E7D32;box-shadow:0 0 0 3px rgba(46,125,50,.12)}
+input.err,select.err{border-color:#C62828;box-shadow:0 0 0 3px rgba(198,40,40,.1)}
+.field-note{font-size:12px;margin-top:4px;min-height:16px}
+.field-note.ok{color:#2E7D32}
+.field-note.bad{color:#C62828}
+.field-note.checking{color:#888}
+textarea{resize:vertical;min-height:76px}
+.req{color:#C62828;margin-left:2px}
+
+/* Password wrapper */
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#888;font-size:13px;padding:4px}
+
+/* Tabs */
+.tabs{display:flex;gap:.4rem;margin-bottom:1rem}
+.tab{flex:1;padding:.55rem;text-align:center;font-size:13px;font-weight:500;border-radius:9px;border:1px solid #D0D0D0;cursor:pointer;color:#666;background:#fff;transition:all .15s}
+.tab.active{background:#1B5E20;color:#fff;border-color:#1B5E20}
+
+/* Nav bar at top */
+.top-bar{background:#1B5E20;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:-1rem -1rem 1rem;border-radius:14px 14px 0 0}
+.top-brand{font-size:16px;font-weight:700;color:#fff}
+.top-user{font-size:12px;color:#A5D6A7;text-align:right}
+.top-logout{background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:12px;padding:4px 10px;cursor:pointer}
+.top-logout:hover{background:rgba(255,255,255,.3)}
+
+/* Options */
+.opt{display:flex;align-items:center;gap:.65rem;padding:.6rem .75rem;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:all .15s;margin-bottom:.4rem;user-select:none}
+.opt:hover{background:#F1F8F1;border-color:#A5D6A7}
+.opt.sel{background:#E8F5E9;border-color:#4CAF50}
+.opt input{accent-color:#1B5E20;width:17px;height:17px;flex-shrink:0;pointer-events:none}
+.opt-text{font-size:14px;color:#1C1C1C;line-height:1.4}
+
+/* Scale */
+.scale-row{display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0}
+.sb{flex:1;min-width:30px;height:40px;border-radius:8px;border:1px solid #D0D0D0;background:#fff;font-size:13px;font-weight:600;color:#555;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.sb:hover{border-color:#2E7D32;color:#2E7D32}
+.sb.sel{background:#1B5E20;border-color:#1B5E20;color:#fff}
+.scale-lbs{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:.75rem}
+
+/* Progress */
+.prog-track{background:#E0E0E0;border-radius:4px;height:6px;margin:.75rem 0 .35rem}
+.prog-bar{background:#1B5E20;height:6px;border-radius:4px;transition:width .4s}
+.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:#888}
+
+/* Q badge */
+.qbadge{display:inline-block;background:#E8F5E9;color:#2E7D32;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:.5rem}
+.qtitle{font-size:15px;font-weight:600;color:#1C1C1C;line-height:1.55;margin-bottom:.85rem}
+.qhint{background:#F1F8F1;border-left:3px solid #81C784;border-radius:0 8px 8px 0;padding:.45rem .75rem;font-size:12px;color:#2E7D32;line-height:1.5;margin-bottom:.85rem}
+.req-note{font-size:11px;color:#C62828;margin-bottom:.5rem}
+
+/* Stat grid */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.scard{background:#F8FAF8;border-radius:10px;padding:.85rem 1rem}
+.slbl{font-size:12px;color:#888;margin-bottom:3px}
+.sval{font-size:20px;font-weight:700;color:#1C1C1C}
+.sval.green{color:#1B5E20}
+
+/* Ref box */
+.ref-box{background:#E8F5E9;border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:.85rem 0}
+.ref-code{font-size:20px;font-weight:700;color:#1B5E20;letter-spacing:2px}
+
+/* Tx rows */
+.txr{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid #F0F0F0}
+.txr:last-child{border-bottom:none}
+.txl{font-size:13px;color:#1C1C1C;font-weight:500}
+.txs{font-size:11px;color:#888}
+.txa{font-size:14px;font-weight:700}
+.txa.plus{color:#2E7D32}
+.txa.minus{color:#C62828}
+
+/* Badges */
+.badge{display:inline-block;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
+.b-green{background:#E8F5E9;color:#2E7D32}
+.b-amber{background:#FFF3E0;color:#E65100}
+.b-red{background:#FFEBEE;color:#C62828}
+.b-gray{background:#F5F5F5;color:#616161}
+
+/* Toast */
+.toast{position:sticky;top:.75rem;z-index:999;border-radius:10px;padding:.65rem 1rem;font-size:13px;font-weight:500;text-align:center;margin-bottom:.75rem;display:none}
+.toast.show{display:block;animation:fdin .2s}
+.toast.ok{background:#1B5E20;color:#fff}
+.toast.error{background:#C62828;color:#fff}
+@keyframes fdin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Success circle */
+.ok-circle{width:68px;height:68px;border-radius:50%;background:#E8F5E9;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+
+/* Lock */
+.lock-box{text-align:center;padding:1.5rem}
+.lock-icon{width:52px;height:52px;background:#FFF3E0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+
+/* Spinner */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* Step */
+.step-row{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem}
+.step-num{min-width:26px;height:26px;background:#1B5E20;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+
+/* WhatsApp share button */
+.btn-whatsapp{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s}
+.btn-whatsapp:hover{background:#128C7E}
+.btn-whatsapp svg{flex-shrink:0}
+
+/* Forgot password link */
+.forgot-link{display:block;text-align:center;font-size:13px;color:#1B5E20;margin-top:.5rem;cursor:pointer;text-decoration:none}
+.forgot-link:hover{text-decoration:underline}
+
+/* Auth tabs */
+.auth-tabs{display:flex;margin-bottom:1.25rem;border-radius:10px;overflow:hidden;border:1px solid #D0D0D0}
+.auth-tab{flex:1;padding:.7rem;text-align:center;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:#666;transition:all .15s}
+.auth-tab.active{background:#1B5E20;color:#fff}
+
+/* Hero */
+.hero{text-align:center;padding:.75rem 0 1.25rem}
+.hero-icon{width:56px;height:56px;background:#E8F5E9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+.hero-title{font-size:22px;font-weight:700;color:#1C1C1C;margin-bottom:.4rem}
+.hero-sub{font-size:14px;color:#666;line-height:1.6}
+
+.nav-row{display:flex;gap:.65rem;margin-top:1rem}
+.divider{border:none;border-top:1px solid #E0E0E0;margin:1rem 0}
+.section-lbl{font-size:11px;font-weight:600;color:#2E7D32;letter-spacing:.5px;background:#E8F5E9;border-radius:6px;padding:.3rem .65rem;display:inline-block;margin:.85rem 0 .6rem}
+.share-msg{background:#F5F5F5;border-radius:9px;padding:.75rem;font-size:13px;color:#1C1C1C;line-height:1.6;margin-top:.75rem}
+.wd-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #F5F5F5}
+.wd-hist-row:last-child{border:none}
+
+/* OTP styles */
+.otp-steps{display:flex;gap:6px;align-items:center;margin-bottom:1rem}
+.otp-step{display:flex;align-items:center;gap:5px;font-size:12px;color:#888}
+.otp-step.done{color:#2E7D32;font-weight:600}
+.otp-step.active{color:#1B5E20;font-weight:600}
+.otp-dot{width:22px;height:22px;border-radius:50%;background:#E0E0E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.otp-dot.done{background:#2E7D32}
+.otp-dot.active{background:#1B5E20}
+.otp-arrow{color:#C8E6C9;font-size:14px}
+.otp-input-row{display:flex;gap:.5rem}
+.otp-input-row input{flex:1;text-align:center;font-size:26px;font-weight:700;letter-spacing:6px;padding:.65rem .5rem;border-radius:10px;border:2px solid #D0D0D0}
+.otp-input-row input:focus{border-color:#1B5E20;box-shadow:0 0 0 3px rgba(27,94,32,.12)}
+.otp-timer{font-size:12px;color:#888;text-align:center;margin-top:.5rem}
+.otp-timer.urgent{color:#C62828;font-weight:600}
+.resend-btn{background:none;border:none;color:#1B5E20;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
+.resend-btn:disabled{color:#888;cursor:not-allowed;text-decoration:none}
+.verified-badge{display:inline-flex;align-items:center;gap:5px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;color:#2E7D32}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div id="toast" class="toast"></div>
+
+  <!-- ════════ SCREEN: AUTH (Login / Register) ════════ -->
+  <div id="screen-auth" class="screen active">
+    <div class="hero">
+      <div class="hero-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg>
+      </div>
+      <div class="hero-title">Earn as you answer</div>
+      <div class="hero-sub">Complete the survey &amp; earn <strong style="color:#1B5E20">₦50</strong>. Refer friends &amp; earn <strong style="color:#1B5E20">₦50</strong> each.</div>
+    </div>
+
+    <div class="sgrid">
+      <div class="scard" style="text-align:center"><div class="slbl">Survey reward</div><div class="sval green">₦50</div></div>
+      <div class="scard" style="text-align:center"><div class="slbl">Per referral</div><div class="sval green">₦50</div></div>
+      <div class="scard" style="text-align:center"><div class="slbl">Min withdrawal</div><div class="sval" id="cfg-min-display">₦500</div></div>
+      <div class="scard" style="text-align:center"><div class="slbl">Paid via</div><div class="sval" style="font-size:14px">Bank/Wallet</div></div>
+    </div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="at-register" onclick="switchAuth('register')">Create account</div>
+      <div class="auth-tab" id="at-login" onclick="switchAuth('login')">Log in</div>
+    </div>
+
+    <!-- Register form — 2 STEPS: details first, then verify email -->
+    <div id="auth-register">
+
+      <!-- Step indicator -->
+      <div class="otp-steps">
+        <div class="otp-step active" id="step-ind-1">
+          <div class="otp-dot active" id="step-dot-1">1</div>
+          <span>Your details</span>
+        </div>
+        <div class="otp-arrow">&#8250;</div>
+        <div class="otp-step" id="step-ind-2">
+          <div class="otp-dot" id="step-dot-2">2</div>
+          <span>Verify email</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: All details -->
+      <div id="reg-step1">
+        <div class="card">
+          <div class="fg">
+            <label class="fl">Full name <span class="req">*</span></label>
+            <input type="text" id="r-name" placeholder="e.g. Amaka Okonkwo" autocomplete="name">
+          </div>
+          <div class="fg">
+            <label class="fl">Email address <span class="req">*</span></label>
+            <input type="email" id="r-email" placeholder="e.g. amaka@gmail.com" oninput="liveCheckEmail()" autocomplete="email">
+            <div class="field-note" id="r-email-note"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">Password <span class="req">*</span> <span style="font-weight:400;color:#888">(min 6 characters)</span></label>
+            <div class="pw-wrap">
+              <input type="password" id="r-password" placeholder="Choose a password" autocomplete="new-password">
+              <button class="pw-toggle" type="button" onclick="togglePw('r-password',this)">Show</button>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="fl">Confirm password <span class="req">*</span></label>
+            <div class="pw-wrap">
+              <input type="password" id="r-password2" placeholder="Repeat your password" autocomplete="new-password">
+              <button class="pw-toggle" type="button" onclick="togglePw('r-password2',this)">Show</button>
+            </div>
+            <div class="field-note" id="r-pw2-note"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">Phone number <span class="req">*</span></label>
+            <input type="tel" id="r-phone" placeholder="e.g. 08012345678" oninput="liveCheckPhone()" autocomplete="tel">
+            <div class="field-note" id="r-phone-note"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">School / University <span class="req">*</span></label>
+            <input type="text" id="r-school" placeholder="e.g. UNILAG, LASU, Yabatech">
+          </div>
+          <div class="fg" style="margin-bottom:0">
+            <label class="fl">Referral code <span style="font-weight:400;color:#888">(optional)</span></label>
+            <input type="text" id="r-ref" placeholder="e.g. DB-AMAKA123" style="text-transform:uppercase" oninput="liveCheckRef(this)">
+            <div class="field-note" id="r-ref-note"></div>
+          </div>
+        </div>
+        <button class="btn btn-green" id="btn-send-otp" onclick="doSendOTP()">Continue &#8212; verify my email</button>
+        <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">We will send a 6-digit code to your email. One account per person only.</p>
+      </div>
+
+      <!-- STEP 2: OTP verification -->
+      <div id="reg-step2" style="display:none">
+        <div class="card">
+          <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Step 2 &#8212; Verify your email</div>
+          <div style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">We sent a 6-digit code to <strong id="otp-sent-to" style="color:#1B5E20">your email</strong>. Enter it to complete your registration.</div>
+          <input type="number" id="otp-code" placeholder="000000" maxlength="6"
+            style="text-align:center;font-size:28px;font-weight:700;letter-spacing:8px;padding:.75rem;width:100%"
+            oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
+            onkeydown="if(event.key==='Enter')doVerifyOTP()">
+          <div class="field-note" id="otp-code-note" style="text-align:center;margin-top:.5rem"></div>
+          <div style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
+            Code expires in <strong id="otp-countdown-reg" style="color:#1B5E20">10:00</strong>
+          </div>
+          <div style="text-align:center;margin-top:.65rem">
+            <button class="resend-btn" id="resend-btn" onclick="doResendOTP()" disabled>Resend code (wait 60s)</button>
+          </div>
+        </div>
+        <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify &amp; create my account</button>
+        <button class="btn btn-outline" onclick="backToStep1()">&#8592; Back &amp; edit details</button>
+        <p style="font-size:12px;color:#888;text-align:center;margin-top:.35rem;line-height:1.6">Can't find it? Check your spam/junk folder.</p>
+      </div>
+
+    </div>
+
+
+    <!-- Login form -->
+    <div id="auth-login" style="display:none">
+      <div class="card">
+        <div class="fg">
+          <label class="fl">Email address <span class="req">*</span></label>
+          <input type="email" id="l-email" placeholder="The email you registered with" autocomplete="email">
+        </div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="fl">Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="l-password" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+            <button class="pw-toggle" type="button" onclick="togglePw('l-password',this)">Show</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-green" id="btn-login" onclick="doLogin()">Log in to my account</button>
+      <a class="forgot-link" onclick="showForgotPassword()">Forgot your password? Reset it here</a>
+      <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem">Don't have an account? <a href="#" onclick="switchAuth('register');return false" style="color:#1B5E20">Create one above.</a></p>
+    </div>
+  </div>
+
+
+  <!-- ════════ SCREEN: OTP VERIFICATION ════════ -->
+  <div id="screen-otp" class="screen">
+    <div style="text-align:center;padding:.75rem 0 1.25rem">
+      <div class="hero-icon" style="background:#E8F5E9;margin:0 auto .75rem">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Check your email</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">We sent a 6-digit code to<br><strong id="otp-email-display" style="color:#1B5E20">your email</strong></div>
+    </div>
+
+    <div class="card">
+      <label class="fl" style="text-align:center;display:block;margin-bottom:.85rem;font-size:13px;color:#666">Enter the 6-digit verification code</label>
+      <input type="number" id="otp-input" placeholder="_ _ _ _ _ _"
+        style="text-align:center;font-size:28px;font-weight:700;letter-spacing:8px;padding:.75rem"
+        maxlength="6" oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+      <div class="field-note" id="otp-note" style="text-align:center;margin-top:.5rem"></div>
+
+      <div id="otp-timer" style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
+        Code expires in <strong id="otp-countdown" style="color:#1B5E20">10:00</strong>
+      </div>
+    </div>
+
+    <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify my email</button>
+    <button class="btn btn-outline" id="btn-resend-otp" onclick="doResendOTP()" style="margin-top:0">Send a new code</button>
+    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('register')" style="margin-top:0;font-size:13px;color:#888">← Back to registration</button>
+
+    <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">
+      Can't find it? Check your <strong>spam/junk folder</strong>. The code is valid for 10 minutes.
+    </p>
+  </div>
+
+
+
+  <!-- ════════ SCREEN: FORGOT PASSWORD ════════ -->
+  <div id="screen-forgot" class="screen">
+    <div style="text-align:center;padding:.75rem 0 1.25rem">
+      <div class="hero-icon" style="background:#FFF3E0;margin:0 auto .75rem">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Reset your password</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">Enter the email address you registered with. We will send you a code to reset your password.</div>
+    </div>
+    <div class="card">
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Registered email address <span class="req">*</span></label>
+        <input type="email" id="fp-email" placeholder="The email you signed up with" autocomplete="email">
+        <div class="field-note" id="fp-email-note"></div>
+      </div>
+    </div>
+    <button class="btn btn-green" id="btn-fp-send" onclick="doSendResetOTP()">Send reset code to my email</button>
+    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')" style="margin-top:0">← Back to login</button>
+  </div>
+
+  <!-- ════════ SCREEN: RESET PASSWORD ════════ -->
+  <div id="screen-reset" class="screen">
+    <div style="text-align:center;padding:.75rem 0 1.25rem">
+      <div class="hero-icon" style="background:#E8F5E9;margin:0 auto .75rem">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Create new password</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">Enter the 6-digit code sent to <strong id="reset-email-display" style="color:#1B5E20">your email</strong>, then choose a new password.</div>
+    </div>
+
+    <div class="card">
+      <div class="fg">
+        <label class="fl">6-digit reset code <span class="req">*</span></label>
+        <input type="number" id="rp-code" placeholder="Enter code from email"
+          style="text-align:center;font-size:22px;font-weight:700;letter-spacing:6px"
+          maxlength="6" oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+        <div class="field-note" id="rp-code-note"></div>
+      </div>
+      <div class="fg">
+        <label class="fl">New password <span class="req">*</span> <span style="font-weight:400;color:#888">(min 6 characters)</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="rp-password" placeholder="Choose a new password" autocomplete="new-password">
+          <button class="pw-toggle" type="button" onclick="togglePw('rp-password',this)">Show</button>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Confirm new password <span class="req">*</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="rp-password2" placeholder="Repeat your new password" autocomplete="new-password" oninput="checkRpMatch()">
+          <button class="pw-toggle" type="button" onclick="togglePw('rp-password2',this)">Show</button>
+        </div>
+        <div class="field-note" id="rp-match-note"></div>
+      </div>
+    </div>
+
+    <div id="rp-timer-wrap" style="text-align:center;font-size:13px;color:#888;margin-bottom:.75rem">
+      Code expires in <strong id="rp-countdown" style="color:#1B5E20">10:00</strong>
+    </div>
+
+    <button class="btn btn-green" id="btn-rp-submit" onclick="doResetPassword()">Set new password</button>
+    <button class="btn btn-outline" id="btn-rp-resend" onclick="doResendResetOTP()" style="margin-top:0">Send a new code</button>
+    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')" style="margin-top:0;font-size:13px;color:#888">← Back to login</button>
+
+    <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">Check your spam/junk folder if you don't see it.</p>
+  </div>
+
+  <!-- ════════ SCREEN: SURVEY ════════ -->
+  <div id="screen-survey" class="screen">
+    <div class="wallet-bar">
+      <div>
+        <div class="wl">Wallet balance</div>
+        <div class="wa">₦<span id="sv-bal">0</span></div>
+        <div class="ws">+₦50 when you submit</div>
+      </div>
+      <div style="text-align:right">
+        <div class="wl">Progress</div>
+        <div class="wa" style="font-size:20px"><span id="sv-qn">1</span>/10</div>
+        <div class="ws">questions</div>
+      </div>
+    </div>
+    <div class="prog-track"><div class="prog-bar" id="sv-prog" style="width:10%"></div></div>
+    <div class="prog-meta">
+      <span id="sv-prog-lbl">Question 1 of 10</span>
+      <span id="sv-prog-pct" style="color:#1B5E20;font-weight:600">10%</span>
+    </div>
+    <div id="q-container" style="margin-top:1rem"></div>
+    <div class="nav-row">
+      <button class="btn btn-outline" id="btn-prev" onclick="prevQ()" style="display:none;width:auto;padding:.8rem 1.2rem">← Back</button>
+      <button class="btn btn-green" id="btn-next" onclick="nextQ()" style="flex:1">Next →</button>
+    </div>
+  </div>
+
+  <!-- ════════ SCREEN: SUBMITTING ════════ -->
+  <div id="screen-submitting" class="screen">
+    <div style="text-align:center;padding:3rem 1rem">
+      <div style="width:60px;height:60px;border:4px solid #E8F5E9;border-top-color:#1B5E20;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem"></div>
+      <div style="font-size:18px;font-weight:600;margin-bottom:.5rem">Submitting your answers...</div>
+      <div style="font-size:14px;color:#666">Saving responses and crediting your wallet</div>
+    </div>
+  </div>
+
+  <!-- ════════ SCREEN: SURVEY COMPLETE ════════ -->
+  <div id="screen-complete" class="screen">
+    <div class="ok-circle">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem">Survey complete!</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">₦50 credited to your wallet. Share your link to keep earning — every friend earns you ₦50 more.</div>
+    </div>
+    <div class="wallet-bar">
+      <div><div class="wl">Balance</div><div class="wa">₦<span id="done-bal">50</span></div></div>
+      <div style="text-align:right"><div class="wl">Total earned</div><div class="wa" style="font-size:18px">₦<span id="done-total">50</span></div></div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Refer friends — earn ₦50 each</div>
+      <div style="font-size:13px;color:#666;margin-bottom:.85rem">When a friend opens your personal link and completes the survey, you both earn ₦50 instantly.</div>
+      <div class="ref-box">
+        <div><div style="font-size:11px;color:#2E7D32;margin-bottom:2px">Your referral code</div><div class="ref-code" id="done-mycode">DB-XXXXX</div></div>
+        <button class="btn-sm" onclick="copyCode('done-mycode')">Copy</button>
+      </div>
+      <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Share on WhatsApp &amp; earn more
+      </button>
+      <button class="btn-outline" onclick="copyReferralLink()" style="margin-top:0;font-size:13px">Copy referral link</button>
+    </div>
+    <button class="btn btn-green" onclick="goDashboard()" style="margin-top:.5rem">Go to my dashboard</button>
+  </div>
+
+  <!-- ════════ SCREEN: DASHBOARD ════════ -->
+  <div id="screen-dashboard" class="screen">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="top-brand">DeliveryBoy</div>
+      <div style="display:flex;align-items:center;gap:.65rem">
+        <div class="top-user" id="db-user-info">...</div>
+        <button class="top-logout" onclick="doLogout()">Log out</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" id="tab-btn-home"     onclick="switchTab('home')">Home</div>
+      <div class="tab"       id="tab-btn-referrals" onclick="switchTab('referrals')">Referrals</div>
+      <div class="tab"       id="tab-btn-withdraw"  onclick="switchTab('withdraw')">Withdraw</div>
+    </div>
+
+    <!-- ── HOME TAB ── -->
+    <div id="tab-home">
+      <div class="wallet-bar">
+        <div>
+          <div class="wl">Available balance</div>
+          <div class="wa">₦<span id="db-balance">0</span></div>
+          <div class="ws" id="db-withdraw-note">Earn more to withdraw</div>
+        </div>
+        <div style="text-align:right">
+          <div class="wl">Total earned</div>
+          <div class="wa" style="font-size:17px">₦<span id="db-total">0</span></div>
+        </div>
+      </div>
+
+      <div id="survey-cta" style="display:none">
+        <div class="card" style="border:2px solid #1B5E20;text-align:center">
+          <div style="font-size:15px;font-weight:600;color:#1B5E20;margin-bottom:.35rem">Complete your survey</div>
+          <div style="font-size:13px;color:#666;margin-bottom:.85rem">Answer 10 questions and earn ₦50 in your wallet.</div>
+          <button class="btn btn-green" onclick="startSurvey()" style="margin-bottom:0">Start survey now →</button>
+        </div>
+      </div>
+
+      <div id="survey-done-banner" style="display:none">
+        <div class="card" style="background:#E8F5E9;border-color:#A5D6A7;text-align:center">
+          <div style="font-size:13px;font-weight:600;color:#1B5E20">✓ Survey completed — ₦50 earned!</div>
+          <div style="font-size:12px;color:#2E7D32;margin-top:3px">Share your referral code to keep earning.</div>
+        </div>
+      </div>
+
+      <div class="sgrid">
+        <div class="scard"><div class="slbl">Ref earnings</div><div class="sval green">₦<span id="db-ref-earned">0</span></div></div>
+        <div class="scard"><div class="slbl">Friends referred</div><div class="sval"><span id="db-ref-count">0</span></div></div>
+        <div class="scard"><div class="slbl">Total withdrawn</div><div class="sval">₦<span id="db-withdrawn">0</span></div></div>
+        <div class="scard"><div class="slbl">Your ref code</div><div class="sval" style="font-size:14px" id="db-code">—</div></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">Transaction history</div>
+        <div id="db-tx-list"><div style="text-align:center;padding:.75rem;font-size:13px;color:#888">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ── REFERRALS TAB ── -->
+    <div id="tab-referrals" style="display:none">
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Your referral code</div>
+        <div class="ref-box">
+          <div><div style="font-size:11px;color:#2E7D32;margin-bottom:2px">Share this</div><div class="ref-code" id="ref-code-big">DB-XXXXX</div></div>
+          <button class="btn-sm" onclick="copyCode('ref-code-big')">Copy</button>
+        </div>
+        <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.75rem">For every friend who completes the survey using your code, you <strong style="color:#1B5E20">both earn ₦50</strong>. No limit.</div>
+        <div style="background:#E8F5E9;border-radius:9px;padding:.75rem;font-size:13px;color:#1B5E20">Refer <strong><span id="cfg-ref-count-needed">10</span> friends</strong> to earn <span id="cfg-min-ref">₦500</span> — enough to withdraw without the survey!</div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:.85rem">Share your personal link</div>
+        <div class="step-row"><div class="step-num">1</div><div style="font-size:13px;color:#555;line-height:1.5">Tap the WhatsApp button below — it opens WhatsApp with your personal link already written for you</div></div>
+        <div class="step-row"><div class="step-num">2</div><div style="font-size:13px;color:#555;line-height:1.5">Your friend opens the link — your referral code is automatically filled in at registration</div></div>
+        <div class="step-row"><div class="step-num">3</div><div style="font-size:13px;color:#555;line-height:1.5">They complete the survey — you both earn ₦50 immediately</div></div>
+        <button class="btn-whatsapp" onclick="shareOnWhatsApp()" style="margin-top:.85rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share on WhatsApp
+        </button>
+        <button class="btn-outline" onclick="copyReferralLink()" style="margin-top:0;font-size:13px">Copy referral link</button>
+        <div class="share-msg" style="margin-top:.75rem">Your link: <span id="ref-link-preview" style="font-size:11px;color:#666;word-break:break-all">loading...</span></div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">My referrals</div>
+        <div id="ref-list"><div style="text-align:center;padding:.75rem;font-size:13px;color:#888">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ── WITHDRAW TAB ── -->
+    <div id="tab-withdraw" style="display:none">
+      <div id="wd-locked-view">
+        <div class="lock-box">
+          <div class="lock-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div style="font-size:15px;font-weight:600;margin-bottom:.4rem">Minimum not reached yet</div>
+          <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.85rem">You need <strong>₦<span id="cfg-min-lock">500</span></strong> to withdraw. Balance: <strong>₦<span id="wd-lock-bal">0</span></strong></div>
+          <div style="background:#FFF3E0;border-radius:9px;padding:.75rem;font-size:13px;color:#BF360C">Need ₦<span id="wd-lock-need">500</span> more — refer <strong><span id="wd-lock-refs">10</span> friends</strong> to unlock <strong>₦<span id="cfg-min-lock2">500</span></strong>.</div>
+        </div>
+        <button class="btn btn-outline" onclick="switchTab('referrals')">Refer friends to earn more</button>
+      </div>
+
+      <div id="wd-unlocked-view" style="display:none">
+        <div class="wallet-bar" style="margin-bottom:1rem">
+          <div><div class="wl">Available to withdraw</div><div class="wa">₦<span id="wd-avail">0</span></div></div>
+        </div>
+        <div class="card">
+          <div style="font-size:14px;font-weight:600;margin-bottom:1rem">Withdrawal details</div>
+          <div class="fg">
+            <label class="fl">Payment method <span class="req">*</span></label>
+            <select id="wd-method" onchange="toggleWdFields()">
+              <option value="">Select method</option>
+              <option value="bank">Bank transfer</option>
+              <option value="opay">OPay </option>
+              <option value="palmpay">PalmPay </option>
+              <option value="kuda">Kuda Bank</option>
+            </select>
+          </div>
+          <div id="wd-bank-fields" style="display:none">
+            <div class="fg"><label class="fl">Bank name <span class="req">*</span></label><input type="text" id="wd-bank" placeholder="e.g. GTBank, Access Bank"></div>
+            <div class="fg"><label class="fl">Account number <span class="req">*</span></label><input type="number" id="wd-acct" placeholder="10-digit Acct number"></div>
+            <div class="fg"><label class="fl">Account name <span class="req">*</span></label><input type="text" id="wd-acct-name" placeholder="As it appears on your account"></div>
+          </div>
+          <div id="wd-wallet-fields" style="display:none">
+            <div class="fg"><label class="fl">Phone number on wallet <span class="req">*</span></label><input type="tel" id="wd-wallet-num" placeholder="e.g. 08012345678"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">Amount (₦) <span class="req">*</span> <span style="font-weight:400;color:#888">(₦<span id="cfg-min-label">500</span> min · ₦<span id="cfg-max-label">5,000</span> max per request)</span></label>
+            <input type="number" id="wd-amount" placeholder="Min ₦500, Max ₦5,000" min="500" max="5000" oninput="validateWdAmt()" id="wd-amount">
+            <div class="field-note" id="wd-amt-note"></div>
+          </div>
+        </div>
+        <button class="btn btn-green" id="wd-btn" onclick="doWithdraw()">Submit withdrawal request</button>
+        <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">Processed within 24–48 hours. SMS confirmation sent to your registered number.</p>
+
+        <hr class="divider">
+        <div class="card">
+          <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">Withdrawal history</div>
+          <div id="wd-history"><div style="text-align:center;padding:.5rem;font-size:13px;color:#888">Loading...</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /dashboard -->
+
+  <!-- ════════ SCREEN: WITHDRAW SUCCESS ════════ -->
+  <div id="screen-wd-success" class="screen">
+    <div class="ok-circle">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem">Request submitted!</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">Your withdrawal of ₦<span id="wds-amt">0</span> has been received. Payment within 24–48 hours.</div>
+    </div>
+    <div class="card">
+      <div class="txr"><div><div class="txl">Amount</div></div><div class="txa">₦<span id="wds-amt2">0</span></div></div>
+      <div class="txr"><div><div class="txl">Method</div></div><div class="txa" id="wds-method">—</div></div>
+      <div class="txr"><div><div class="txl">Reference</div></div><div style="font-size:12px;color:#888" id="wds-ref">—</div></div>
+      <div class="txr"><div><div class="txl">Status</div></div><div><span class="badge b-amber">Pending (24–48 hrs)</span></div></div>
+    </div>
+    <button class="btn btn-green" onclick="goDashboard()">Back to dashboard</button>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────
+var API_URL = 'https://script.google.com/macros/s/AKfycbyQ4c-CJdQOxqzIOcNkD7z-eVRelMZSUZ6bTDE38J15-f5g4gHq7YX5TaQ5CSo5MVR32Q/exec';
+var SESSION_KEY = 'db_session_token';
+
+// ── Live config (fetched from backend so changes in Code.gs apply instantly) ──
+var CFG = {
+  MIN_WITHDRAWAL: 500,   // default — overwritten on load
+  MAX_WITHDRAWAL: 5000,  // default — overwritten on load
+  SURVEY_REWARD:  50,
+  REFERRAL_REWARD:50
+};
+
+// ── State ────────────────────────────────────────────────────
+var S = {
+  token:'', userId:'', name:'', email:'', myCode:'',
+  balance:0, totalEarned:0, refEarned:0, refCount:0,
+  withdrawn:0, surveyDone:false, currentQ:0, answers:{}
+};
+
+// ── Questions (all required) ──────────────────────────────────
+var Qs = [
+  { id:'q1', type:'checkbox', required:true,
+    title:'How do you currently make money or earn extra income as a student?',
+    hint:'Select all that apply — at least one required',
+    opts:['Family allowance only','Part-time job (shop, restaurant, office)','Freelance work (design, writing, tutoring)','Selling goods or products','Informal delivery or errands for others','No income source currently'] },
+  { id:'q2', type:'radio', required:true,
+    title:'How much do you currently earn per month from all sources?',
+    hint:'Select one — required',
+    opts:['Less than ₦10,000','₦10,000 – ₦25,000','₦25,001 – ₦50,000','₦50,001 – ₦80,000','More than ₦80,000'] },
+  { id:'q3', type:'scale', required:true,
+    title:'If you could earn ₦500–₦800 per delivery near your campus on your own schedule, how seriously would you consider it?',
+    hint:'1 = Not at all  ·  5 = I would sign up today — required',
+    min:1, max:5, minL:'Not at all', maxL:'Sign up today' },
+  { id:'q3b', type:'text', required:true,
+    title:'What would make you say Yes to earning through deliveries, and what would make you say o??',
+    hint:'Be specific — required', ph:'e.g. "Payment must be guaranteed", "I worry about my safety while delivering"' },
+  { id:'q4', type:'radio', required:true,
+    title:'How many hours per week are you realistically available for flexible work, on top of your studies?',
+    hint:'Select one — required',
+    opts:['Less than 5 hours/week','5 – 10 hours/week','11 – 15 hours/week','16 – 20 hours/week','More than 20 hours/week'] },
+  { id:'q5', type:'checkbox', required:true,
+    title:'What are your biggest concerns about doing delivery work as a student?',
+    hint:'Select all that apply — at least one required',
+    opts:['Personal safety during deliveries','Not getting paid or being cheated','Time clashing with classes or exams','What classmates or family might think','Not having a motorcycle or bicycle','Packages getting damaged or lost','No major concerns — I would start today'] },
+  { id:'q6', type:'radio', required:true,
+    title:'Have you ever helped someone deliver something or run an errand you felt you could have been paid for?',
+    hint:'Select one — required',
+    opts:['Yes — it happens regularly','Yes — a few times','Not really, but I am open to it','No — never done that'] },
+  { id:'q7', type:'checkbox', required:true,
+    title:'What would make you trust a delivery platform enough to register as a courier?',
+    hint:'Select all that apply — at least one required',
+    opts:['Real testimonials from other students','Guaranteed payment for every delivery','Proper training and onboarding process','In-app emergency or safety button','See delivery destination before accepting','Ability to withdraw earnings instantly'] },
+  { id:'q8', type:'radio', required:true,
+    title:'How would you prefer to be paid as a courier?',
+    hint:'Select one — required',
+    opts:['Per delivery — more I do, more I earn','By the hour — steady and predictable','Weekly minimum guarantee — a base I can count on','Combination — base plus per-delivery bonus'] },
+  { id:'q10', type:'scale', required:true,
+    title:'On a scale of 1–10, how urgently do you need a better way to earn money right now?',
+    hint:'1 = Completely fine  ·  10 = Urgently need income — required',
+    min:1, max:10, minL:'Completely fine', maxL:'Urgently need income' }
+];
+
+// ── Helpers ───────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+var toastT;
+function toast(msg, isErr) {
+  clearTimeout(toastT);
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (isErr ? 'error' : 'ok');
+  toastT = setTimeout(function(){ el.classList.remove('show'); }, 3200);
+}
+
+function api(payload, cb) {
+  fetch(API_URL, { method:'POST', body:JSON.stringify(payload), headers:{'Content-Type':'text/plain'} })
+    .then(function(r){ return r.json(); })
+    .then(cb)
+    .catch(function(err){ toast('Connection error. Check your internet.', true); console.error(err); });
+}
+
+function setBtn(id, loading, txt) {
+  var b = document.getElementById(id);
+  if (!b) return;
+  if (loading) { b.innerHTML = '<span class="spin"></span>' + txt; b.disabled = true; }
+  else         { b.innerHTML = txt; b.disabled = false; }
+}
+
+function esc(s){ return s.replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
+function togglePw(id, btn) {
+  var el = document.getElementById(id);
+  if (el.type === 'password') { el.type = 'text'; btn.textContent = 'Hide'; }
+  else { el.type = 'password'; btn.textContent = 'Show'; }
+}
+
+// ── Session persistence ───────────────────────────────────────
+function saveSession(token) {
+  try { localStorage.setItem(SESSION_KEY, token); } catch(e) {}
+}
+function getSession() {
+  try { return localStorage.getItem(SESSION_KEY) || ''; } catch(e) { return ''; }
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+
+// ── Load config from backend then attempt auto-login ─────────
+function applyConfig(cfg) {
+  if (!cfg) return;
+  CFG.MIN_WITHDRAWAL  = cfg.minWithdrawal  || CFG.MIN_WITHDRAWAL;
+  CFG.MAX_WITHDRAWAL  = cfg.maxWithdrawal  || CFG.MAX_WITHDRAWAL;
+  CFG.SURVEY_REWARD   = cfg.surveyReward   || CFG.SURVEY_REWARD;
+  CFG.REFERRAL_REWARD = cfg.referralReward || CFG.REFERRAL_REWARD;
+
+  // Update every visible label in the UI
+  var minFmt = '₦' + CFG.MIN_WITHDRAWAL.toLocaleString();
+  var maxFmt = '₦' + CFG.MAX_WITHDRAWAL.toLocaleString();
+
+  // Stat card on home screen
+  var cfgMin = document.getElementById('cfg-min-display');
+  if (cfgMin) cfgMin.textContent = minFmt;
+
+  // Referral tip callout
+  var cfgRefCount = document.getElementById('cfg-ref-count-needed');
+  if (cfgRefCount) cfgRefCount.textContent = Math.ceil(CFG.MIN_WITHDRAWAL / CFG.REFERRAL_REWARD);
+  var cfgMinRef = document.getElementById('cfg-min-ref');
+  if (cfgMinRef) cfgMinRef.textContent = minFmt;
+
+  // Locked withdraw view
+  ['cfg-min-lock','cfg-min-lock2'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = CFG.MIN_WITHDRAWAL.toLocaleString();
+  });
+
+  // Withdrawal amount label
+  var cfgMinLbl = document.getElementById('cfg-min-label');
+  if (cfgMinLbl) cfgMinLbl.textContent = CFG.MIN_WITHDRAWAL.toLocaleString();
+  var cfgMaxLbl = document.getElementById('cfg-max-label');
+  if (cfgMaxLbl) cfgMaxLbl.textContent = CFG.MAX_WITHDRAWAL.toLocaleString();
+
+  // Input element attributes
+  var wdInput = document.getElementById('wd-amount');
+  if (wdInput) {
+    wdInput.min         = CFG.MIN_WITHDRAWAL;
+    wdInput.max         = CFG.MAX_WITHDRAWAL;
+    wdInput.placeholder = 'Min ₦' + CFG.MIN_WITHDRAWAL.toLocaleString() + ', Max ₦' + CFG.MAX_WITHDRAWAL.toLocaleString();
+  }
+}
+
+// Auto-login on page load
+window.addEventListener('load', function() {
+  // Fetch live config from backend first
+  api({ action: 'getConfig' }, function(res) {
+    if (res && res.success) applyConfig(res.config);
+  });
+
+  // ── Parse ?ref=CODE from URL — auto-fill referral code ────────
+  // When someone shares their link e.g. ?ref=DB-AMAKA123
+  // the referral code is pre-filled on the registration step 1
+  try {
+    var urlParams = new URLSearchParams(window.location.search);
+    var refCode   = urlParams.get('ref');
+    if (refCode) {
+      // Store it so step 3 registration form can use it
+      S.pendingRefCode = refCode.toUpperCase();
+      // Pre-fill the referral code field in step 3 if visible
+      var refInput = document.getElementById('r-ref');
+      if (refInput) {
+        refInput.value = S.pendingRefCode;
+        liveCheckRef(refInput);
+      }
+      // Show a welcome note
+      toast('Referral code ' + S.pendingRefCode + ' applied! You will both earn ₦50.');
+    }
+  } catch(e) {}
+
+  // ── Restore session ───────────────────────────────────────────
+  var token = getSession();
+  if (!token) return;
+  api({ action:'validateSession', token:token }, function(res) {
+    if (res.success && res.valid) {
+      applyUserState(res, token);
+      if (res.surveyDone) {
+        goDashboard();
+      } else {
+        show('screen-survey');
+        renderQ(S.currentQ);
+      }
+    }
+    // else: stay on auth screen — ref code already pre-filled above
+  });
+});  // end window load
+
+function applyUserState(res, token) {
+  S.token      = token || S.token;
+  S.userId     = res.userId;
+  S.name       = res.name;
+  S.email      = res.email;
+  S.myCode     = res.myCode;
+  S.balance    = res.balance    || 0;
+  S.totalEarned= res.totalEarned|| 0;
+  S.refEarned  = res.refEarned  || 0;
+  S.refCount   = res.refCount   || 0;
+  S.withdrawn  = res.withdrawn  || 0;
+  S.surveyDone = res.surveyDone || false;
+  updateCodes();
+}
+
+// ── Auth tab switch ───────────────────────────────────────────
+function switchAuth(mode) {
+  document.getElementById('at-register').classList.toggle('active', mode==='register');
+  document.getElementById('at-login').classList.toggle('active', mode==='login');
+  document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
+  document.getElementById('auth-login').style.display    = mode==='login'    ? 'block' : 'none';
+}
+
+// ── Live duplicate checks ─────────────────────────────────────
+var emailCheckT, phoneCheckT, refCheckT;
+
+function liveCheckEmail() {
+  var email = document.getElementById('r-email').value.trim().toLowerCase();
+  var note  = document.getElementById('r-email-note');
+  clearTimeout(emailCheckT);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    note.textContent = ''; note.className = 'field-note'; return;
+  }
+  note.textContent = 'Checking...'; note.className = 'field-note checking';
+  emailCheckT = setTimeout(function(){
+    api({ action:'checkEmail', email:email }, function(res){
+      if (res.taken) {
+        note.textContent = 'This email is already registered. Please log in.';
+        note.className = 'field-note bad';
+        document.getElementById('r-email').classList.add('err');
+      } else {
+        note.textContent = 'Email available';
+        note.className = 'field-note ok';
+        document.getElementById('r-email').classList.remove('err');
+      }
+    });
+  }, 700);
+}
+
+function liveCheckPhone() {
+  var phone = document.getElementById('r-phone').value.trim().replace(/\s/g,'');
+  var note  = document.getElementById('r-phone-note');
+  clearTimeout(phoneCheckT);
+  if (!phone || phone.length < 10) { note.textContent = ''; note.className = 'field-note'; return; }
+  note.textContent = 'Checking...'; note.className = 'field-note checking';
+  phoneCheckT = setTimeout(function(){
+    api({ action:'checkPhone', phone:phone }, function(res){
+      if (res.taken) {
+        note.textContent = 'This phone number is already registered.';
+        note.className = 'field-note bad';
+        document.getElementById('r-phone').classList.add('err');
+      } else {
+        note.textContent = 'Phone number available';
+        note.className = 'field-note ok';
+        document.getElementById('r-phone').classList.remove('err');
+      }
+    });
+  }, 700);
+}
+
+function liveCheckRef(input) {
+  var code = input.value.trim().toUpperCase();
+  var note = document.getElementById('r-ref-note');
+  clearTimeout(refCheckT);
+  if (!code || code.length < 5) { note.textContent = ''; note.className = 'field-note'; return; }
+  note.textContent = 'Checking...'; note.className = 'field-note checking';
+  refCheckT = setTimeout(function(){
+    api({ action:'checkRef', code:code }, function(res){
+      if (res.valid) { note.textContent = '✓ ' + res.message; note.className = 'field-note ok'; }
+      else           { note.textContent = '✗ Code not found — check and try again'; note.className = 'field-note bad'; }
+    });
+  }, 600);
+}
+
+// ── Password confirm check ────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var p2 = document.getElementById('r-password2');
+  if (p2) p2.addEventListener('input', function() {
+    var p1 = document.getElementById('r-password').value;
+    var note = document.getElementById('r-pw2-note');
+    if (!this.value) { note.textContent = ''; note.className = 'field-note'; return; }
+    if (this.value === p1) { note.textContent = '✓ Passwords match'; note.className = 'field-note ok'; }
+    else                   { note.textContent = 'Passwords do not match'; note.className = 'field-note bad'; }
+  });
+});
+
+// ── OTP STATE ─────────────────────────────────────────────────
+// ── OTP + REGISTRATION STATE ─────────────────────────────────
+var OTP = {
+  email:         '',
+  verifyToken:   '',
+  timerInterval: null,
+  resendTimeout: null,
+  secondsLeft:   600
+};
+
+// Pending registration data saved from step 1
+var REG = { name:'', email:'', password:'', phone:'', school:'', refCode:'', fingerprint:'' };
+
+// Build a lightweight device fingerprint
+function getFingerprint() {
+  try {
+    var raw = [navigator.userAgent,navigator.language,screen.width+'x'+screen.height,
+               screen.colorDepth,new Date().getTimezoneOffset(),
+               navigator.hardwareConcurrency,navigator.platform].join('|');
+    var h = 0;
+    for (var i = 0; i < raw.length; i++) { h = ((h << 5) - h) + raw.charCodeAt(i); h |= 0; }
+    return 'FP' + Math.abs(h).toString(16).toUpperCase();
+  } catch(e) { return 'unknown'; }
+}
+
+// ── 2-STEP FLOW ───────────────────────────────────────────────
+function goToStep(n) {
+  [1,2].forEach(function(s) {
+    var el  = document.getElementById('reg-step'+s);
+    var dot = document.getElementById('step-dot-'+s);
+    var ind = document.getElementById('step-ind-'+s);
+    if (el) el.style.display = s===n ? 'block' : 'none';
+    if (dot && ind) {
+      dot.className = 'otp-dot ' + (s < n ? 'done' : s===n ? 'active' : '');
+      ind.className = 'otp-step ' + (s < n ? 'done' : s===n ? 'active' : '');
+    }
+  });
+  if (n===1 && S.pendingRefCode) {
+    var rf = document.getElementById('r-ref');
+    if (rf && !rf.value) { rf.value = S.pendingRefCode; liveCheckRef(rf); }
+  }
+  window.scrollTo(0,0);
+}
+
+function backToStep1() {
+  clearInterval(OTP.timerInterval);
+  clearTimeout(OTP.resendTimeout);
+  OTP.verifyToken = '';
+  goToStep(1);
+}
+
+// STEP 1: validate all details, then send OTP
+function doSendOTP() {
+  var name  = document.getElementById('r-name').value.trim();
+  var email = document.getElementById('r-email').value.trim().toLowerCase();
+  var pass  = document.getElementById('r-password').value.trim();
+  var pass2 = document.getElementById('r-password2').value.trim();
+  var phone = document.getElementById('r-phone').value.trim().replace(/\s/g,'');
+  var school= document.getElementById('r-school').value.trim();
+  var ref   = document.getElementById('r-ref').value.trim().toUpperCase();
+  var enote = document.getElementById('r-email-note');
+  var pnote = document.getElementById('r-phone-note');
+
+  if (!name)                        { toast('Full name is required.', true); return; }
+  if (!email)                       { toast('Email address is required.', true); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Please enter a valid email.', true); return; }
+  if (enote && enote.classList.contains('bad')) { toast('This email is already registered. Log in instead.', true); return; }
+  if (!pass || pass.length < 6)     { toast('Password must be at least 6 characters.', true); return; }
+  if (pass !== pass2)               { toast('Passwords do not match.', true); return; }
+  if (!phone || phone.length < 10)  { toast('Please enter a valid phone number.', true); return; }
+  if (pnote && pnote.classList.contains('bad')) { toast('This phone number is already registered.', true); return; }
+  if (!school)                      { toast('School / university is required.', true); return; }
+
+  REG.name = name; REG.email = email; REG.password = pass;
+  REG.phone = phone; REG.school = school; REG.refCode = ref;
+  REG.fingerprint = getFingerprint();
+  OTP.email = email;
+
+  setBtn('btn-send-otp', true, 'Sending code to your email...');
+  api({ action:'sendOTP', email:email }, function(res) {
+    setBtn('btn-send-otp', false, 'Continue — verify my email');
+    if (!res.success) { toast(res.error||'Could not send code. Try again.', true); return; }
+    document.getElementById('otp-sent-to').textContent = email;
+    document.getElementById('otp-code').value = '';
+    var cn = document.getElementById('otp-code-note');
+    if (cn) { cn.textContent=''; cn.className='field-note'; }
+    toast('Code sent! Check your inbox and spam folder.');
+    goToStep(2);
+    startOTPTimer();
+    startResendCooldown();
+  });
+}
+
+// STEP 2: verify OTP then register immediately
+function doVerifyOTP() {
+  var code = (document.getElementById('otp-code').value||'').trim();
+  var cn   = document.getElementById('otp-code-note');
+  if (!code||code.length!==6) { toast('Please enter the 6-digit code from your email.', true); return; }
+  setBtn('btn-verify-otp', true, 'Verifying &amp; creating account...');
+  api({ action:'verifyOTP', email:OTP.email, code:code }, function(res) {
+    if (!res.success) {
+      setBtn('btn-verify-otp', false, 'Verify &amp; create my account');
+      if (cn) { cn.textContent=res.error||'Incorrect code.'; cn.className='field-note bad'; }
+      return;
+    }
+    OTP.verifyToken = res.verifiedToken;
+    clearInterval(OTP.timerInterval);
+    clearTimeout(OTP.resendTimeout);
+    doRegister();
+  });
+}
+
+function doResendOTP() {
+  api({ action:'sendOTP', email:OTP.email }, function(res) {
+    if (!res.success) { toast(res.error||'Could not resend.', true); return; }
+    document.getElementById('otp-code').value = '';
+    var cn = document.getElementById('otp-code-note');
+    if (cn) { cn.textContent=''; cn.className='field-note'; }
+    clearInterval(OTP.timerInterval);
+    OTP.secondsLeft = 600;
+    startOTPTimer();
+    startResendCooldown();
+    toast('New code sent! Check your inbox.');
+  });
+}
+
+function startOTPTimer() {
+  OTP.secondsLeft = 600;
+  clearInterval(OTP.timerInterval);
+  OTP.timerInterval = setInterval(function() {
+    OTP.secondsLeft--;
+    var m = Math.floor(OTP.secondsLeft/60), s = OTP.secondsLeft%60;
+    var el = document.getElementById('otp-countdown-reg');
+    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = OTP.secondsLeft<60?'#C62828':'#1B5E20'; }
+    if (OTP.secondsLeft <= 0) {
+      clearInterval(OTP.timerInterval);
+      if (el) { el.textContent='Expired'; el.style.color='#C62828'; }
+    }
+  }, 1000);
+}
+
+function startResendCooldown() {
+  var btn = document.getElementById('resend-btn');
+  if (!btn) return;
+  btn.disabled = true; btn.textContent = 'Resend code (wait 60s)';
+  var s = 60;
+  OTP.resendTimeout = setInterval(function() {
+    s--;
+    if (btn) btn.textContent = 'Resend code (wait '+s+'s)';
+    if (s <= 0) { clearInterval(OTP.resendTimeout); if(btn){btn.disabled=false;btn.textContent='Resend code';} }
+  }, 1000);
+}
+
+// Called after OTP verified — creates the account
+function doRegister() {
+  setBtn('btn-verify-otp', true, 'Creating your account...');
+  api({
+    action:'register', name:REG.name, email:REG.email, password:REG.password,
+    phone:REG.phone, school:REG.school, refCode:REG.refCode,
+    verifiedToken:OTP.verifyToken, fingerprint:REG.fingerprint
+  }, function(res) {
+    setBtn('btn-verify-otp', false, 'Verify &amp; create my account');
+    if (!res.success) { toast(res.error||'Registration failed. Try again.', true); return; }
+    saveSession(res.token);
+    applyUserState(res, res.token);
+    OTP.verifyToken=''; OTP.email='';
+    REG={name:'',email:'',password:'',phone:'',school:'',refCode:'',fingerprint:''};
+    toast('Account created! Complete the survey to earn ₦'+CFG.SURVEY_REWARD+'.');
+    renderQ(0);
+    show('screen-survey');
+  });
+}
+
+
+// ── LOGIN ─────────────────────────────────────────────────────
+function doLogin() {
+  var email = document.getElementById('l-email').value.trim().toLowerCase();
+  var pass  = document.getElementById('l-password').value.trim();
+
+  if (!email) { toast('Email address is required.', true); return; }
+  if (!pass)  { toast('Password is required.', true); return; }
+
+  setBtn('btn-login', true, 'Logging in...');
+
+  api({ action:'login', email, password:pass }, function(res) {
+    setBtn('btn-login', false, 'Log in to my account');
+    if (!res.success) { toast(res.error || 'Login failed. Try again.', true); return; }
+    saveSession(res.token);
+    applyUserState(res, res.token);
+    toast('Welcome back, ' + res.name.split(' ')[0] + '!');
+    if (res.surveyDone) {
+      goDashboard();
+    } else {
+      renderQ(S.currentQ);
+      show('screen-survey');
+    }
+  });
+}
+
+function doLogout() {
+  clearSession();
+  S = { token:'', userId:'', name:'', email:'', myCode:'', balance:0, totalEarned:0, refEarned:0, refCount:0, withdrawn:0, surveyDone:false, currentQ:0, answers:{} };
+  switchAuth('login');
+  show('screen-auth');
+  toast('You have been logged out.');
+}
+
+// ── SURVEY ────────────────────────────────────────────────────
+function startSurvey() { renderQ(0); show('screen-survey'); }
+
+function renderQ(idx) {
+  S.currentQ = idx;
+  var q   = Qs[idx];
+  var pct = Math.round(((idx+1)/Qs.length)*100);
+
+  document.getElementById('sv-qn').textContent   = idx+1;
+  document.getElementById('sv-prog').style.width = pct+'%';
+  document.getElementById('sv-prog-lbl').textContent = 'Question '+(idx+1)+' of '+Qs.length;
+  document.getElementById('sv-prog-pct').textContent = pct+'%';
+  document.getElementById('sv-bal').textContent  = S.balance;
+  document.getElementById('btn-prev').style.display = idx>0 ? 'block' : 'none';
+  document.getElementById('btn-next').textContent   = idx===Qs.length-1 ? 'Submit survey ✓' : 'Next →';
+
+  var saved = S.answers[q.id];
+  var html  = '<div class="card">';
+  html += '<div class="qbadge">Q'+(idx+1)+'</div>';
+  html += '<div class="qtitle">' + q.title + '</div>';
+  if (q.hint) html += '<div class="qhint">' + q.hint + '</div>';
+
+  if (q.type === 'radio') {
+    q.opts.forEach(function(opt) {
+      var sel = saved === opt;
+      html += '<div class="opt'+(sel?' sel':'')+'" onclick="pickOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="radio" name="'+q.id+'"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
+    });
+  } else if (q.type === 'checkbox') {
+    var sarr = saved || [];
+    q.opts.forEach(function(opt) {
+      var sel = sarr.indexOf(opt) !== -1;
+      html += '<div class="opt'+(sel?' sel':'')+'" onclick="toggleOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="checkbox"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
+    });
+  } else if (q.type === 'scale') {
+    html += '<div class="scale-row" id="scale-'+q.id+'">';
+    for (var i=q.min; i<=q.max; i++) {
+      var sel = saved===i;
+      html += '<button class="sb'+(sel?' sel':'')+'" onclick="pickScale(\''+q.id+'\','+i+',this)">'+i+'</button>';
+    }
+    html += '</div><div class="scale-lbs"><span>'+q.minL+'</span><span>'+q.maxL+'</span></div>';
+  } else if (q.type === 'text') {
+    html += '<textarea id="ta-'+q.id+'" placeholder="'+(q.ph||'')+'">'+(saved||'')+'</textarea>';
+  }
+
+  html += '</div>';
+  document.getElementById('q-container').innerHTML = html;
+  window.scrollTo(0,0);
+}
+
+function pickOpt(el, qid, val) {
+  document.querySelectorAll('[name="'+qid+'"]').forEach(function(r){ r.closest('.opt').classList.remove('sel'); r.checked=false; });
+  el.classList.add('sel'); el.querySelector('input').checked=true;
+  S.answers[qid] = val;
+}
+function toggleOpt(el, qid, val) {
+  var arr = S.answers[qid] || [];
+  var i   = arr.indexOf(val);
+  if (i===-1){ arr.push(val); el.classList.add('sel'); el.querySelector('input').checked=true; }
+  else { arr.splice(i,1); el.classList.remove('sel'); el.querySelector('input').checked=false; }
+  S.answers[qid] = arr;
+}
+function pickScale(qid, val, btn) {
+  document.querySelectorAll('#scale-'+qid+' .sb').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+  S.answers[qid] = val;
+}
+
+function nextQ() {
+  var q = Qs[S.currentQ];
+  if (q.type === 'text') {
+    var ta = document.getElementById('ta-'+q.id);
+    if (ta) S.answers[q.id] = ta.value.trim();
+  }
+  // All questions required
+  var ans = S.answers[q.id];
+  var empty = !ans || (Array.isArray(ans) && ans.length===0) || ans==='';
+  if (empty) { toast('This question is required. Please answer before continuing.', true); return; }
+
+  if (S.currentQ === Qs.length-1) { submitSurvey(); return; }
+  renderQ(S.currentQ+1);
+}
+function prevQ() { if (S.currentQ>0) renderQ(S.currentQ-1); }
+
+function submitSurvey() {
+  show('screen-submitting');
+  api({ action:'submitSurvey', token:S.token, userId:S.userId, answers:S.answers }, function(res) {
+    if (!res.success) { toast(res.error||'Submission failed.', true); renderQ(S.currentQ); show('screen-survey'); return; }
+    S.balance     = res.newBalance;
+    S.totalEarned = res.newBalance;
+    S.surveyDone  = true;
+    updateCodes();
+    document.getElementById('done-bal').textContent   = S.balance;
+    document.getElementById('done-total').textContent = S.totalEarned;
+    show('screen-complete');
+  });
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────
+function goDashboard() {
+  show('screen-dashboard');
+  document.getElementById('db-user-info').textContent = S.name.split(' ')[0];
+  switchTab('home');
+  loadWallet();
+}
+
+function updateCodes() {
+  ['done-mycode','done-share','ref-code-big','ref-msg-code','db-code'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = S.myCode || '—';
+  });
+}
+
+function loadWallet() {
+  api({ action:'getWallet', token:S.token }, function(res) {
+    if (!res.success) { toast(res.error||'Could not load wallet.', true); return; }
+    S.balance    = res.balance;
+    S.totalEarned= res.totalEarned;
+    S.refEarned  = res.refEarned;
+    S.refCount   = res.refCount;
+    S.withdrawn  = res.withdrawn;
+    S.surveyDone = res.surveyDone;
+    S.myCode     = res.myCode || S.myCode;
+    updateCodes();
+
+    // Home tab
+    document.getElementById('db-balance').textContent   = res.balance;
+    document.getElementById('db-total').textContent     = res.totalEarned;
+    document.getElementById('db-ref-earned').textContent= res.refEarned;
+    document.getElementById('db-ref-count').textContent = res.refCount;
+    document.getElementById('db-withdrawn').textContent = res.withdrawn;
+    document.getElementById('db-code').textContent      = res.myCode;
+
+    var need = Math.max(0, CFG.MIN_WITHDRAWAL-res.balance);
+    document.getElementById('db-withdraw-note').textContent = res.canWithdraw
+      ? 'Ready to withdraw!' : 'Need ₦'+need+' more to withdraw';
+
+    document.getElementById('survey-cta').style.display          = res.surveyDone ? 'none' : 'block';
+    document.getElementById('survey-done-banner').style.display  = res.surveyDone ? 'block' : 'none';
+
+    // Transactions
+    var txEl = document.getElementById('db-tx-list');
+    if (!res.transactions || res.transactions.length===0) {
+      txEl.innerHTML = '<div style="text-align:center;padding:.75rem;font-size:13px;color:#888">No transactions yet</div>';
+    } else {
+      txEl.innerHTML = res.transactions.map(function(tx){
+        return '<div class="txr"><div><div class="txl">'+tx.note+'</div><div class="txs">'+fmtDate(tx.time)+'</div></div>' +
+               '<div class="txa '+(tx.type==='credit'?'plus':'minus')+'">'+(tx.type==='credit'?'+':'-')+'₦'+tx.amount+'</div></div>';
+      }).join('');
+    }
+
+    // Referrals tab
+    var refEl = document.getElementById('ref-list');
+    if (!res.referrals || res.referrals.length===0) {
+      refEl.innerHTML = '<div style="text-align:center;padding:.75rem;font-size:13px;color:#888">No referrals yet. Share your code!</div>';
+    } else {
+      refEl.innerHTML = res.referrals.map(function(r){
+        var maskedEmail = r.email ? r.email.substring(0,3)+'***@***' : '—';
+        return '<div class="txr"><div><div class="txl">'+maskedEmail+'</div><div class="txs">Used your code · '+fmtDate(r.time)+'</div></div><div class="txa plus">+₦50</div></div>';
+      }).join('');
+    }
+
+    // Withdrawal tab
+    var bal = res.balance;
+    document.getElementById('wd-avail').textContent   = bal;
+    document.getElementById('wd-lock-bal').textContent= bal;
+    var need2 = Math.max(0, CFG.MIN_WITHDRAWAL-bal);
+    document.getElementById('wd-lock-need').textContent = need2;
+    document.getElementById('wd-lock-refs').textContent = Math.ceil(need2/50);
+    document.getElementById('wd-locked-view').style.display   = bal>=CFG.MIN_WITHDRAWAL ? 'none' : 'block';
+    document.getElementById('wd-unlocked-view').style.display = bal>=CFG.MIN_WITHDRAWAL ? 'block' : 'none';
+
+    // Withdrawal history
+    var wdHist = document.getElementById('wd-history');
+    if (!res.withdrawals || res.withdrawals.length===0) {
+      wdHist.innerHTML = '<div style="text-align:center;padding:.5rem;font-size:13px;color:#888">No withdrawal history yet</div>';
+    } else {
+      wdHist.innerHTML = res.withdrawals.map(function(w){
+        var badgeCls = w.status==='paid' ? 'b-green' : w.status==='pending' ? 'b-amber' : 'b-red';
+        return '<div class="wd-hist-row">' +
+               '<div><div class="txl">₦'+w.amount+' — '+w.method+'</div><div class="txs">'+fmtDate(w.time)+'</div></div>' +
+               '<span class="badge '+badgeCls+'">'+w.status+'</span></div>';
+      }).join('');
+    }
+  });
+}
+
+function switchTab(tab) {
+  ['home','referrals','withdraw'].forEach(function(t){
+    document.getElementById('tab-btn-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t).style.display = t===tab ? 'block' : 'none';
+  });
+  if (tab==='withdraw' && S.balance>=CFG.MIN_WITHDRAWAL) {
+    document.getElementById('wd-avail').textContent = S.balance;
+  }
+  if (tab==='referrals') { updateRefLinkPreview(); }
+}
+
+function toggleWdFields() {
+  var m = document.getElementById('wd-method').value;
+  document.getElementById('wd-bank-fields').style.display   = m==='bank' ? 'block' : 'none';
+  document.getElementById('wd-wallet-fields').style.display = (m&&m!=='bank') ? 'block' : 'none';
+}
+
+function validateWdAmt() {
+  var amt  = parseInt(document.getElementById('wd-amount').value)||0;
+  var note = document.getElementById('wd-amt-note');
+  if (amt < CFG.MIN_WITHDRAWAL)  { note.textContent='Minimum is ₦'+CFG.MIN_WITHDRAWAL; note.className='field-note bad'; }
+  else if (amt > CFG.MAX_WITHDRAWAL) { note.textContent='Maximum per request is ₦'+CFG.MAX_WITHDRAWAL.toLocaleString(); note.className='field-note bad'; }
+  else if (amt > S.balance)      { note.textContent='Exceeds your balance (₦'+S.balance+')'; note.className='field-note bad'; }
+  else                           { note.textContent='Balance after withdrawal: ₦'+(S.balance-amt); note.className='field-note ok'; }
+}
+
+function doWithdraw() {
+  var method   = document.getElementById('wd-method').value;
+  var amount   = parseInt(document.getElementById('wd-amount').value)||0;
+  var bank     = (document.getElementById('wd-bank')||{}).value||'';
+  var acct     = (document.getElementById('wd-acct')||{}).value||'';
+  var acctName = (document.getElementById('wd-acct-name')||{}).value||'';
+  var walletNum= (document.getElementById('wd-wallet-num')||{}).value||'';
+
+  if (!method) { toast('Please select a payment method.', true); return; }
+  if (method==='bank') {
+    if (!bank)    { toast('Bank name is required.', true); return; }
+    if (!acct)    { toast('Account number is required.', true); return; }
+    if (!acctName){ toast('Account name is required.', true); return; }
+  } else {
+    if (!walletNum){ toast('Wallet phone number is required.', true); return; }
+  }
+  if (amount < CFG.MIN_WITHDRAWAL) { toast('Minimum withdrawal is ₦'+CFG.MIN_WITHDRAWAL+'.', true); return; }
+  if (amount > CFG.MAX_WITHDRAWAL) { toast('Maximum single withdrawal is ₦'+CFG.MAX_WITHDRAWAL.toLocaleString()+'.', true); return; }
+  if (amount > S.balance)          { toast('Amount exceeds your available balance.', true); return; }
+
+  setBtn('wd-btn', true, 'Submitting...');
+
+  api({ action:'requestWithdrawal', token:S.token, amount, method, bank, acct, acctName, walletNum }, function(res) {
+    setBtn('wd-btn', false, 'Submit withdrawal request');
+    if (!res.success) { toast(res.error||'Withdrawal failed.', true); return; }
+    S.balance = res.newBalance;
+    document.getElementById('wds-amt').textContent  = amount;
+    document.getElementById('wds-amt2').textContent = amount;
+    document.getElementById('wds-method').textContent = method.charAt(0).toUpperCase()+method.slice(1);
+    document.getElementById('wds-ref').textContent   = res.withdrawalId;
+    show('screen-wd-success');
+  });
+}
+
+function copyCode(id) {
+  var code = (document.getElementById(id)||{}).textContent||'';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(function(){ toast('Code '+code+' copied!'); });
+  } else { toast('Your code: '+code); }
+}
+
+function getReferralLink() {
+  // Always use the deployed Web App URL — never the editor preview URL
+  var base = API_URL.replace('/exec', '/exec');
+  return base + '?ref=' + encodeURIComponent(S.myCode);
+}
+
+function shareOnWhatsApp() {
+  if (!S.myCode) { toast('Please log in first.', true); return; }
+  var link = getReferralLink();
+  var msg = 'Hey! I just filled a 5-minute survey and earned N50 cash.' +
+    '\n\nOpen my personal link below. Your referral code fills in automatically:' +
+    '\n' + link +
+    '\n\nWe BOTH earn N50 when you complete the survey! My code: ' + S.myCode;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function copyReferralLink() {
+  var link = getReferralLink();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).then(function(){ toast('Referral link copied!'); });
+  } else { toast('Your link: ' + link); }
+  var p = document.getElementById('ref-link-preview');
+  if (p) p.textContent = link;
+}
+
+function updateRefLinkPreview() {
+  var p = document.getElementById('ref-link-preview');
+  if (p && S.myCode) p.textContent = getReferralLink();
+}
+
+function showForgotPassword() {
+  document.getElementById('fp-email').value = '';
+  var n = document.getElementById('fp-email-note');
+  n.textContent = ''; n.className = 'field-note';
+  show('screen-forgot');
+}
+
+var rpTimerInterval;
+function startRpCountdown(seconds) {
+  clearInterval(rpTimerInterval);
+  var rem = seconds;
+  function tick() {
+    var m = Math.floor(rem/60), s = rem%60;
+    var el = document.getElementById('rp-countdown');
+    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = rem<60 ? '#C62828' : '#1B5E20'; }
+    if (rem <= 0) { clearInterval(rpTimerInterval); if(el) el.textContent = 'Expired'; }
+    rem--;
+  }
+  tick();
+  rpTimerInterval = setInterval(tick, 1000);
+}
+
+function doSendResetOTP() {
+  var email = document.getElementById('fp-email').value.trim().toLowerCase();
+  var note  = document.getElementById('fp-email-note');
+  if (!email) { toast('Email address is required.', true); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Please enter a valid email.', true); return; }
+  setBtn('btn-fp-send', true, 'Sending code...');
+  api({ action:'sendOTP', email:email, purpose:'reset' }, function(res) {
+    setBtn('btn-fp-send', false, 'Send reset code to my email');
+    if (!res.success) { note.textContent = res.error||'Could not send code.'; note.className='field-note bad'; return; }
+    window._resetEmail = email;
+    document.getElementById('reset-email-display').textContent = email;
+    document.getElementById('rp-code').value = '';
+    document.getElementById('rp-password').value = '';
+    document.getElementById('rp-password2').value = '';
+    document.getElementById('rp-code-note').textContent = '';
+    document.getElementById('rp-match-note').textContent = '';
+    show('screen-reset');
+    startRpCountdown(600);
+    toast('Reset code sent! Check your inbox and spam folder.');
+  });
+}
+
+function doResendResetOTP() {
+  if (!window._resetEmail) { show('screen-forgot'); return; }
+  setBtn('btn-rp-resend', true, 'Sending...');
+  api({ action:'sendOTP', email:window._resetEmail, purpose:'reset' }, function(res) {
+    setBtn('btn-rp-resend', false, 'Send a new code');
+    if (!res.success) { toast(res.error||'Could not resend.', true); return; }
+    document.getElementById('rp-code').value = '';
+    startRpCountdown(600);
+    toast('New reset code sent!');
+  });
+}
+
+function checkRpMatch() {
+  var p1 = document.getElementById('rp-password').value;
+  var p2 = document.getElementById('rp-password2').value;
+  var n  = document.getElementById('rp-match-note');
+  if (!p2) { n.textContent=''; n.className='field-note'; return; }
+  if (p1===p2) { n.textContent='Passwords match'; n.className='field-note ok'; }
+  else         { n.textContent='Passwords do not match'; n.className='field-note bad'; }
+}
+
+function doResetPassword() {
+  var code  = String(document.getElementById('rp-code').value||'').trim();
+  var pass  = document.getElementById('rp-password').value.trim();
+  var pass2 = document.getElementById('rp-password2').value.trim();
+  var email = window._resetEmail||'';
+  var cn    = document.getElementById('rp-code-note');
+  if (!code||code.length!==6) { toast('Please enter the 6-digit code.', true); return; }
+  if (!pass||pass.length<6)   { toast('Password must be at least 6 characters.', true); return; }
+  if (pass!==pass2)           { toast('Passwords do not match.', true); return; }
+  setBtn('btn-rp-submit', true, 'Resetting...');
+  api({ action:'resetPassword', email:email, code:code, newPassword:pass }, function(res) {
+    setBtn('btn-rp-submit', false, 'Set new password');
+    if (!res.success) { cn.textContent=res.error||'Reset failed.'; cn.className='field-note bad'; return; }
+    clearInterval(rpTimerInterval);
+    window._resetEmail = '';
+    toast('Password reset! Please log in with your new password.');
+    document.getElementById('l-email').value = email;
+    switchAuth('login');
+    show('screen-auth');
+  });
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}); }
+  catch(e){ return String(d).substring(0,10); }
+}
+</script>
+</body>
+</html>
