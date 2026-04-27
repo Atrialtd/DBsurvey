@@ -479,7 +479,7 @@ textarea{resize:vertical;min-height:76px}
 
     <!-- Top bar -->
     <div class="top-bar">
-      <div class="rovo-bar-logo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" class="rovo-bar-icon" alt="rovo"><span class="rovo-bar-name">rovo</span></div>
+      <div class="rovo-bar-logo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" class="rovo-bar-icon" alt="rovo"><span class="rovo-bar-name">rovo</span></div>
       <div style="display:flex;align-items:center;gap:.65rem">
         <div class="top-user" id="db-user-info">...</div>
         <button class="top-logout" onclick="doLogout()">Log out</button>
@@ -647,7 +647,7 @@ var SESSION_KEY = 'db_session_token';
 
 // ── Live config (fetched from backend so changes in Code.gs apply instantly) ──
 var CFG = {
-  MIN_WITHDRAWAL: 500,   // default — overwritten on load
+  MIN_WITHDRAWAL: 1000,   // default — overwritten on load
   MAX_WITHDRAWAL: 5000,  // default — overwritten on load
   SURVEY_REWARD:  50,
   REFERRAL_REWARD:50
