@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>DeliveryBoy Survey — Earn as You Answer</title>
+<title>rovo · Earn You Answer</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--rovo-teal:#1D9E75;--rovo-teal-dark:#16836A;--rovo-teal-light:#E6F7F2}
 html{font-size:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F1F8F1;color:#1C1C1C;min-height:100vh;padding-bottom:3rem}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F0FAF7;color:#1C1C1C;min-height:100vh;padding-bottom:3rem}
 .app{max-width:480px;margin:0 auto;padding:1rem}
 .screen{display:none}
 .screen.active{display:block}
@@ -16,23 +18,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card{background:#fff;border:1px solid #E0E0E0;border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:1rem}
 
 /* Wallet bar */
-.wallet-bar{background:#1B5E20;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;color:#fff}
-.wl{font-size:12px;color:#A5D6A7;font-weight:500}
+.wallet-bar{background:#1D9E75;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.wl{font-size:12px;color:#80CEB8;font-weight:500}
 .wa{font-size:26px;font-weight:700;color:#fff}
-.ws{font-size:12px;color:#A5D6A7;margin-top:2px}
+.ws{font-size:12px;color:#80CEB8;margin-top:2px}
 
 /* Buttons */
 .btn{width:100%;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;margin-bottom:.5rem}
-.btn-green{background:#1B5E20;color:#fff}
-.btn-green:hover{background:#2E7D32}
+.btn-green{background:#1D9E75;color:#fff}
+.btn-green:hover{background:#16836A}
 .btn-green:active{opacity:.85}
 .btn-green:disabled{background:#9E9E9E;cursor:not-allowed}
 .btn-outline{background:#fff;color:#1C1C1C;border:1px solid #D0D0D0;font-weight:500}
 .btn-outline:hover{background:#F5F5F5}
 .btn-red{background:#C62828;color:#fff}
 .btn-red:hover{background:#B71C1C}
-.btn-sm{width:auto;padding:.45rem 1rem;font-size:13px;border-radius:8px;background:#1B5E20;color:#fff;border:none;cursor:pointer}
-.btn-sm:hover{background:#2E7D32}
+.btn-sm{width:auto;padding:.45rem 1rem;font-size:13px;border-radius:8px;background:#1D9E75;color:#fff;border:none;cursor:pointer}
+.btn-sm:hover{background:#16836A}
 
 /* Forms */
 .fl{font-size:13px;color:#555;font-weight:500;display:block;margin-bottom:4px}
@@ -41,10 +43,10 @@ input[type=text],input[type=tel],input[type=email],input[type=password],input[ty
   width:100%;border:1px solid #D0D0D0;border-radius:10px;padding:.65rem .9rem;
   font-size:15px;font-family:inherit;color:#1C1C1C;background:#fff;outline:none;
   transition:border-color .15s,box-shadow .15s;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{border-color:#2E7D32;box-shadow:0 0 0 3px rgba(46,125,50,.12)}
+input:focus,select:focus,textarea:focus{border-color:#16836A;box-shadow:0 0 0 3px rgba(29,158,117,.15)}
 input.err,select.err{border-color:#C62828;box-shadow:0 0 0 3px rgba(198,40,40,.1)}
 .field-note{font-size:12px;margin-top:4px;min-height:16px}
-.field-note.ok{color:#2E7D32}
+.field-note.ok{color:#16836A}
 .field-note.bad{color:#C62828}
 .field-note.checking{color:#888}
 textarea{resize:vertical;min-height:76px}
@@ -57,38 +59,38 @@ textarea{resize:vertical;min-height:76px}
 /* Tabs */
 .tabs{display:flex;gap:.4rem;margin-bottom:1rem}
 .tab{flex:1;padding:.55rem;text-align:center;font-size:13px;font-weight:500;border-radius:9px;border:1px solid #D0D0D0;cursor:pointer;color:#666;background:#fff;transition:all .15s}
-.tab.active{background:#1B5E20;color:#fff;border-color:#1B5E20}
+.tab.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
 
 /* Nav bar at top */
-.top-bar{background:#1B5E20;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:-1rem -1rem 1rem;border-radius:14px 14px 0 0}
+.top-bar{background:#1D9E75;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:-1rem -1rem 1rem;border-radius:14px 14px 0 0}
 .top-brand{font-size:16px;font-weight:700;color:#fff}
-.top-user{font-size:12px;color:#A5D6A7;text-align:right}
+.top-user{font-size:12px;color:#80CEB8;text-align:right}
 .top-logout{background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:12px;padding:4px 10px;cursor:pointer}
 .top-logout:hover{background:rgba(255,255,255,.3)}
 
 /* Options */
 .opt{display:flex;align-items:center;gap:.65rem;padding:.6rem .75rem;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:all .15s;margin-bottom:.4rem;user-select:none}
-.opt:hover{background:#F1F8F1;border-color:#A5D6A7}
-.opt.sel{background:#E8F5E9;border-color:#4CAF50}
-.opt input{accent-color:#1B5E20;width:17px;height:17px;flex-shrink:0;pointer-events:none}
+.opt:hover{background:#F0FAF7;border-color:#80CEB8}
+.opt.sel{background:#E6F7F2;border-color:#4CAF50}
+.opt input{accent-color:#1D9E75;width:17px;height:17px;flex-shrink:0;pointer-events:none}
 .opt-text{font-size:14px;color:#1C1C1C;line-height:1.4}
 
 /* Scale */
 .scale-row{display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0}
 .sb{flex:1;min-width:30px;height:40px;border-radius:8px;border:1px solid #D0D0D0;background:#fff;font-size:13px;font-weight:600;color:#555;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
-.sb:hover{border-color:#2E7D32;color:#2E7D32}
-.sb.sel{background:#1B5E20;border-color:#1B5E20;color:#fff}
+.sb:hover{border-color:#16836A;color:#16836A}
+.sb.sel{background:#1D9E75;border-color:#1D9E75;color:#fff}
 .scale-lbs{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:.75rem}
 
 /* Progress */
 .prog-track{background:#E0E0E0;border-radius:4px;height:6px;margin:.75rem 0 .35rem}
-.prog-bar{background:#1B5E20;height:6px;border-radius:4px;transition:width .4s}
+.prog-bar{background:#1D9E75;height:6px;border-radius:4px;transition:width .4s}
 .prog-meta{display:flex;justify-content:space-between;font-size:12px;color:#888}
 
 /* Q badge */
-.qbadge{display:inline-block;background:#E8F5E9;color:#2E7D32;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:.5rem}
+.qbadge{display:inline-block;background:#E6F7F2;color:#16836A;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:.5rem}
 .qtitle{font-size:15px;font-weight:600;color:#1C1C1C;line-height:1.55;margin-bottom:.85rem}
-.qhint{background:#F1F8F1;border-left:3px solid #81C784;border-radius:0 8px 8px 0;padding:.45rem .75rem;font-size:12px;color:#2E7D32;line-height:1.5;margin-bottom:.85rem}
+.qhint{background:#F0FAF7;border-left:3px solid #52BFA3;border-radius:0 8px 8px 0;padding:.45rem .75rem;font-size:12px;color:#16836A;line-height:1.5;margin-bottom:.85rem}
 .req-note{font-size:11px;color:#C62828;margin-bottom:.5rem}
 
 /* Stat grid */
@@ -96,11 +98,11 @@ textarea{resize:vertical;min-height:76px}
 .scard{background:#F8FAF8;border-radius:10px;padding:.85rem 1rem}
 .slbl{font-size:12px;color:#888;margin-bottom:3px}
 .sval{font-size:20px;font-weight:700;color:#1C1C1C}
-.sval.green{color:#1B5E20}
+.sval.green{color:#1D9E75}
 
 /* Ref box */
-.ref-box{background:#E8F5E9;border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:.85rem 0}
-.ref-code{font-size:20px;font-weight:700;color:#1B5E20;letter-spacing:2px}
+.ref-box{background:#E6F7F2;border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:.85rem 0}
+.ref-code{font-size:20px;font-weight:700;color:#1D9E75;letter-spacing:2px}
 
 /* Tx rows */
 .txr{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid #F0F0F0}
@@ -108,12 +110,12 @@ textarea{resize:vertical;min-height:76px}
 .txl{font-size:13px;color:#1C1C1C;font-weight:500}
 .txs{font-size:11px;color:#888}
 .txa{font-size:14px;font-weight:700}
-.txa.plus{color:#2E7D32}
+.txa.plus{color:#16836A}
 .txa.minus{color:#C62828}
 
 /* Badges */
 .badge{display:inline-block;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
-.b-green{background:#E8F5E9;color:#2E7D32}
+.b-green{background:#E6F7F2;color:#16836A}
 .b-amber{background:#FFF3E0;color:#E65100}
 .b-red{background:#FFEBEE;color:#C62828}
 .b-gray{background:#F5F5F5;color:#616161}
@@ -121,12 +123,12 @@ textarea{resize:vertical;min-height:76px}
 /* Toast */
 .toast{position:sticky;top:.75rem;z-index:999;border-radius:10px;padding:.65rem 1rem;font-size:13px;font-weight:500;text-align:center;margin-bottom:.75rem;display:none}
 .toast.show{display:block;animation:fdin .2s}
-.toast.ok{background:#1B5E20;color:#fff}
+.toast.ok{background:#1D9E75;color:#fff}
 .toast.error{background:#C62828;color:#fff}
 @keyframes fdin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
 /* Success circle */
-.ok-circle{width:68px;height:68px;border-radius:50%;background:#E8F5E9;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+.ok-circle{width:68px;height:68px;border-radius:50%;background:#E6F7F2;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
 
 /* Lock */
 .lock-box{text-align:center;padding:1.5rem}
@@ -138,7 +140,7 @@ textarea{resize:vertical;min-height:76px}
 
 /* Step */
 .step-row{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem}
-.step-num{min-width:26px;height:26px;background:#1B5E20;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+.step-num{min-width:26px;height:26px;background:#1D9E75;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
 
 /* WhatsApp share button */
 .btn-whatsapp{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s}
@@ -146,23 +148,31 @@ textarea{resize:vertical;min-height:76px}
 .btn-whatsapp svg{flex-shrink:0}
 
 /* Forgot password link */
-.forgot-link{display:block;text-align:center;font-size:13px;color:#1B5E20;margin-top:.5rem;cursor:pointer;text-decoration:none}
+.forgot-link{display:block;text-align:center;font-size:13px;color:#1D9E75;margin-top:.5rem;cursor:pointer;text-decoration:none}
 .forgot-link:hover{text-decoration:underline}
 
 /* Auth tabs */
 .auth-tabs{display:flex;margin-bottom:1.25rem;border-radius:10px;overflow:hidden;border:1px solid #D0D0D0}
 .auth-tab{flex:1;padding:.7rem;text-align:center;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:#666;transition:all .15s}
-.auth-tab.active{background:#1B5E20;color:#fff}
+.auth-tab.active{background:#1D9E75;color:#fff}
 
 /* Hero */
 .hero{text-align:center;padding:.75rem 0 1.25rem}
-.hero-icon{width:56px;height:56px;background:#E8F5E9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+.hero-icon{width:56px;height:56px;background:#E6F7F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
 .hero-title{font-size:22px;font-weight:700;color:#1C1C1C;margin-bottom:.4rem}
 .hero-sub{font-size:14px;color:#666;line-height:1.6}
+/* ROVO logo elements */
+.rovo-wordmark{display:flex;align-items:center;gap:0}
+.rovo-wordmark-img{height:32px;width:auto}
+.rovo-icon-img{height:36px;width:36px;border-radius:8px}
+.rovo-hero-wordmark{height:44px;width:auto;display:block;margin:0 auto .75rem}
+.rovo-bar-logo{display:flex;align-items:center;gap:.5rem}
+.rovo-bar-icon{height:28px;width:28px;border-radius:7px;flex-shrink:0}
+.rovo-bar-name{font-family:"Poppins",sans-serif;font-weight:700;font-size:17px;color:#fff;letter-spacing:-.3px}
 
 .nav-row{display:flex;gap:.65rem;margin-top:1rem}
 .divider{border:none;border-top:1px solid #E0E0E0;margin:1rem 0}
-.section-lbl{font-size:11px;font-weight:600;color:#2E7D32;letter-spacing:.5px;background:#E8F5E9;border-radius:6px;padding:.3rem .65rem;display:inline-block;margin:.85rem 0 .6rem}
+.section-lbl{font-size:11px;font-weight:600;color:#16836A;letter-spacing:.5px;background:#E6F7F2;border-radius:6px;padding:.3rem .65rem;display:inline-block;margin:.85rem 0 .6rem}
 .share-msg{background:#F5F5F5;border-radius:9px;padding:.75rem;font-size:13px;color:#1C1C1C;line-height:1.6;margin-top:.75rem}
 .wd-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #F5F5F5}
 .wd-hist-row:last-child{border:none}
@@ -170,20 +180,20 @@ textarea{resize:vertical;min-height:76px}
 /* OTP styles */
 .otp-steps{display:flex;gap:6px;align-items:center;margin-bottom:1rem}
 .otp-step{display:flex;align-items:center;gap:5px;font-size:12px;color:#888}
-.otp-step.done{color:#2E7D32;font-weight:600}
-.otp-step.active{color:#1B5E20;font-weight:600}
+.otp-step.done{color:#16836A;font-weight:600}
+.otp-step.active{color:#1D9E75;font-weight:600}
 .otp-dot{width:22px;height:22px;border-radius:50%;background:#E0E0E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.otp-dot.done{background:#2E7D32}
-.otp-dot.active{background:#1B5E20}
-.otp-arrow{color:#C8E6C9;font-size:14px}
+.otp-dot.done{background:#16836A}
+.otp-dot.active{background:#1D9E75}
+.otp-arrow{color:#A8DDD0;font-size:14px}
 .otp-input-row{display:flex;gap:.5rem}
 .otp-input-row input{flex:1;text-align:center;font-size:26px;font-weight:700;letter-spacing:6px;padding:.65rem .5rem;border-radius:10px;border:2px solid #D0D0D0}
-.otp-input-row input:focus{border-color:#1B5E20;box-shadow:0 0 0 3px rgba(27,94,32,.12)}
+.otp-input-row input:focus{border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,.15)}
 .otp-timer{font-size:12px;color:#888;text-align:center;margin-top:.5rem}
 .otp-timer.urgent{color:#C62828;font-weight:600}
-.resend-btn{background:none;border:none;color:#1B5E20;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
+.resend-btn{background:none;border:none;color:#1D9E75;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
 .resend-btn:disabled{color:#888;cursor:not-allowed;text-decoration:none}
-.verified-badge{display:inline-flex;align-items:center;gap:5px;background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;color:#2E7D32}
+.verified-badge{display:inline-flex;align-items:center;gap:5px;background:#E6F7F2;border:1px solid #80CEB8;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;color:#16836A}
 </style>
 </head>
 <body>
@@ -193,12 +203,10 @@ textarea{resize:vertical;min-height:76px}
 
   <!-- ════════ SCREEN: AUTH (Login / Register) ════════ -->
   <div id="screen-auth" class="screen active">
-    <div class="hero">
-      <div class="hero-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg>
-      </div>
-      <div class="hero-title">Earn as you Answer</div>
-      <div class="hero-sub">Complete the survey &amp; earn <strong style="color:#1B5E20">₦50</strong>. Refer friends &amp; earn <strong style="color:#1B5E20">₦50</strong> each.</div>
+    <div class="hero" style="padding:.5rem 0 1.25rem">
+      <!-- ROVO wordmark — full brand on homepage -->
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:50px;width:auto;display:block;margin:0 auto .85rem">
+      <div class="hero-sub">Complete the survey &amp; earn <strong style="color:#1D9E75;font-family:'Poppins',sans-serif">&#8358;50</strong>. Refer friends &amp; earn <strong style="color:#1D9E75;font-family:'Poppins',sans-serif">&#8358;50</strong> each.</div>
     </div>
 
     <div class="sgrid">
@@ -209,7 +217,7 @@ textarea{resize:vertical;min-height:76px}
     </div>
 
     <div class="auth-tabs">
-      <div class="auth-tab active" id="at-register" onclick="switchAuth('register')">Create account</div>
+      <div class="auth-tab active" id="at-register" onclick="switchAuth('register')">Join rovo</div>
       <div class="auth-tab" id="at-login" onclick="switchAuth('login')">Log in</div>
     </div>
 
@@ -279,20 +287,20 @@ textarea{resize:vertical;min-height:76px}
       <div id="reg-step2" style="display:none">
         <div class="card">
           <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Step 2 &#8212; Verify your email</div>
-          <div style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">We sent a 6-digit code to <strong id="otp-sent-to" style="color:#1B5E20">your email</strong>. Enter it to complete your registration.</div>
+          <div style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">We sent a 6-digit code to <strong id="otp-sent-to" style="color:#1D9E75">your email</strong>. Enter it to complete your registration.</div>
           <input type="number" id="otp-code" placeholder="000000" maxlength="6"
             style="text-align:center;font-size:28px;font-weight:700;letter-spacing:8px;padding:.75rem;width:100%"
             oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
             onkeydown="if(event.key==='Enter')doVerifyOTP()">
           <div class="field-note" id="otp-code-note" style="text-align:center;margin-top:.5rem"></div>
           <div style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
-            Code expires in <strong id="otp-countdown-reg" style="color:#1B5E20">10:00</strong>
+            Code expires in <strong id="otp-countdown-reg" style="color:#1D9E75">10:00</strong>
           </div>
           <div style="text-align:center;margin-top:.65rem">
             <button class="resend-btn" id="resend-btn" onclick="doResendOTP()" disabled>Resend code (wait 60s)</button>
           </div>
         </div>
-        <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify &amp; create my account</button>
+        <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify &amp; join rovo</button>
         <button class="btn btn-outline" onclick="backToStep1()">&#8592; Back &amp; edit details</button>
         <p style="font-size:12px;color:#888;text-align:center;margin-top:.35rem;line-height:1.6">Can't find it? Check your spam/junk folder.</p>
       </div>
@@ -317,7 +325,7 @@ textarea{resize:vertical;min-height:76px}
       </div>
       <button class="btn btn-green" id="btn-login" onclick="doLogin()">Log in to my account</button>
       <a class="forgot-link" onclick="showForgotPassword()">Forgot your password? Reset it here</a>
-      <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem">Don't have an account? <a href="#" onclick="switchAuth('register');return false" style="color:#1B5E20">Create one above.</a></p>
+      <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem">Don't have an account? <a href="#" onclick="switchAuth('register');return false" style="color:#1D9E75">Create one above.</a></p>
     </div>
   </div>
 
@@ -325,11 +333,9 @@ textarea{resize:vertical;min-height:76px}
   <!-- ════════ SCREEN: OTP VERIFICATION ════════ -->
   <div id="screen-otp" class="screen">
     <div style="text-align:center;padding:.75rem 0 1.25rem">
-      <div class="hero-icon" style="background:#E8F5E9;margin:0 auto .75rem">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Check your email</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">We sent a 6-digit code to<br><strong id="otp-email-display" style="color:#1B5E20">your email</strong></div>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" style="width:48px;height:48px;border-radius:12px;display:block;margin:0 auto .75rem">
+      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem;font-family:'Poppins',sans-serif">Check your email</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">We sent a 6-digit code to<br><strong id="otp-email-display" style="color:#1D9E75">your email</strong></div>
     </div>
 
     <div class="card">
@@ -340,7 +346,7 @@ textarea{resize:vertical;min-height:76px}
       <div class="field-note" id="otp-note" style="text-align:center;margin-top:.5rem"></div>
 
       <div id="otp-timer" style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
-        Code expires in <strong id="otp-countdown" style="color:#1B5E20">10:00</strong>
+        Code expires in <strong id="otp-countdown" style="color:#1D9E75">10:00</strong>
       </div>
     </div>
 
@@ -378,11 +384,11 @@ textarea{resize:vertical;min-height:76px}
   <!-- ════════ SCREEN: RESET PASSWORD ════════ -->
   <div id="screen-reset" class="screen">
     <div style="text-align:center;padding:.75rem 0 1.25rem">
-      <div class="hero-icon" style="background:#E8F5E9;margin:0 auto .75rem">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+      <div class="hero-icon" style="background:#E6F7F2;margin:0 auto .75rem">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
       </div>
       <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Create new password</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">Enter the 6-digit code sent to <strong id="reset-email-display" style="color:#1B5E20">your email</strong>, then choose a new password.</div>
+      <div style="font-size:14px;color:#666;line-height:1.6">Enter the 6-digit code sent to <strong id="reset-email-display" style="color:#1D9E75">your email</strong>, then choose a new password.</div>
     </div>
 
     <div class="card">
@@ -411,7 +417,7 @@ textarea{resize:vertical;min-height:76px}
     </div>
 
     <div id="rp-timer-wrap" style="text-align:center;font-size:13px;color:#888;margin-bottom:.75rem">
-      Code expires in <strong id="rp-countdown" style="color:#1B5E20">10:00</strong>
+      Code expires in <strong id="rp-countdown" style="color:#1D9E75">10:00</strong>
     </div>
 
     <button class="btn btn-green" id="btn-rp-submit" onclick="doResetPassword()">Set new password</button>
@@ -438,7 +444,7 @@ textarea{resize:vertical;min-height:76px}
     <div class="prog-track"><div class="prog-bar" id="sv-prog" style="width:10%"></div></div>
     <div class="prog-meta">
       <span id="sv-prog-lbl">Question 1 of 10</span>
-      <span id="sv-prog-pct" style="color:#1B5E20;font-weight:600">10%</span>
+      <span id="sv-prog-pct" style="color:#1D9E75;font-weight:600">10%</span>
     </div>
     <div id="q-container" style="margin-top:1rem"></div>
     <div class="nav-row">
@@ -450,7 +456,7 @@ textarea{resize:vertical;min-height:76px}
   <!-- ════════ SCREEN: SUBMITTING ════════ -->
   <div id="screen-submitting" class="screen">
     <div style="text-align:center;padding:3rem 1rem">
-      <div style="width:60px;height:60px;border:4px solid #E8F5E9;border-top-color:#1B5E20;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem"></div>
+      <div style="width:60px;height:60px;border:4px solid #E6F7F2;border-top-color:#1D9E75;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem"></div>
       <div style="font-size:18px;font-weight:600;margin-bottom:.5rem">Submitting your answers...</div>
       <div style="font-size:14px;color:#666">Saving responses and crediting your wallet</div>
     </div>
@@ -458,11 +464,9 @@ textarea{resize:vertical;min-height:76px}
 
   <!-- ════════ SCREEN: SURVEY COMPLETE ════════ -->
   <div id="screen-complete" class="screen">
-    <div class="ok-circle">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
     <div style="text-align:center;margin-bottom:1.25rem">
-      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem">Survey complete!</div>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" style="width:56px;height:56px;border-radius:14px;display:block;margin:0 auto .85rem">
+      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem;font-family:'Poppins',sans-serif">Survey complete!</div>
       <div style="font-size:14px;color:#666;line-height:1.6">₦50 credited to your wallet. Share your link to keep earning — every friend earns you ₦50 more.</div>
     </div>
     <div class="wallet-bar">
@@ -473,7 +477,7 @@ textarea{resize:vertical;min-height:76px}
       <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Refer friends — earn ₦50 each</div>
       <div style="font-size:13px;color:#666;margin-bottom:.85rem">When a friend opens your personal link and completes the survey, you both earn ₦50 instantly.</div>
       <div class="ref-box">
-        <div><div style="font-size:11px;color:#2E7D32;margin-bottom:2px">Your referral code</div><div class="ref-code" id="done-mycode">DB-XXXXX</div></div>
+        <div><div style="font-size:11px;color:#16836A;margin-bottom:2px">Your referral code</div><div class="ref-code" id="done-mycode">DB-XXXXX</div></div>
         <button class="btn-sm" onclick="copyCode('done-mycode')">Copy</button>
       </div>
       <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
@@ -490,7 +494,7 @@ textarea{resize:vertical;min-height:76px}
 
     <!-- Top bar -->
     <div class="top-bar">
-      <div class="top-brand">DeliveryBoy</div>
+      <div class="rovo-bar-logo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" class="rovo-bar-icon" alt="rovo"><span class="rovo-bar-name">rovo</span></div>
       <div style="display:flex;align-items:center;gap:.65rem">
         <div class="top-user" id="db-user-info">...</div>
         <button class="top-logout" onclick="doLogout()">Log out</button>
@@ -518,17 +522,17 @@ textarea{resize:vertical;min-height:76px}
       </div>
 
       <div id="survey-cta" style="display:none">
-        <div class="card" style="border:2px solid #1B5E20;text-align:center">
-          <div style="font-size:15px;font-weight:600;color:#1B5E20;margin-bottom:.35rem">Complete your survey</div>
+        <div class="card" style="border:2px solid #1D9E75;text-align:center">
+          <div style="font-size:15px;font-weight:600;color:#1D9E75;margin-bottom:.35rem">Complete your survey</div>
           <div style="font-size:13px;color:#666;margin-bottom:.85rem">Answer 10 questions and earn ₦50 in your wallet.</div>
           <button class="btn btn-green" onclick="startSurvey()" style="margin-bottom:0">Start survey now →</button>
         </div>
       </div>
 
       <div id="survey-done-banner" style="display:none">
-        <div class="card" style="background:#E8F5E9;border-color:#A5D6A7;text-align:center">
-          <div style="font-size:13px;font-weight:600;color:#1B5E20">✓ Survey completed — ₦50 earned!</div>
-          <div style="font-size:12px;color:#2E7D32;margin-top:3px">Share your referral code to keep earning.</div>
+        <div class="card" style="background:#E6F7F2;border-color:#80CEB8;text-align:center">
+          <div style="font-size:13px;font-weight:600;color:#1D9E75">✓ Survey completed — ₦50 earned!</div>
+          <div style="font-size:12px;color:#16836A;margin-top:3px">Share your referral code to keep earning.</div>
         </div>
       </div>
 
@@ -550,11 +554,11 @@ textarea{resize:vertical;min-height:76px}
       <div class="card">
         <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Your referral code</div>
         <div class="ref-box">
-          <div><div style="font-size:11px;color:#2E7D32;margin-bottom:2px">Share this</div><div class="ref-code" id="ref-code-big">DB-XXXXX</div></div>
+          <div><div style="font-size:11px;color:#16836A;margin-bottom:2px">Share this</div><div class="ref-code" id="ref-code-big">DB-XXXXX</div></div>
           <button class="btn-sm" onclick="copyCode('ref-code-big')">Copy</button>
         </div>
-        <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.75rem">For every friend who completes the survey using your code, you <strong style="color:#1B5E20">both earn ₦50</strong>. No limit.</div>
-        <div style="background:#E8F5E9;border-radius:9px;padding:.75rem;font-size:13px;color:#1B5E20">Refer <strong><span id="cfg-ref-count-needed">10</span> friends</strong> to earn <span id="cfg-min-ref">₦500</span> — enough to withdraw without the survey!</div>
+        <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.75rem">For every friend who completes the survey using your code, you <strong style="color:#1D9E75">both earn ₦50</strong>. No limit.</div>
+        <div style="background:#E6F7F2;border-radius:9px;padding:.75rem;font-size:13px;color:#1D9E75">Refer <strong><span id="cfg-ref-count-needed">10</span> friends</strong> to earn <span id="cfg-min-ref">₦500</span> — enough to withdraw without the survey!</div>
       </div>
       <div class="card">
         <div style="font-size:14px;font-weight:600;margin-bottom:.85rem">Share your personal link</div>
@@ -599,8 +603,8 @@ textarea{resize:vertical;min-height:76px}
             <select id="wd-method" onchange="toggleWdFields()">
               <option value="">Select method</option>
               <option value="bank">Bank transfer</option>
-              <option value="opay">OPay </option>
-              <option value="palmpay">PalmPay </option>
+              <option value="opay">OPay</option>
+              <option value="palmpay">PalmPay</option>
               <option value="kuda">Kuda Bank</option>
             </select>
           </div>
@@ -634,7 +638,7 @@ textarea{resize:vertical;min-height:76px}
   <!-- ════════ SCREEN: WITHDRAW SUCCESS ════════ -->
   <div id="screen-wd-success" class="screen">
     <div class="ok-circle">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <div style="text-align:center;margin-bottom:1.25rem">
       <div style="font-size:21px;font-weight:700;margin-bottom:.4rem">Request submitted!</div>
@@ -686,7 +690,7 @@ var Qs = [
     hint:'1 = Not at all  ·  5 = I would sign up today — required',
     min:1, max:5, minL:'Not at all', maxL:'Sign up today' },
   { id:'q3b', type:'text', required:true,
-    title:'What would make you say Yes to earning through deliveries, and what would make you say o??',
+    title:'What would make you say Yes to earning through deliveries, and what would make you say No?',
     hint:'Be specific — required', ph:'e.g. "Payment must be guaranteed", "I worry about my safety while delivering"' },
   { id:'q4', type:'radio', required:true,
     title:'How many hours per week are you realistically available for flexible work, on top of your studies?',
@@ -812,23 +816,21 @@ window.addEventListener('load', function() {
     if (res && res.success) applyConfig(res.config);
   });
 
-  // ── Parse ?ref=CODE from URL — auto-fill referral code ────────
-  // When someone shares their link e.g. ?ref=DB-AMAKA123
-  // the referral code is pre-filled on the registration step 1
+  // ── Read injected referral code ─────────────────────────────
+  // Apps Script strips ?ref= from window.location in the browser.
+  // Instead, doGet() injects window.INJECTED_REF_CODE into the HTML.
+  // This is the only reliable way to pass URL params in Apps Script.
   try {
-    var urlParams = new URLSearchParams(window.location.search);
-    var refCode   = urlParams.get('ref');
-    if (refCode) {
-      // Store it so step 3 registration form can use it
-      S.pendingRefCode = refCode.toUpperCase();
-      // Pre-fill the referral code field in step 3 if visible
+    var injectedRef = window.INJECTED_REF_CODE || '';
+    if (injectedRef && injectedRef.length > 3) {
+      S.pendingRefCode = injectedRef.toUpperCase();
+      // Pre-fill the referral code field if already visible
       var refInput = document.getElementById('r-ref');
       if (refInput) {
         refInput.value = S.pendingRefCode;
         liveCheckRef(refInput);
       }
-      // Show a welcome note
-      toast('Referral code ' + S.pendingRefCode + ' applied! You will both earn ₦50.');
+      toast('Referral code ' + S.pendingRefCode + ' applied!');
     }
   } catch(e) {}
 
@@ -1078,7 +1080,7 @@ function startOTPTimer() {
     OTP.secondsLeft--;
     var m = Math.floor(OTP.secondsLeft/60), s = OTP.secondsLeft%60;
     var el = document.getElementById('otp-countdown-reg');
-    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = OTP.secondsLeft<60?'#C62828':'#1B5E20'; }
+    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = OTP.secondsLeft<60?'#C62828':'#1D9E75'; }
     if (OTP.secondsLeft <= 0) {
       clearInterval(OTP.timerInterval);
       if (el) { el.textContent='Expired'; el.style.color='#C62828'; }
@@ -1112,7 +1114,7 @@ function doRegister() {
     applyUserState(res, res.token);
     OTP.verifyToken=''; OTP.email='';
     REG={name:'',email:'',password:'',phone:'',school:'',refCode:'',fingerprint:''};
-    toast('Account created! Complete the survey to earn ₦'+CFG.SURVEY_REWARD+'.');
+    toast('Welcome to rovo! Complete the survey to earn ₦'+CFG.SURVEY_REWARD+'.');
     renderQ(0);
     show('screen-survey');
   });
@@ -1406,15 +1408,23 @@ function copyCode(id) {
 }
 
 function getReferralLink() {
-  // Always use the deployed Web App URL — never the editor preview URL
-  var base = API_URL.replace('/exec', '/exec');
+  // Use API_URL (the deployed Web App URL) as the base.
+  // When someone opens WEB_APP_URL?ref=DB-XXXXX, Google Apps Script
+  // reads e.parameter.ref in doGet() and injects it into the page.
+  // This is the only way URL params work in Apps Script Web Apps.
+  var base = API_URL;
+  if (base === 'PASTE_YOUR_WEB_APP_URL_HERE') {
+    // Fallback for testing — use current location
+    base = window.location.href.split('?')[0];
+  }
   return base + '?ref=' + encodeURIComponent(S.myCode);
 }
 
 function shareOnWhatsApp() {
   if (!S.myCode) { toast('Please log in first.', true); return; }
   var link = getReferralLink();
-  var msg = 'Hey! I just filled a 5-minute survey and earned N50 cash.' +
+  var msg = 'Hey! I just filled a 5-minute survey for rovo and earned N50 cash!' +
+    '\n\nIt is for a new Lagos app called rovo.' +
     '\n\nOpen my personal link below. Your referral code fills in automatically:' +
     '\n' + link +
     '\n\nWe BOTH earn N50 when you complete the survey! My code: ' + S.myCode;
@@ -1449,7 +1459,7 @@ function startRpCountdown(seconds) {
   function tick() {
     var m = Math.floor(rem/60), s = rem%60;
     var el = document.getElementById('rp-countdown');
-    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = rem<60 ? '#C62828' : '#1B5E20'; }
+    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = rem<60 ? '#C62828' : '#1D9E75'; }
     if (rem <= 0) { clearInterval(rpTimerInterval); if(el) el.textContent = 'Expired'; }
     rem--;
   }
