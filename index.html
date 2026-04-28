@@ -4,356 +4,361 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>rovo · Earn as You Answer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--rovo-teal:#1D9E75;--rovo-teal-dark:#16836A;--rovo-teal-light:#E6F7F2}
-html{font-size:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F0FAF7;color:#1C1C1C;min-height:100vh;padding-bottom:3rem}
+:root{
+  --teal:#1D9E75;--teal-d:#16836A;--teal-l:#E6F7F2;--teal-xl:#F0FAF7;
+  --amber:#E65100;--amber-l:#FFF3E0;
+  --red:#C62828;--red-l:#FFEBEE;
+  --ink:#1C1C1C;--ink-2:#444;--ink-3:#888;--ink-4:#bbb;
+  --bg:#F4FCF9;--surface:#fff;--border:#E8E8E8;
+  --shadow:0 2px 12px rgba(29,158,117,.10);
+  --shadow-lg:0 8px 32px rgba(29,158,117,.15);
+  --r:14px;--r-sm:10px;--r-xs:8px;
+  --font-head:'Poppins',sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:3rem}
 .app{max-width:480px;margin:0 auto;padding:1rem}
 .screen{display:none}
 .screen.active{display:block}
 
-/* Cards */
-.card{background:#fff;border:1px solid #E0E0E0;border-radius:14px;padding:1.25rem 1.4rem;margin-bottom:1rem}
+/* ── MODAL OVERLAY ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:1.5rem 1.5rem 2.5rem;width:100%;max-width:480px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.modal-overlay.open .modal-sheet{transform:translateY(0)}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 1.25rem}
+.modal-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
 
-/* Wallet bar */
-.wallet-bar{background:#1D9E75;border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;color:#fff}
-.wl{font-size:12px;color:#80CEB8;font-weight:500}
-.wa{font-size:26px;font-weight:700;color:#fff}
-.ws{font-size:12px;color:#80CEB8;margin-top:2px}
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.4rem;margin-bottom:1rem;box-shadow:var(--shadow)}
 
-/* Buttons */
-.btn{width:100%;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;margin-bottom:.5rem}
-.btn-green{background:#1D9E75;color:#fff}
-.btn-green:hover{background:#16836A}
-.btn-green:active{opacity:.85}
-.btn-green:disabled{background:#9E9E9E;cursor:not-allowed}
-.btn-outline{background:#fff;color:#1C1C1C;border:1px solid #D0D0D0;font-weight:500}
-.btn-outline:hover{background:#F5F5F5}
-.btn-red{background:#C62828;color:#fff}
-.btn-red:hover{background:#B71C1C}
-.btn-sm{width:auto;padding:.45rem 1rem;font-size:13px;border-radius:8px;background:#1D9E75;color:#fff;border:none;cursor:pointer}
-.btn-sm:hover{background:#16836A}
+/* ── BUTTONS ── */
+.btn{width:100%;border:none;border-radius:var(--r-sm);padding:.9rem;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;margin-bottom:.5rem;font-family:var(--font-body);letter-spacing:.1px}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 4px 16px rgba(29,158,117,.3)}
+.btn-primary:hover{background:var(--teal-d);box-shadow:0 6px 20px rgba(29,158,117,.4);transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0);opacity:.9}
+.btn-primary:disabled{background:#9E9E9E;box-shadow:none;transform:none;cursor:not-allowed}
+.btn-outline{background:var(--surface);color:var(--ink-2);border:1.5px solid var(--border);font-weight:500}
+.btn-outline:hover{background:#F8F8F8;border-color:#CCC}
+.btn-ghost{background:transparent;color:var(--teal);font-weight:600;padding:.65rem}
+.btn-ghost:hover{background:var(--teal-l)}
+.btn-sm{width:auto;padding:.45rem 1rem;font-size:13px;border-radius:var(--r-xs);background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:var(--font-body);font-weight:600}
+.btn-sm:hover{background:var(--teal-d)}
+.btn-wa{width:100%;background:#25D366;color:#fff;border:none;border-radius:var(--r-sm);padding:.9rem;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--font-body)}
+.btn-wa:hover{background:#128C7E}
+.btn-wa svg{flex-shrink:0}
+/* Legacy aliases */
+.btn-green{background:var(--teal);color:#fff;box-shadow:0 4px 16px rgba(29,158,117,.3)}
+.btn-green:hover{background:var(--teal-d)}
+.btn-green:disabled{background:#9E9E9E;box-shadow:none;cursor:not-allowed}
+.btn-red{background:var(--red);color:#fff}
 
-/* Forms */
-.fl{font-size:13px;color:#555;font-weight:500;display:block;margin-bottom:4px}
-.fg{margin-bottom:.85rem}
+/* ── FORMS ── */
+.fl{font-size:13px;color:var(--ink-2);font-weight:500;display:block;margin-bottom:5px}
+.fg{margin-bottom:.9rem}
 input[type=text],input[type=tel],input[type=email],input[type=password],input[type=number],select,textarea{
-  width:100%;border:1px solid #D0D0D0;border-radius:10px;padding:.65rem .9rem;
-  font-size:15px;font-family:inherit;color:#1C1C1C;background:#fff;outline:none;
-  transition:border-color .15s,box-shadow .15s;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{border-color:#16836A;box-shadow:0 0 0 3px rgba(29,158,117,.15)}
-input.err,select.err{border-color:#C62828;box-shadow:0 0 0 3px rgba(198,40,40,.1)}
+  width:100%;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:.7rem .95rem;
+  font-size:15px;font-family:var(--font-body);color:var(--ink);background:var(--surface);outline:none;
+  transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,158,117,.12)}
+input.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(198,40,40,.1)}
+textarea{resize:vertical;min-height:80px}
+.req{color:var(--red);margin-left:2px}
 .field-note{font-size:12px;margin-top:4px;min-height:16px}
-.field-note.ok{color:#16836A}
-.field-note.bad{color:#C62828}
-.field-note.checking{color:#888}
-textarea{resize:vertical;min-height:76px}
-.req{color:#C62828;margin-left:2px}
-
-/* Password wrapper */
+.field-note.ok{color:var(--teal-d)}
+.field-note.bad{color:var(--red)}
+.field-note.checking{color:var(--ink-3)}
 .pw-wrap{position:relative}
-.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#888;font-size:13px;padding:4px}
+.pw-toggle{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--ink-3);font-size:13px;padding:4px;font-family:var(--font-body)}
 
-/* Tabs */
-.tabs{display:flex;gap:.4rem;margin-bottom:1rem}
-.tab{flex:1;padding:.55rem;text-align:center;font-size:13px;font-weight:500;border-radius:9px;border:1px solid #D0D0D0;cursor:pointer;color:#666;background:#fff;transition:all .15s}
-.tab.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
-
-/* Nav bar at top */
-.top-bar{background:#1D9E75;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:-1rem -1rem 1rem;border-radius:14px 14px 0 0}
-.top-brand{font-size:16px;font-weight:700;color:#fff}
-.top-user{font-size:12px;color:#80CEB8;text-align:right}
-.top-logout{background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:12px;padding:4px 10px;cursor:pointer}
-.top-logout:hover{background:rgba(255,255,255,.3)}
-
-/* Options */
-.opt{display:flex;align-items:center;gap:.65rem;padding:.6rem .75rem;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:all .15s;margin-bottom:.4rem;user-select:none}
-.opt:hover{background:#F0FAF7;border-color:#80CEB8}
-.opt.sel{background:#E6F7F2;border-color:#4CAF50}
-.opt input{accent-color:#1D9E75;width:17px;height:17px;flex-shrink:0;pointer-events:none}
-.opt-text{font-size:14px;color:#1C1C1C;line-height:1.4}
-
-/* Scale */
-.scale-row{display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0}
-.sb{flex:1;min-width:30px;height:40px;border-radius:8px;border:1px solid #D0D0D0;background:#fff;font-size:13px;font-weight:600;color:#555;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
-.sb:hover{border-color:#16836A;color:#16836A}
-.sb.sel{background:#1D9E75;border-color:#1D9E75;color:#fff}
-.scale-lbs{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:.75rem}
-
-/* Progress */
-.prog-track{background:#E0E0E0;border-radius:4px;height:6px;margin:.75rem 0 .35rem}
-.prog-bar{background:#1D9E75;height:6px;border-radius:4px;transition:width .4s}
-.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:#888}
-
-/* Q badge */
-.qbadge{display:inline-block;background:#E6F7F2;color:#16836A;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-bottom:.5rem}
-.qtitle{font-size:15px;font-weight:600;color:#1C1C1C;line-height:1.55;margin-bottom:.85rem}
-.qhint{background:#F0FAF7;border-left:3px solid #52BFA3;border-radius:0 8px 8px 0;padding:.45rem .75rem;font-size:12px;color:#16836A;line-height:1.5;margin-bottom:.85rem}
-.req-note{font-size:11px;color:#C62828;margin-bottom:.5rem}
-
-/* Stat grid */
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
-.scard{background:#F8FAF8;border-radius:10px;padding:.85rem 1rem}
-.slbl{font-size:12px;color:#888;margin-bottom:3px}
-.sval{font-size:20px;font-weight:700;color:#1C1C1C}
-.sval.green{color:#1D9E75}
-
-/* Ref box */
-.ref-box{background:#E6F7F2;border-radius:10px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin:.85rem 0}
-.ref-code{font-size:20px;font-weight:700;color:#1D9E75;letter-spacing:2px}
-
-/* Tx rows */
-.txr{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid #F0F0F0}
-.txr:last-child{border-bottom:none}
-.txl{font-size:13px;color:#1C1C1C;font-weight:500}
-.txs{font-size:11px;color:#888}
-.txa{font-size:14px;font-weight:700}
-.txa.plus{color:#16836A}
-.txa.minus{color:#C62828}
-
-/* Badges */
-.badge{display:inline-block;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
-.b-green{background:#E6F7F2;color:#16836A}
-.b-amber{background:#FFF3E0;color:#E65100}
-.b-red{background:#FFEBEE;color:#C62828}
-.b-gray{background:#F5F5F5;color:#616161}
-
-/* Toast */
-.toast{position:sticky;top:.75rem;z-index:999;border-radius:10px;padding:.65rem 1rem;font-size:13px;font-weight:500;text-align:center;margin-bottom:.75rem;display:none}
+/* ── TOAST ── */
+.toast{position:sticky;top:.75rem;z-index:999;border-radius:var(--r-sm);padding:.65rem 1rem;font-size:13px;font-weight:500;text-align:center;margin-bottom:.75rem;display:none}
 .toast.show{display:block;animation:fdin .2s}
-.toast.ok{background:#1D9E75;color:#fff}
-.toast.error{background:#C62828;color:#fff}
+.toast.ok{background:var(--teal);color:#fff}
+.toast.error{background:var(--red);color:#fff}
 @keyframes fdin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
-/* Success circle */
-.ok-circle{width:68px;height:68px;border-radius:50%;background:#E6F7F2;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
+/* ── TOP BAR ── */
+.top-bar{background:var(--teal);padding:.8rem 1.1rem;display:flex;align-items:center;justify-content:space-between;margin:-1rem -1rem 1.25rem;border-radius:0 0 18px 18px;box-shadow:0 4px 16px rgba(29,158,117,.25)}
+.rovo-bar-logo{display:flex;align-items:center;gap:.5rem}
+.rovo-bar-icon{height:30px;width:30px;border-radius:8px;flex-shrink:0}
+.rovo-bar-name{font-family:var(--font-head);font-weight:700;font-size:18px;color:#fff;letter-spacing:-.3px}
+.top-user{font-size:12px;color:rgba(255,255,255,.75);text-align:right}
+.top-logout{background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:12px;padding:5px 12px;cursor:pointer;font-family:var(--font-body);transition:background .15s}
+.top-logout:hover{background:rgba(255,255,255,.3)}
 
-/* Lock */
-.lock-box{text-align:center;padding:1.5rem}
-.lock-icon{width:52px;height:52px;background:#FFF3E0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+/* ── HERO / LANDING ── */
+.hero{text-align:center;padding:1.5rem 0 1rem}
+.hero-wordmark{height:52px;width:auto;display:block;margin:0 auto 1rem}
+.hero-sub{font-size:14px;color:var(--ink-3);line-height:1.65}
 
-/* Spinner */
+/* ── PRODUCT INFO CARDS (landing) ── */
+/* product-info styles moved to popup */
+
+/* ── STAT GRID ── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem 1rem;box-shadow:var(--shadow)}
+.slbl{font-size:11px;color:var(--ink-3);margin-bottom:3px;font-weight:500}
+.sval{font-size:20px;font-weight:700;color:var(--ink);font-family:var(--font-head)}
+.sval.green{color:var(--teal)}
+
+/* ── AUTH TABS ── */
+.auth-tabs{display:flex;margin-bottom:1.25rem;border-radius:11px;overflow:hidden;border:1.5px solid var(--border);background:var(--surface)}
+.auth-tab{flex:1;padding:.75rem;text-align:center;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--ink-3);transition:all .15s;font-family:var(--font-body)}
+.auth-tab.active{background:var(--teal);color:#fff}
+
+/* ── OTP / STEP ── */
+.otp-countdown-wrap{text-align:center;font-size:13px;color:var(--ink-3);margin-top:.65rem}
+.resend-btn{background:none;border:none;color:var(--teal);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;font-family:var(--font-body)}
+.resend-btn:disabled{color:var(--ink-3);cursor:not-allowed;text-decoration:none}
+
+/* ── WALLET BAR ── */
+.wallet-bar{background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:16px;padding:1.2rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:0 4px 20px rgba(29,158,117,.3)}
+.wl{font-size:11px;color:rgba(255,255,255,.7);font-weight:500;letter-spacing:.3px;text-transform:uppercase;font-size:10px}
+.wa{font-size:28px;font-weight:800;color:#fff;font-family:var(--font-head);line-height:1.1}
+.ws{font-size:12px;color:rgba(255,255,255,.65);margin-top:3px}
+
+/* ── SURVEY ── */
+.sv-header{background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:16px;padding:1.1rem 1.4rem;margin-bottom:1rem;color:#fff;box-shadow:0 4px 20px rgba(29,158,117,.25)}
+.sv-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.sv-label{font-size:10px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.sv-value{font-size:22px;font-weight:800;font-family:var(--font-head)}
+.prog-track{background:rgba(255,255,255,.25);border-radius:4px;height:5px}
+.prog-bar{background:#fff;height:5px;border-radius:4px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.7);margin-top:.4rem}
+.qbadge{display:inline-block;background:var(--teal-l);color:var(--teal-d);font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:.6rem;font-family:var(--font-head)}
+.qtitle{font-size:15px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:.85rem;font-family:var(--font-head)}
+.qhint{background:var(--teal-xl);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:12px;color:var(--teal-d);line-height:1.5;margin-bottom:.85rem}
+.opt{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;border-radius:10px;cursor:pointer;border:1.5px solid transparent;transition:all .15s;margin-bottom:.4rem;user-select:none;background:var(--bg)}
+.opt:hover{background:var(--teal-l);border-color:#80CEB8}
+.opt.sel{background:var(--teal-l);border-color:var(--teal)}
+.opt input{accent-color:var(--teal);width:17px;height:17px;flex-shrink:0;pointer-events:none}
+.opt-text{font-size:14px;color:var(--ink);line-height:1.4}
+.scale-row{display:flex;gap:.3rem;flex-wrap:wrap;margin:.5rem 0}
+.sb{flex:1;min-width:30px;height:42px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);font-size:13px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;font-family:var(--font-head)}
+.sb:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-l)}
+.sb.sel{background:var(--teal);border-color:var(--teal);color:#fff}
+.scale-lbs{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);margin-bottom:.75rem}
+.nav-row{display:flex;gap:.65rem;margin-top:1rem}
+
+/* ── DASHBOARD TABS ── */
+.dash-tabs{display:flex;gap:.4rem;margin-bottom:1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.3rem}
+.dash-tab{flex:1;padding:.55rem .3rem;text-align:center;font-size:13px;font-weight:600;border-radius:9px;cursor:pointer;color:var(--ink-3);background:transparent;transition:all .15s;font-family:var(--font-body);border:none}
+.dash-tab.active{background:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(29,158,117,.3)}
+
+/* ── DASHBOARD HOME ── */
+.balance-hero{background:linear-gradient(135deg,#1D9E75 0%,#16836A 100%);border-radius:20px;padding:1.5rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(29,158,117,.3)}
+.balance-hero::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+.balance-hero::after{content:'';position:absolute;bottom:-30px;right:30px;width:80px;height:80px;background:rgba(255,255,255,.05);border-radius:50%}
+.balance-label{font-size:11px;color:rgba(255,255,255,.7);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.3rem}
+.balance-amount{font-size:42px;font-weight:800;font-family:var(--font-head);line-height:1;margin-bottom:.4rem}
+.balance-note{font-size:13px;color:rgba(255,255,255,.7)}
+.balance-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.15)}
+.bstat-label{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.3px}
+.bstat-val{font-size:16px;font-weight:700;font-family:var(--font-head);margin-top:2px}
+
+/* ── CTA CARDS ── */
+.cta-card{border-radius:16px;padding:1.1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.cta-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.cta-card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cta-card-text .title{font-size:14px;font-weight:700;font-family:var(--font-head)}
+.cta-card-text .sub{font-size:12px;margin-top:2px;line-height:1.4}
+.cta-card-arrow{margin-left:auto;flex-shrink:0;color:currentColor;opacity:.6}
+
+/* ── TRANSACTION LIST ── */
+.tx-list{display:flex;flex-direction:column;gap:.4rem}
+.tx-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;background:var(--bg);border-radius:10px}
+.tx-dot{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.tx-info{flex:1;min-width:0}
+.tx-name{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-date{font-size:11px;color:var(--ink-3);margin-top:1px}
+.tx-amt{font-size:14px;font-weight:700;font-family:var(--font-head)}
+.tx-amt.plus{color:var(--teal)}
+.tx-amt.minus{color:var(--red)}
+
+/* ── REFERRALS TAB ── */
+.ref-hero{background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:20px;padding:1.4rem;margin-bottom:1rem;color:#fff;text-align:center;box-shadow:0 8px 32px rgba(29,158,117,.3)}
+.ref-hero-label{font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.4rem}
+.ref-hero-code{font-size:28px;font-weight:800;letter-spacing:4px;font-family:var(--font-head);margin-bottom:.85rem}
+.ref-hero-btns{display:flex;gap:.6rem}
+.ref-hero-btn{flex:1;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:9px;padding:.6rem;font-size:13px;font-weight:600;color:#fff;cursor:pointer;font-family:var(--font-body);transition:background .15s}
+.ref-hero-btn:hover{background:rgba(255,255,255,.3)}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem}
+.ref-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;text-align:center;box-shadow:var(--shadow)}
+.ref-stat-num{font-size:24px;font-weight:800;font-family:var(--font-head);color:var(--teal)}
+.ref-stat-label{font-size:12px;color:var(--ink-3);margin-top:3px}
+.how-steps{display:flex;flex-direction:column;gap:.75rem;margin:.85rem 0}
+.how-step{display:flex;align-items:flex-start;gap:.85rem}
+.how-num{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-head)}
+.how-text{font-size:13px;color:var(--ink-2);line-height:1.55;padding-top:4px}
+.ref-link-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:11px;color:var(--ink-3);word-break:break-all;margin-top:.75rem}
+
+/* ── WITHDRAW TAB ── */
+.lock-card{text-align:center;padding:2rem 1rem}
+.lock-ring{width:72px;height:72px;border-radius:50%;background:var(--amber-l);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 4px 16px rgba(230,81,0,.15)}
+.lock-title{font-size:16px;font-weight:700;font-family:var(--font-head);margin-bottom:.4rem}
+.lock-sub{font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:1rem}
+.lock-tip{background:var(--amber-l);border-radius:10px;padding:.8rem 1rem;font-size:13px;color:var(--amber);text-align:left;line-height:1.5}
+.wd-avail-bar{background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:14px;padding:1rem 1.25rem;color:#fff;margin-bottom:1rem;box-shadow:0 4px 16px rgba(29,158,117,.25)}
+.section-label{font-size:11px;font-weight:600;color:var(--teal-d);letter-spacing:.5px;background:var(--teal-l);border-radius:6px;padding:3px 10px;display:inline-block;margin:.85rem 0 .65rem;font-family:var(--font-head)}
+
+/* ── PAYOUT OTP (new — shown at withdrawal time) ── */
+.payout-otp-wrap{border:2px solid var(--teal);border-radius:14px;padding:1.25rem;margin-bottom:1rem;background:var(--teal-l)}
+.payout-otp-title{font-size:14px;font-weight:700;font-family:var(--font-head);color:var(--teal-d);margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem}
+.payout-otp-sub{font-size:12px;color:var(--teal-d);line-height:1.5;margin-bottom:.85rem}
+.otp-big-input{text-align:center;font-size:28px;font-weight:800;letter-spacing:8px;padding:.75rem;width:100%;border:2px solid var(--teal);border-radius:10px;font-family:var(--font-head);color:var(--ink);background:#fff}
+.otp-big-input:focus{border-color:var(--teal-d);box-shadow:0 0 0 3px rgba(29,158,117,.15)}
+
+/* ── BADGES ── */
+.badge{display:inline-block;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:600}
+.b-green{background:var(--teal-l);color:var(--teal-d)}
+.b-amber{background:var(--amber-l);color:var(--amber)}
+.b-red{background:var(--red-l);color:var(--red)}
+.b-gray{background:#F5F5F5;color:#616161}
+
+/* ── SUCCESS ── */
+.ok-circle{width:72px;height:72px;border-radius:50%;background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;box-shadow:0 4px 16px rgba(29,158,117,.2)}
+
+/* ── MISC ── */
 .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;margin-right:6px;vertical-align:middle}
 @keyframes sp{to{transform:rotate(360deg)}}
-
-/* Step */
-.step-row{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem}
-.step-num{min-width:26px;height:26px;background:#1D9E75;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
-
-/* WhatsApp share button */
-.btn-whatsapp{width:100%;background:#25D366;color:#fff;border:none;border-radius:10px;padding:.85rem;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s}
-.btn-whatsapp:hover{background:#128C7E}
-.btn-whatsapp svg{flex-shrink:0}
-
-/* Forgot password link */
-.forgot-link{display:block;text-align:center;font-size:13px;color:#1D9E75;margin-top:.5rem;cursor:pointer;text-decoration:none}
-.forgot-link:hover{text-decoration:underline}
-
-/* Auth tabs */
-.auth-tabs{display:flex;margin-bottom:1.25rem;border-radius:10px;overflow:hidden;border:1px solid #D0D0D0}
-.auth-tab{flex:1;padding:.7rem;text-align:center;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:#666;transition:all .15s}
-.auth-tab.active{background:#1D9E75;color:#fff}
-
-/* Hero */
-.hero{text-align:center;padding:.75rem 0 1.25rem}
-.hero-icon{width:56px;height:56px;background:#E6F7F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
-.hero-title{font-size:22px;font-weight:700;color:#1C1C1C;margin-bottom:.4rem}
-.hero-sub{font-size:14px;color:#666;line-height:1.6}
-/* ROVO logo elements */
-.rovo-wordmark{display:flex;align-items:center;gap:0}
-.rovo-wordmark-img{height:32px;width:auto}
-.rovo-icon-img{height:36px;width:36px;border-radius:8px}
-.rovo-hero-wordmark{height:44px;width:auto;display:block;margin:0 auto .75rem}
-.rovo-bar-logo{display:flex;align-items:center;gap:.5rem}
-.rovo-bar-icon{height:28px;width:28px;border-radius:7px;flex-shrink:0}
-.rovo-bar-name{font-family:"Poppins",sans-serif;font-weight:700;font-size:17px;color:#fff;letter-spacing:-.3px}
-
-.nav-row{display:flex;gap:.65rem;margin-top:1rem}
-.divider{border:none;border-top:1px solid #E0E0E0;margin:1rem 0}
-.section-lbl{font-size:11px;font-weight:600;color:#16836A;letter-spacing:.5px;background:#E6F7F2;border-radius:6px;padding:.3rem .65rem;display:inline-block;margin:.85rem 0 .6rem}
-.share-msg{background:#F5F5F5;border-radius:9px;padding:.75rem;font-size:13px;color:#1C1C1C;line-height:1.6;margin-top:.75rem}
-.wd-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #F5F5F5}
+.divider{border:none;border-top:1px solid var(--border);margin:1rem 0}
+.wd-hist-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid #F5F5F5}
 .wd-hist-row:last-child{border:none}
+.forgot-link{display:block;text-align:center;font-size:13px;color:var(--teal);margin-top:.6rem;cursor:pointer;font-weight:500}
+.forgot-link:hover{text-decoration:underline}
+.warning-box{background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:.85rem 1rem;font-size:13px;color:#795548;line-height:1.6;margin-bottom:1rem}
+.warning-box strong{color:#5D4037}
 
-/* OTP styles */
-.otp-steps{display:flex;gap:6px;align-items:center;margin-bottom:1rem}
-.otp-step{display:flex;align-items:center;gap:5px;font-size:12px;color:#888}
-.otp-step.done{color:#16836A;font-weight:600}
-.otp-step.active{color:#1D9E75;font-weight:600}
-.otp-dot{width:22px;height:22px;border-radius:50%;background:#E0E0E0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
-.otp-dot.done{background:#16836A}
-.otp-dot.active{background:#1D9E75}
-.otp-arrow{color:#A8DDD0;font-size:14px}
-.otp-input-row{display:flex;gap:.5rem}
-.otp-input-row input{flex:1;text-align:center;font-size:26px;font-weight:700;letter-spacing:6px;padding:.65rem .5rem;border-radius:10px;border:2px solid #D0D0D0}
-.otp-input-row input:focus{border-color:#1D9E75;box-shadow:0 0 0 3px rgba(29,158,117,.15)}
-.otp-timer{font-size:12px;color:#888;text-align:center;margin-top:.5rem}
-.otp-timer.urgent{color:#C62828;font-weight:600}
-.resend-btn{background:none;border:none;color:#1D9E75;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
-.resend-btn:disabled{color:#888;cursor:not-allowed;text-decoration:none}
-.verified-badge{display:inline-flex;align-items:center;gap:5px;background:#E6F7F2;border:1px solid #80CEB8;border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;color:#16836A}
+/* ── COMPLETE SCREEN ── */
+.complete-hero{background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:20px;padding:1.75rem;text-align:center;color:#fff;margin-bottom:1rem;box-shadow:0 8px 32px rgba(29,158,117,.3)}
+.complete-icon{width:64px;height:64px;border-radius:18px;display:block;margin:0 auto 1rem}
+.ref-code-box{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-top:.85rem}
+.ref-code-val{font-size:22px;font-weight:800;letter-spacing:3px;font-family:var(--font-head)}
+.ref-copy-btn{background:rgba(255,255,255,.9);color:var(--teal-d);border:none;border-radius:8px;padding:.4rem .9rem;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body)}
 </style>
 </head>
 <body>
-<div class="app">
 
+<!-- ════════ WELCOME POPUP ════════ -->
+<div class="modal-overlay" id="welcome-modal">
+  <div class="modal-sheet" style="max-height:90vh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div style="text-align:center;margin-bottom:1rem">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:38px;width:auto;display:block;margin:0 auto">
+    </div>
+    <div style="background:linear-gradient(135deg,var(--teal-l),#fff);border:1px solid #A8DDD0;border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem">
+      <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--teal-d);margin-bottom:.5rem">What is rovo and why does your opinion matter?</div>
+      <div style="font-size:13px;color:var(--ink-2);line-height:1.7">rovo is a Lagos delivery startup building a platform where <strong>students earn money</strong> doing deliveries around their campus. We are not built yet. Before we build, we need to understand <em>you</em> &#8212; your income, your concerns, and what would make you say yes or no. Your honest answers shape the product. <strong style="color:var(--teal-d)">Every respondent gets paid.</strong></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1rem">
+      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+        <div style="width:30px;height:30px;border-radius:8px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg></div>
+        <div><div style="font-size:12px;font-weight:700">5 minutes</div><div style="font-size:11px;color:var(--ink-3)">Quick questions</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+        <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div><div style="font-size:12px;font-weight:700">Earn &#8358;50</div><div style="font-size:11px;color:var(--ink-3)">Paid to your account</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+        <div style="width:30px;height:30px;border-radius:8px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><div style="font-size:12px;font-weight:700">Refer &amp; earn</div><div style="font-size:11px;color:var(--ink-3)">&#8358;50 per friend</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+        <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+        <div><div style="font-size:12px;font-weight:700">Min &#8358;<span class="popup-min-wd">1,000</span></div><div style="font-size:11px;color:var(--ink-3)">To withdraw</div></div>
+      </div>
+    </div>
+    <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:.8rem 1rem;font-size:13px;color:#795548;line-height:1.55;margin-bottom:1.1rem">
+      <strong style="color:#5D4037">&#9888; Important:</strong> Use your <strong>real name, email and phone</strong>. Wrong details delay or block your payout. One account per person.
+    </div>
+    <button class="btn btn-primary" onclick="startSurveyFromPopup()">Start survey &amp; earn &#8358;50</button>
+    <div style="text-align:center;margin-top:.65rem">
+      <span style="font-size:13px;color:var(--ink-3)">Already have an account?</span>
+      <a href="#" onclick="closeWelcomeModal();show('screen-login');return false" style="font-size:13px;color:var(--teal);font-weight:600;margin-left:.3rem">Log in</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════ PAYOUT OTP MODAL ════════ -->
+<div class="modal-overlay" id="payout-otp-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-icon" style="background:var(--teal-l)">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <div style="font-family:var(--font-head);font-size:18px;font-weight:700;text-align:center;margin-bottom:.35rem">Verify your email</div>
+    <div style="font-size:13px;color:var(--ink-3);text-align:center;line-height:1.6;margin-bottom:1.1rem">We need to verify your email before your first payout. A 6-digit code has been sent to<br><strong id="payout-otp-email" style="color:var(--teal)">your email</strong></div>
+    <input type="number" id="payout-otp-input" class="otp-big-input" placeholder="000000" maxlength="6"
+      oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
+      onkeydown="if(event.key==='Enter')doVerifyPayoutOTP()">
+    <div class="field-note" id="payout-otp-note" style="text-align:center;margin:.5rem 0"></div>
+    <div class="otp-countdown-wrap" style="margin-bottom:1rem">
+      Code expires in <strong id="payout-otp-countdown" style="color:var(--teal)">10:00</strong>
+      &nbsp;·&nbsp;
+      <button class="resend-btn" id="payout-resend-btn" onclick="doResendPayoutOTP()" disabled>Resend (wait 60s)</button>
+    </div>
+    <button class="btn btn-primary" id="btn-verify-payout-otp" onclick="doVerifyPayoutOTP()">Verify &amp; continue to payout</button>
+    <button class="btn btn-outline" onclick="closePayoutOTPModal()" style="margin-top:0">Cancel</button>
+  </div>
+</div>
+
+<div class="app">
   <div id="toast" class="toast"></div>
 
-  <!-- ════════ SCREEN: AUTH (Login / Register) ════════ -->
+  <!-- ════════ SCREEN: AUTH ════════ -->
   <div id="screen-auth" class="screen active">
-    <div class="hero" style="padding:.5rem 0 1.25rem">
-      <!-- ROVO wordmark — full brand on homepage -->
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:50px;width:auto;display:block;margin:0 auto .85rem">
-      <div class="hero-sub">Complete the survey &amp; earn <strong style="color:#1D9E75;font-family:'Poppins',sans-serif">&#8358;50</strong>. Refer friends &amp; earn <strong style="color:#1D9E75;font-family:'Poppins',sans-serif">&#8358;50</strong> each.</div>
+    <div class="hero" style="padding:2.5rem 0 1.5rem;text-align:center">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:56px;width:auto;display:block;margin:0 auto 1rem">
+      <div style="font-size:15px;color:var(--ink-3);line-height:1.6">Fill a short survey. Earn <strong style="color:var(--teal)">&#8358;50</strong>.<br>Get paid to your bank or wallet.</div>
     </div>
-
-    <div class="sgrid">
-      <div class="scard" style="text-align:center"><div class="slbl">Paid Via</div><div class="sval green">Bank Transfer</div></div>
-      <div class="scard" style="text-align:center"><div class="slbl">Min Withdrawal</div><div class="sval green">₦1,000</div></div>
-    </div>
-
-    <div class="auth-tabs">
-      <div class="auth-tab active" id="at-register" onclick="switchAuth('register')">Join rovo</div>
-      <div class="auth-tab" id="at-login" onclick="switchAuth('login')">Log in</div>
-    </div>
-
-    <!-- Register form — 2 STEPS: details first, then verify email -->
-    <div id="auth-register">
-
-      <!-- STEP 1: All details -->
-      <div id="reg-step1">
-        <div class="card">
-          <div class="fg">
-            <label class="fl">Full name <span class="req">*</span></label>
-            <input type="text" id="r-name" placeholder="e.g. Amaka Okonkwo" autocomplete="name">
-          </div>
-          <div class="fg">
-            <label class="fl">Email address <span class="req">*</span></label>
-            <input type="email" id="r-email" placeholder="e.g. amaka@gmail.com" oninput="liveCheckEmail()" autocomplete="email">
-            <div class="field-note" id="r-email-note"></div>
-          </div>
-          <div class="fg">
-            <label class="fl">Password <span class="req">*</span> <span style="font-weight:400;color:#888">(min 6 characters)</span></label>
-            <div class="pw-wrap">
-              <input type="password" id="r-password" placeholder="Choose a password" autocomplete="new-password">
-              <button class="pw-toggle" type="button" onclick="togglePw('r-password',this)">Show</button>
-            </div>
-          </div>
-          <div class="fg">
-            <label class="fl">Confirm password <span class="req">*</span></label>
-            <div class="pw-wrap">
-              <input type="password" id="r-password2" placeholder="Repeat your password" autocomplete="new-password">
-              <button class="pw-toggle" type="button" onclick="togglePw('r-password2',this)">Show</button>
-            </div>
-            <div class="field-note" id="r-pw2-note"></div>
-          </div>
-          <div class="fg">
-            <label class="fl">Phone number <span class="req">*</span></label>
-            <input type="tel" id="r-phone" placeholder="e.g. 08012345678" oninput="liveCheckPhone()" autocomplete="tel">
-            <div class="field-note" id="r-phone-note"></div>
-          </div>
-          <div class="fg">
-            <label class="fl">School / University <span class="req">*</span></label>
-            <input type="text" id="r-school" placeholder="e.g. UNILAG, LASU, Yabatech">
-          </div>
-          <div class="fg" style="margin-bottom:0">
-            <label class="fl">Referral code <span style="font-weight:400;color:#888">(optional)</span></label>
-            <input type="text" id="r-ref" placeholder="e.g. DB-AMAKA123" style="text-transform:uppercase" oninput="liveCheckRef(this)">
-            <div class="field-note" id="r-ref-note"></div>
-          </div>
-        </div>
-        <button class="btn btn-green" id="btn-send-otp" onclick="doSendOTP()">Continue &#8212; verify my email</button>
-        <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">We will send a 6-digit code to your email. One account per person only.</p>
-      </div>
-
-      <!-- STEP 2: OTP verification -->
-      <div id="reg-step2" style="display:none">
-        <div class="card">
-          <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Step 2 &#8212; Verify your email</div>
-          <div style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">We sent a 6-digit code to <strong id="otp-sent-to" style="color:#1D9E75">your email</strong>. Enter it to complete your registration.</div>
-          <input type="number" id="otp-code" placeholder="000000" maxlength="6"
-            style="text-align:center;font-size:28px;font-weight:700;letter-spacing:8px;padding:.75rem;width:100%"
-            oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
-            onkeydown="if(event.key==='Enter')doVerifyOTP()">
-          <div class="field-note" id="otp-code-note" style="text-align:center;margin-top:.5rem"></div>
-          <div style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
-            Code expires in <strong id="otp-countdown-reg" style="color:#1D9E75">10:00</strong>
-          </div>
-          <div style="text-align:center;margin-top:.65rem">
-            <button class="resend-btn" id="resend-btn" onclick="doResendOTP()" disabled>Resend code (wait 60s)</button>
-          </div>
-        </div>
-        <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify &amp; join rovo</button>
-        <button class="btn btn-outline" onclick="backToStep1()">&#8592; Back &amp; edit details</button>
-        <p style="font-size:12px;color:#888;text-align:center;margin-top:.35rem;line-height:1.6">Can't find it? Check your spam/junk folder.</p>
-      </div>
-
-    </div>
-
-
-    <!-- Login form -->
-    <div id="auth-login" style="display:none">
-      <div class="card">
-        <div class="fg">
-          <label class="fl">Email address <span class="req">*</span></label>
-          <input type="email" id="l-email" placeholder="The email you registered with" autocomplete="email">
-        </div>
-        <div class="fg" style="margin-bottom:0">
-          <label class="fl">Password <span class="req">*</span></label>
-          <div class="pw-wrap">
-            <input type="password" id="l-password" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-            <button class="pw-toggle" type="button" onclick="togglePw('l-password',this)">Show</button>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-green" id="btn-login" onclick="doLogin()">Log in to my account</button>
-      <a class="forgot-link" onclick="showForgotPassword()">Forgot your password? Reset it here</a>
-      <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem">Don't have an account? <a href="#" onclick="switchAuth('register');return false" style="color:#1D9E75">Create one above.</a></p>
+    <button class="btn btn-primary" onclick="openWelcomeModal()" style="font-size:16px;padding:1rem;margin-bottom:.75rem">Start survey &amp; earn &#8358;50 &#8594;</button>
+    <div style="text-align:center;margin-bottom:2rem">
+      <span style="font-size:13px;color:var(--ink-3)">Already have an account?</span>
+      <a href="#" onclick="show('screen-login');return false" style="font-size:13px;color:var(--teal);font-weight:600;margin-left:.3rem">Log in here</a>
     </div>
   </div>
 
-
-  <!-- ════════ SCREEN: OTP VERIFICATION ════════ -->
-  <div id="screen-otp" class="screen">
-    <div style="text-align:center;padding:.75rem 0 1.25rem">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" style="width:48px;height:48px;border-radius:12px;display:block;margin:0 auto .75rem">
-      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem;font-family:'Poppins',sans-serif">Check your email</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">We sent a 6-digit code to<br><strong id="otp-email-display" style="color:#1D9E75">your email</strong></div>
+  <!-- ════════ SCREEN: LOGIN ════════ -->
+  <div id="screen-login" class="screen">
+    <div style="text-align:center;padding:1.5rem 0 1rem">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" style="width:52px;height:52px;border-radius:14px;display:block;margin:0 auto .85rem">
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:.3rem">Welcome back</div>
+      <div style="font-size:13px;color:var(--ink-3)">Log in to your rovo account</div>
     </div>
-
     <div class="card">
-      <label class="fl" style="text-align:center;display:block;margin-bottom:.85rem;font-size:13px;color:#666">Enter the 6-digit verification code</label>
-      <input type="number" id="otp-input" placeholder="_ _ _ _ _ _"
-        style="text-align:center;font-size:28px;font-weight:700;letter-spacing:8px;padding:.75rem"
-        maxlength="6" oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
-      <div class="field-note" id="otp-note" style="text-align:center;margin-top:.5rem"></div>
-
-      <div id="otp-timer" style="text-align:center;font-size:13px;color:#888;margin-top:.65rem">
-        Code expires in <strong id="otp-countdown" style="color:#1D9E75">10:00</strong>
+      <div class="fg">
+        <label class="fl">Email address <span class="req">*</span></label>
+        <input type="email" id="l-email" placeholder="The email you registered with" autocomplete="email">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="fl">Password <span class="req">*</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="l-password" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+          <button class="pw-toggle" type="button" onclick="togglePw('l-password',this)">Show</button>
+        </div>
       </div>
     </div>
-
-    <button class="btn btn-green" id="btn-verify-otp" onclick="doVerifyOTP()">Verify my email</button>
-    <button class="btn btn-outline" id="btn-resend-otp" onclick="doResendOTP()" style="margin-top:0">Send a new code</button>
-    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('register')" style="margin-top:0;font-size:13px;color:#888">← Back to registration</button>
-
-    <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">
-      Can't find it? Check your <strong>spam/junk folder</strong>. The code is valid for 10 minutes.
-    </p>
+    <button class="btn btn-primary" id="btn-login" onclick="doLogin()">Log in to my account</button>
+    <a class="forgot-link" onclick="showForgotPassword()">Forgot your password? Reset it here</a>
+    <button class="btn btn-outline" onclick="show('screen-auth')" style="margin-top:.5rem;font-size:13px">&#8592; Back</button>
   </div>
-
 
 
   <!-- ════════ SCREEN: FORGOT PASSWORD ════════ -->
   <div id="screen-forgot" class="screen">
-    <div style="text-align:center;padding:.75rem 0 1.25rem">
-      <div class="hero-icon" style="background:#FFF3E0;margin:0 auto .75rem">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <div style="text-align:center;padding:1.5rem 0 1.25rem">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--amber-l);display:flex;align-items:center;justify-content:center;margin:0 auto .85rem">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
       </div>
-      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Reset your password</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">Enter the email address you registered with. We will send you a code to reset your password.</div>
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:.4rem">Reset your password</div>
+      <div style="font-size:14px;color:var(--ink-3);line-height:1.65">Enter your registered email. We'll send a reset code.</div>
     </div>
     <div class="card">
       <div class="fg" style="margin-bottom:0">
@@ -362,30 +367,27 @@ textarea{resize:vertical;min-height:76px}
         <div class="field-note" id="fp-email-note"></div>
       </div>
     </div>
-    <button class="btn btn-green" id="btn-fp-send" onclick="doSendResetOTP()">Send reset code to my email</button>
-    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')" style="margin-top:0">← Back to login</button>
+    <button class="btn btn-primary" id="btn-fp-send" onclick="doSendResetOTP()">Send reset code</button>
+    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')">&#8592; Back to login</button>
   </div>
 
   <!-- ════════ SCREEN: RESET PASSWORD ════════ -->
   <div id="screen-reset" class="screen">
-    <div style="text-align:center;padding:.75rem 0 1.25rem">
-      <div class="hero-icon" style="background:#E6F7F2;margin:0 auto .75rem">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+    <div style="text-align:center;padding:1.5rem 0 1.25rem">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin:0 auto .85rem">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
       </div>
-      <div style="font-size:20px;font-weight:700;margin-bottom:.4rem">Create new password</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">Enter the 6-digit code sent to <strong id="reset-email-display" style="color:#1D9E75">your email</strong>, then choose a new password.</div>
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:.4rem">Create new password</div>
+      <div style="font-size:14px;color:var(--ink-3);line-height:1.65">Enter the 6-digit code sent to <strong id="reset-email-display" style="color:var(--teal)">your email</strong>.</div>
     </div>
-
     <div class="card">
       <div class="fg">
         <label class="fl">6-digit reset code <span class="req">*</span></label>
-        <input type="number" id="rp-code" placeholder="Enter code from email"
-          style="text-align:center;font-size:22px;font-weight:700;letter-spacing:6px"
-          maxlength="6" oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+        <input type="number" id="rp-code" placeholder="Enter code from email" style="text-align:center;font-size:22px;font-weight:700;letter-spacing:6px" maxlength="6" oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
         <div class="field-note" id="rp-code-note"></div>
       </div>
       <div class="fg">
-        <label class="fl">New password <span class="req">*</span> <span style="font-weight:400;color:#888">(min 6 characters)</span></label>
+        <label class="fl">New password <span class="req">*</span></label>
         <div class="pw-wrap">
           <input type="password" id="rp-password" placeholder="Choose a new password" autocomplete="new-password">
           <button class="pw-toggle" type="button" onclick="togglePw('rp-password',this)">Show</button>
@@ -400,78 +402,80 @@ textarea{resize:vertical;min-height:76px}
         <div class="field-note" id="rp-match-note"></div>
       </div>
     </div>
-
-    <div id="rp-timer-wrap" style="text-align:center;font-size:13px;color:#888;margin-bottom:.75rem">
-      Code expires in <strong id="rp-countdown" style="color:#1D9E75">10:00</strong>
-    </div>
-
-    <button class="btn btn-green" id="btn-rp-submit" onclick="doResetPassword()">Set new password</button>
-    <button class="btn btn-outline" id="btn-rp-resend" onclick="doResendResetOTP()" style="margin-top:0">Send a new code</button>
-    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')" style="margin-top:0;font-size:13px;color:#888">← Back to login</button>
-
-    <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">Check your spam/junk folder if you don't see it.</p>
+    <div style="text-align:center;font-size:13px;color:var(--ink-3);margin-bottom:.85rem">Code expires in <strong id="rp-countdown" style="color:var(--teal)">10:00</strong></div>
+    <button class="btn btn-primary" id="btn-rp-submit" onclick="doResetPassword()">Set new password</button>
+    <button class="btn btn-outline" id="btn-rp-resend" onclick="doResendResetOTP()">Send a new code</button>
+    <button class="btn btn-outline" onclick="show('screen-auth');switchAuth('login')" style="font-size:13px;color:var(--ink-3)">&#8592; Back to login</button>
   </div>
 
-  <!-- ════════ SCREEN: SURVEY ════════ -->
+  <!-- SCREEN: SURVEY — all questions on one page -->
   <div id="screen-survey" class="screen">
-    <div class="wallet-bar">
-      <div>
-        <div class="wl">Wallet balance</div>
-        <div class="wa">₦<span id="sv-bal">0</span></div>
-        <div class="ws">+₦50 when you submit</div>
+    <div class="sv-header">
+      <div class="sv-header-row">
+        <div><div class="sv-label">rovo Student Survey</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-top:2px">Earn &#8358;50</div></div>
+        <div style="text-align:right"><div class="sv-label">Total questions</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff">10</div></div>
       </div>
-      <div style="text-align:right">
-        <div class="wl">Progress</div>
-        <div class="wa" style="font-size:20px"><span id="sv-qn">1</span>/10</div>
-        <div class="ws">questions</div>
-      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.5rem">Answer all questions honestly then tap Continue at the bottom</div>
     </div>
-    <div class="prog-track"><div class="prog-bar" id="sv-prog" style="width:10%"></div></div>
-    <div class="prog-meta">
-      <span id="sv-prog-lbl">Question 1 of 10</span>
-      <span id="sv-prog-pct" style="color:#1D9E75;font-weight:600">10%</span>
-    </div>
-    <div id="q-container" style="margin-top:1rem"></div>
-    <div class="nav-row">
-      <button class="btn btn-outline" id="btn-prev" onclick="prevQ()" style="display:none;width:auto;padding:.8rem 1.2rem">← Back</button>
-      <button class="btn btn-green" id="btn-next" onclick="nextQ()" style="flex:1">Next →</button>
+    <div id="q-container"></div>
+    <div style="margin-top:1rem">
+      <button class="btn btn-primary" id="btn-next" onclick="collectAndContinue()" style="font-size:16px;padding:1rem">Continue &#8594;</button>
     </div>
   </div>
 
-  <!-- ════════ SCREEN: SUBMITTING ════════ -->
+  <!-- SCREEN: REGISTER (after survey) -->
+  <div id="screen-register" class="screen">
+    <div style="background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:20px;padding:1.25rem 1.4rem;margin-bottom:1rem;color:#fff;text-align:center;box-shadow:0 4px 20px rgba(29,158,117,.3)">
+      <div style="font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Almost done!</div>
+      <div style="font-family:var(--font-head);font-size:20px;font-weight:800">Create your account</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:.3rem">Your survey answers are saved. Create an account to get your &#8358;50.</div>
+    </div>
+    <div class="card">
+      <div class="fg"><label class="fl">Full name <span class="req">*</span></label><input type="text" id="r-name" placeholder="e.g. Amaka Okonkwo" autocomplete="name"></div>
+      <div class="fg"><label class="fl">Email address <span class="req">*</span></label><input type="email" id="r-email" placeholder="e.g. amaka@gmail.com" oninput="liveCheckEmail()" autocomplete="email"><div class="field-note" id="r-email-note"></div></div>
+      <div class="fg"><label class="fl">Password <span class="req">*</span> <span style="font-weight:400;color:var(--ink-3)">(min 6 chars)</span></label><div class="pw-wrap"><input type="password" id="r-password" placeholder="Choose a password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password',this)">Show</button></div></div>
+      <div class="fg"><label class="fl">Confirm password <span class="req">*</span></label><div class="pw-wrap"><input type="password" id="r-password2" placeholder="Repeat your password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password2',this)">Show</button></div><div class="field-note" id="r-pw2-note"></div></div>
+      <div class="fg"><label class="fl">Phone number <span class="req">*</span></label><input type="tel" id="r-phone" placeholder="e.g. 08012345678" oninput="liveCheckPhone()" autocomplete="tel"><div class="field-note" id="r-phone-note"></div></div>
+      <div class="fg"><label class="fl">School / University <span class="req">*</span></label><input type="text" id="r-school" placeholder="e.g. UNILAG, LASU, Yabatech"></div>
+      <div class="fg" style="margin-bottom:0"><label class="fl">Referral code <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label><input type="text" id="r-ref" placeholder="e.g. DB-AMAKA123" style="text-transform:uppercase" oninput="liveCheckRef(this)"><div class="field-note" id="r-ref-note"></div></div>
+    </div>
+    <div class="warning-box"><strong>&#9888; Use your real details.</strong> Your name, email and phone are used to process your &#8358;50 payout. Fake details block your account permanently.</div>
+    <button class="btn btn-primary" id="btn-final-submit" onclick="doRegisterAndSubmit()" style="font-size:16px;padding:1rem">Submit &amp; claim my &#8358;50</button>
+    <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:.5rem;line-height:1.6">One account per person only.</p>
+  </div>
+
+  <!-- SCREEN: SUBMITTING -->
   <div id="screen-submitting" class="screen">
-    <div style="text-align:center;padding:3rem 1rem">
-      <div style="width:60px;height:60px;border:4px solid #E6F7F2;border-top-color:#1D9E75;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem"></div>
-      <div style="font-size:18px;font-weight:600;margin-bottom:.5rem">Submitting your answers...</div>
-      <div style="font-size:14px;color:#666">Saving responses and crediting your wallet</div>
+    <div style="text-align:center;padding:4rem 1rem">
+      <div style="width:64px;height:64px;border:4px solid var(--teal-l);border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 1.5rem"></div>
+      <div style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:.5rem">Creating your account...</div>
+      <div style="font-size:14px;color:var(--ink-3)">Saving answers and crediting &#8358;50 to your wallet</div>
     </div>
   </div>
+
 
   <!-- ════════ SCREEN: SURVEY COMPLETE ════════ -->
   <div id="screen-complete" class="screen">
-    <div style="text-align:center;margin-bottom:1.25rem">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" style="width:56px;height:56px;border-radius:14px;display:block;margin:0 auto .85rem">
-      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem;font-family:'Poppins',sans-serif">Survey complete!</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">₦50 credited to your wallet. Share your link to keep earning — every friend earns you ₦50 more.</div>
-    </div>
-    <div class="wallet-bar">
-      <div><div class="wl">Balance</div><div class="wa">₦<span id="done-bal">50</span></div></div>
-      <div style="text-align:right"><div class="wl">Total earned</div><div class="wa" style="font-size:18px">₦<span id="done-total">50</span></div></div>
+    <div class="complete-hero">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" alt="rovo" class="complete-icon">
+      <div style="font-family:var(--font-head);font-size:24px;font-weight:800;margin-bottom:.3rem">Survey complete!</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.8);margin-bottom:.5rem">₦50 credited to your wallet</div>
+      <div style="font-size:28px;font-weight:800;font-family:var(--font-head)">₦<span id="done-bal">50</span></div>
+      <div class="ref-code-box">
+        <div><div style="font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px">Your referral code</div><div class="ref-code-val" id="done-mycode">DB-XXXXX</div></div>
+        <button class="ref-copy-btn" onclick="copyCode('done-mycode')">Copy</button>
+      </div>
     </div>
     <div class="card">
-      <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Refer friends — earn ₦50 each</div>
-      <div style="font-size:13px;color:#666;margin-bottom:.85rem">When a friend opens your personal link and completes the survey, you both earn ₦50 instantly.</div>
-      <div class="ref-box">
-        <div><div style="font-size:11px;color:#16836A;margin-bottom:2px">Your referral code</div><div class="ref-code" id="done-mycode">DB-XXXXX</div></div>
-        <button class="btn-sm" onclick="copyCode('done-mycode')">Copy</button>
-      </div>
-      <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
+      <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:.4rem">Earn more — refer friends</div>
+      <div style="font-size:13px;color:var(--ink-3);margin-bottom:.85rem;line-height:1.6">Share your personal link. When a friend opens it, your referral code fills in automatically. You earn ₦50 when they complete the survey.</div>
+      <button class="btn-wa" onclick="shareOnWhatsApp()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Share on WhatsApp &amp; earn more
+        Share on WhatsApp &amp; earn ₦50 per friend
       </button>
-      <button class="btn-outline" onclick="copyReferralLink()" style="margin-top:0;font-size:13px">Copy referral link</button>
+      <button class="btn btn-outline" onclick="copyReferralLink()" style="margin-top:0;font-size:13px">Copy referral link</button>
     </div>
-    <button class="btn btn-green" onclick="goDashboard()" style="margin-top:.5rem">Go to my dashboard</button>
+    <button class="btn btn-primary" onclick="goDashboard()">Go to my dashboard</button>
   </div>
 
   <!-- ════════ SCREEN: DASHBOARD ════════ -->
@@ -479,141 +483,215 @@ textarea{resize:vertical;min-height:76px}
 
     <!-- Top bar -->
     <div class="top-bar">
-      <div class="rovo-bar-logo"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" class="rovo-bar-icon" alt="rovo"></div>
+      <div class="rovo-bar-logo">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDwhLS0gR3JlZW4gcm91bmRlZCBzcXVhcmUgLS0+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI5MiIgZmlsbD0iIzFEOUU3NSIvPgogIDwhLS0gV2hpdGUgciDigJQgbGVmdC1hbmNob3JlZCwgdmVydGljYWxseSBjZW50cmVkIC0tPgogIDx0ZXh0IHg9IjQxIiB5PSI0MDAiIGNsYXNzPSJybSIgZm9udC1zaXplPSIzNjkiIGZpbGw9IiNGRkZGRkYiPnI8L3RleHQ+CiAgPCEtLSBXaGl0ZSBkb3Qg4oCUIHRvcC1yaWdodCBpbnNpZGUgY29ybmVyIC0tPgogIDxjaXJjbGUgY3g9IjQyMCIgY3k9IjkyIiByPSIzOCIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4=" class="rovo-bar-icon" alt="rovo">
+        <span class="rovo-bar-name">rovo</span>
+      </div>
       <div style="display:flex;align-items:center;gap:.65rem">
         <div class="top-user" id="db-user-info">...</div>
         <button class="top-logout" onclick="doLogout()">Log out</button>
       </div>
     </div>
 
-    <div class="tabs">
-      <div class="tab active" id="tab-btn-home"     onclick="switchTab('home')">Home</div>
-      <div class="tab"       id="tab-btn-referrals" onclick="switchTab('referrals')">Referrals</div>
-      <div class="tab"       id="tab-btn-withdraw"  onclick="switchTab('withdraw')">Withdraw</div>
+    <!-- Tabs -->
+    <div class="dash-tabs">
+      <button class="dash-tab active" id="tab-btn-home"      onclick="switchTab('home')">&#127968; Home</button>
+      <button class="dash-tab"        id="tab-btn-referrals" onclick="switchTab('referrals')">&#128279; Refer</button>
+      <button class="dash-tab"        id="tab-btn-withdraw"  onclick="switchTab('withdraw')">&#128176; Withdraw</button>
     </div>
 
     <!-- ── HOME TAB ── -->
     <div id="tab-home">
-      <div class="wallet-bar">
-        <div>
-          <div class="wl">Available balance</div>
-          <div class="wa">₦<span id="db-balance">0</span></div>
-          <div class="ws" id="db-withdraw-note">Earn more to withdraw</div>
-        </div>
-        <div style="text-align:right">
-          <div class="wl">Total earned</div>
-          <div class="wa" style="font-size:17px">₦<span id="db-total">0</span></div>
+      <!-- Balance hero card -->
+      <div class="balance-hero">
+        <div class="balance-label">Available balance</div>
+        <div class="balance-amount">₦<span id="db-balance">0</span></div>
+        <div class="balance-note" id="db-withdraw-note">Earn more to withdraw</div>
+        <div class="balance-stats">
+          <div><div class="bstat-label">Earned</div><div class="bstat-val">₦<span id="db-total">0</span></div></div>
+          <div><div class="bstat-label">Refs</div><div class="bstat-val"><span id="db-ref-count">0</span></div></div>
+          <div><div class="bstat-label">Withdrawn</div><div class="bstat-val">₦<span id="db-withdrawn">0</span></div></div>
         </div>
       </div>
 
+      <!-- Survey CTA -->
       <div id="survey-cta" style="display:none">
-        <div class="card" style="border:2px solid #1D9E75;text-align:center">
-          <div style="font-size:15px;font-weight:600;color:#1D9E75;margin-bottom:.35rem">Complete your survey</div>
-          <div style="font-size:13px;color:#666;margin-bottom:.85rem">Answer 10 questions and earn ₦50 in your wallet.</div>
-          <button class="btn btn-green" onclick="startSurvey()" style="margin-bottom:0">Start survey now →</button>
+        <div class="cta-card" style="background:linear-gradient(135deg,#FFF8E1,#FFF3E0);border:1.5px solid #FFD54F" onclick="startSurvey()">
+          <div class="cta-card-icon" style="background:#FFF176">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F57F17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div class="cta-card-text">
+            <div class="title" style="color:#E65100">Complete your survey</div>
+            <div class="sub" style="color:#BF360C">10 questions · earn ₦50 instantly</div>
+          </div>
+          <svg class="cta-card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </div>
       </div>
 
+      <!-- Survey done banner -->
       <div id="survey-done-banner" style="display:none">
-        <div class="card" style="background:#E6F7F2;border-color:#80CEB8;text-align:center">
-          <div style="font-size:13px;font-weight:600;color:#1D9E75">✓ Survey completed — ₦50 earned!</div>
-          <div style="font-size:12px;color:#16836A;margin-top:3px">Share your referral code to keep earning.</div>
+        <div style="background:var(--teal-l);border:1px solid #A8DDD0;border-radius:12px;padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--teal-d);font-family:var(--font-head)">Survey completed — ₦50 earned!</div>
+            <div style="font-size:12px;color:var(--teal-d);margin-top:2px">Share your code to keep earning</div>
+          </div>
         </div>
       </div>
 
-      <div class="sgrid">
-        <div class="scard"><div class="slbl">Ref earnings</div><div class="sval green">₦<span id="db-ref-earned">0</span></div></div>
-        <div class="scard"><div class="slbl">Friends referred</div><div class="sval"><span id="db-ref-count">0</span></div></div>
-        <div class="scard"><div class="slbl">Total withdrawn</div><div class="sval">₦<span id="db-withdrawn">0</span></div></div>
-        <div class="scard"><div class="slbl">Your ref code</div><div class="sval" style="font-size:14px" id="db-code">—</div></div>
+      <!-- Ref code quick access -->
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.1rem">
+        <div>
+          <div style="font-size:11px;color:var(--ink-3);font-weight:500;margin-bottom:2px">Your referral code</div>
+          <div style="font-size:18px;font-weight:800;letter-spacing:2px;color:var(--teal);font-family:var(--font-head)" id="db-code">—</div>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn-sm" onclick="copyCode('db-code')">Copy</button>
+          <button class="btn-sm" onclick="shareOnWhatsApp()" style="background:#25D366">Share</button>
+        </div>
       </div>
 
+      <!-- Transaction history -->
       <div class="card">
-        <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">Transaction history</div>
-        <div id="db-tx-list"><div style="text-align:center;padding:.75rem;font-size:13px;color:#888">Loading...</div></div>
+        <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:.85rem">Recent activity</div>
+        <div class="tx-list" id="db-tx-list">
+          <div style="text-align:center;padding:.75rem;font-size:13px;color:var(--ink-3)">Loading...</div>
+        </div>
       </div>
     </div>
 
     <!-- ── REFERRALS TAB ── -->
     <div id="tab-referrals" style="display:none">
-      <div class="card">
-        <div style="font-size:14px;font-weight:600;margin-bottom:.35rem">Your referral code</div>
-        <div class="ref-box">
-          <div><div style="font-size:11px;color:#16836A;margin-bottom:2px">Share this</div><div class="ref-code" id="ref-code-big">DB-XXXXX</div></div>
-          <button class="btn-sm" onclick="copyCode('ref-code-big')">Copy</button>
+      <!-- Hero ref code -->
+      <div class="ref-hero">
+        <div class="ref-hero-label">Your personal referral code</div>
+        <div class="ref-hero-code" id="ref-code-big">DB-XXXXX</div>
+        <div class="ref-hero-btns">
+          <button class="ref-hero-btn" onclick="copyCode('ref-code-big')">&#128203; Copy code</button>
+          <button class="ref-hero-btn" onclick="copyReferralLink()">&#128279; Copy link</button>
         </div>
-        <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.75rem">For every friend who completes the survey using your code, you <strong style="color:#1D9E75">both earn ₦50</strong>. No limit.</div>
-        <div style="background:#E6F7F2;border-radius:9px;padding:.75rem;font-size:13px;color:#1D9E75">Refer <strong><span id="cfg-ref-count-needed">10</span> friends</strong> to earn <span id="cfg-min-ref">₦500</span> — enough to withdraw without the survey!</div>
       </div>
-      <div class="card">
-        <div style="font-size:14px;font-weight:600;margin-bottom:.85rem">Share your personal link</div>
-        <div class="step-row"><div class="step-num">1</div><div style="font-size:13px;color:#555;line-height:1.5">Tap the WhatsApp button below — it opens WhatsApp with your personal link already written for you</div></div>
-        <div class="step-row"><div class="step-num">2</div><div style="font-size:13px;color:#555;line-height:1.5">Your friend opens the link — your referral code is automatically filled in at registration</div></div>
-        <div class="step-row"><div class="step-num">3</div><div style="font-size:13px;color:#555;line-height:1.5">They complete the survey — you both earn ₦50 immediately</div></div>
-        <button class="btn-whatsapp" onclick="shareOnWhatsApp()" style="margin-top:.85rem">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Share on WhatsApp
-        </button>
-        <button class="btn-outline" onclick="copyReferralLink()" style="margin-top:0;font-size:13px">Copy referral link</button>
-        <div class="share-msg" style="margin-top:.75rem">Your link: <span id="ref-link-preview" style="font-size:11px;color:#666;word-break:break-all">loading...</span></div>
+
+      <!-- Stats -->
+      <div class="ref-stats">
+        <div class="ref-stat-card">
+          <div class="ref-stat-num" id="ref-stat-count">0</div>
+          <div class="ref-stat-label">Friends referred</div>
+        </div>
+        <div class="ref-stat-card">
+          <div class="ref-stat-num">₦<span id="ref-stat-earned">0</span></div>
+          <div class="ref-stat-label">Referral earnings</div>
+        </div>
       </div>
+
+      <!-- WhatsApp CTA -->
+      <button class="btn-wa" onclick="shareOnWhatsApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Share on WhatsApp — earn ₦50 per friend
+      </button>
+
+      <!-- How it works -->
       <div class="card">
-        <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">My referrals</div>
-        <div id="ref-list"><div style="text-align:center;padding:.75rem;font-size:13px;color:#888">Loading...</div></div>
+        <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:.85rem">How referrals work</div>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-num">1</div>
+            <div class="how-text">Tap Share on WhatsApp — it opens WhatsApp with your personal link already written</div>
+          </div>
+          <div class="how-step">
+            <div class="how-num">2</div>
+            <div class="how-text">Your friend opens the link — your code is auto-filled at registration, no typing needed</div>
+          </div>
+          <div class="how-step">
+            <div class="how-num">3</div>
+            <div class="how-text">When they complete the survey, you earn ₦50 instantly — no limit on how many friends</div>
+          </div>
+        </div>
+        <div class="ref-link-box">Your link: <span id="ref-link-preview" style="color:var(--teal)">loading...</span></div>
+      </div>
+
+      <!-- Referral list -->
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:.75rem">My referrals</div>
+        <div class="tx-list" id="ref-list">
+          <div style="text-align:center;padding:.75rem;font-size:13px;color:var(--ink-3)">Loading...</div>
+        </div>
       </div>
     </div>
 
     <!-- ── WITHDRAW TAB ── -->
     <div id="tab-withdraw" style="display:none">
+
+      <!-- Locked view -->
       <div id="wd-locked-view">
-        <div class="lock-box">
-          <div class="lock-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div class="lock-card">
+          <div class="lock-ring">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           </div>
-          <div style="font-size:15px;font-weight:600;margin-bottom:.4rem">Minimum not reached yet</div>
-          <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:.85rem">You need <strong>₦<span id="cfg-min-lock">500</span></strong> to withdraw. Balance: <strong>₦<span id="wd-lock-bal">0</span></strong></div>
-          <div style="background:#FFF3E0;border-radius:9px;padding:.75rem;font-size:13px;color:#BF360C">Need ₦<span id="wd-lock-need">500</span> more — refer <strong><span id="wd-lock-refs">10</span> friends</strong> to unlock <strong>₦<span id="cfg-min-lock2">500</span></strong>.</div>
+          <div class="lock-title">Minimum not reached yet</div>
+          <div class="lock-sub">You need <strong>₦<span id="cfg-min-lock">1,000</span></strong> to withdraw.<br>Your balance: <strong>₦<span id="wd-lock-bal">0</span></strong></div>
+          <div class="lock-tip">Need ₦<span id="wd-lock-need">1,000</span> more — refer <strong><span id="wd-lock-refs">20</span> friends</strong> to reach ₦<span id="cfg-min-lock2">1,000</span>.</div>
         </div>
-        <button class="btn btn-outline" onclick="switchTab('referrals')">Refer friends to earn more</button>
+        <button class="btn btn-outline" onclick="switchTab('referrals')">&#128279; Refer friends to earn more</button>
       </div>
 
+      <!-- Unlocked view -->
       <div id="wd-unlocked-view" style="display:none">
-        <div class="wallet-bar" style="margin-bottom:1rem">
-          <div><div class="wl">Available to withdraw</div><div class="wa">₦<span id="wd-avail">0</span></div></div>
+        <div class="wd-avail-bar">
+          <div style="font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Available to withdraw</div>
+          <div style="font-size:32px;font-weight:800;font-family:var(--font-head)">₦<span id="wd-avail">0</span></div>
         </div>
-        <div class="card">
-          <div style="font-size:14px;font-weight:600;margin-bottom:1rem">Withdrawal details</div>
-          <div class="fg">
-            <label class="fl">Payment method <span class="req">*</span></label>
-            <select id="wd-method" onchange="toggleWdFields()">
-              <option value="">Select method</option>
-              <option value="bank">Bank transfer</option>
-              <option value="opay">OPay</option>
-              <option value="palmpay">PalmPay</option>
-              <option value="kuda">Kuda Bank</option>
-            </select>
+
+        <!-- Email verification notice (shows if not verified) -->
+        <div id="wd-verify-notice" style="display:none">
+          <div class="warning-box">
+            <strong>&#9993; Email verification required.</strong> Before your first withdrawal, we need to verify your email address. Tap below to receive a 6-digit code.
           </div>
-          <div id="wd-bank-fields" style="display:none">
-            <div class="fg"><label class="fl">Bank name <span class="req">*</span></label><input type="text" id="wd-bank" placeholder="e.g. GTBank, Access Bank"></div>
-            <div class="fg"><label class="fl">Account number <span class="req">*</span></label><input type="number" id="wd-acct" placeholder="10-digit Acct number"></div>
-            <div class="fg"><label class="fl">Account name <span class="req">*</span></label><input type="text" id="wd-acct-name" placeholder="As it appears on your account"></div>
-          </div>
-          <div id="wd-wallet-fields" style="display:none">
-            <div class="fg"><label class="fl">Phone number on wallet <span class="req">*</span></label><input type="tel" id="wd-wallet-num" placeholder="e.g. 08012345678"></div>
-          </div>
-          <div class="fg">
-            <label class="fl">Amount (₦) <span class="req">*</span> <span style="font-weight:400;color:#888">(₦<span id="cfg-min-label">500</span> min · ₦<span id="cfg-max-label">5,000</span> max per request)</span></label>
-            <input type="number" id="wd-amount" placeholder="Min ₦500, Max ₦5,000" min="500" max="5000" oninput="validateWdAmt()" id="wd-amount">
-            <div class="field-note" id="wd-amt-note"></div>
-          </div>
+          <button class="btn btn-primary" id="btn-start-payout-otp" onclick="startPayoutOTPFlow()">Verify my email to unlock payout</button>
+          <hr class="divider">
         </div>
-        <button class="btn btn-green" id="wd-btn" onclick="doWithdraw()">Submit withdrawal request</button>
-        <p style="font-size:12px;color:#888;text-align:center;margin-top:.5rem;line-height:1.6">Processed within 24–48 hours. SMS confirmation sent to your registered number.</p>
+
+        <!-- Withdrawal form (shown after email verified) -->
+        <div id="wd-form-wrap">
+          <div class="card">
+            <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:1rem">Withdrawal details</div>
+            <div class="fg">
+              <label class="fl">Payment method <span class="req">*</span></label>
+              <select id="wd-method" onchange="toggleWdFields()">
+                <option value="">Select method</option>
+                <option value="bank">Bank transfer</option>
+                <option value="opay">OPay</option>
+                <option value="palmpay">PalmPay</option>
+                <option value="kuda">Kuda Bank</option>
+              </select>
+            </div>
+            <div id="wd-bank-fields" style="display:none">
+              <div class="fg"><label class="fl">Bank name <span class="req">*</span></label><input type="text" id="wd-bank" placeholder="e.g. GTBank, Access Bank"></div>
+              <div class="fg"><label class="fl">Account number <span class="req">*</span></label><input type="number" id="wd-acct" placeholder="10-digit account number"></div>
+              <div class="fg"><label class="fl">Account name <span class="req">*</span></label><input type="text" id="wd-acct-name" placeholder="As it appears on your account"></div>
+            </div>
+            <div id="wd-wallet-fields" style="display:none">
+              <div class="fg"><label class="fl">Phone number on wallet <span class="req">*</span></label><input type="tel" id="wd-wallet-num" placeholder="e.g. 08012345678"></div>
+            </div>
+            <div class="fg">
+              <label class="fl">Amount (₦) <span class="req">*</span> <span style="font-weight:400;color:var(--ink-3)">₦<span id="cfg-min-label">1,000</span> min · ₦<span id="cfg-max-label">5,000</span> max</span></label>
+              <input type="number" id="wd-amount" placeholder="e.g. 1000" oninput="validateWdAmt()">
+              <div class="field-note" id="wd-amt-note"></div>
+            </div>
+          </div>
+          <div class="warning-box">
+            <strong>&#9888; Double-check your account details.</strong> Wrong account details mean your money cannot be sent. We cannot reverse a payment made to the wrong account.
+          </div>
+          <button class="btn btn-primary" id="wd-btn" onclick="doWithdraw()">Submit withdrawal request</button>
+          <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:.5rem;line-height:1.6">Processed within 24–48 hours.</p>
+        </div>
 
         <hr class="divider">
         <div class="card">
-          <div style="font-size:14px;font-weight:600;margin-bottom:.75rem">Withdrawal history</div>
-          <div id="wd-history"><div style="text-align:center;padding:.5rem;font-size:13px;color:#888">Loading...</div></div>
+          <div style="font-size:14px;font-weight:700;font-family:var(--font-head);margin-bottom:.75rem">Withdrawal history</div>
+          <div id="wd-history"><div style="text-align:center;padding:.5rem;font-size:13px;color:var(--ink-3)">Loading...</div></div>
         </div>
       </div>
     </div>
@@ -623,905 +701,687 @@ textarea{resize:vertical;min-height:76px}
   <!-- ════════ SCREEN: WITHDRAW SUCCESS ════════ -->
   <div id="screen-wd-success" class="screen">
     <div class="ok-circle">
-      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <div style="text-align:center;margin-bottom:1.25rem">
-      <div style="font-size:21px;font-weight:700;margin-bottom:.4rem">Request submitted!</div>
-      <div style="font-size:14px;color:#666;line-height:1.6">Your withdrawal of ₦<span id="wds-amt">0</span> has been received. Payment within 24–48 hours.</div>
+      <div style="font-family:var(--font-head);font-size:21px;font-weight:700;margin-bottom:.4rem">Request submitted!</div>
+      <div style="font-size:14px;color:var(--ink-3);line-height:1.6">Your withdrawal of <strong>₦<span id="wds-amt">0</span></strong> has been received. Payment within 24–48 hours.</div>
     </div>
     <div class="card">
-      <div class="txr"><div><div class="txl">Amount</div></div><div class="txa">₦<span id="wds-amt2">0</span></div></div>
-      <div class="txr"><div><div class="txl">Method</div></div><div class="txa" id="wds-method">—</div></div>
-      <div class="txr"><div><div class="txl">Reference</div></div><div style="font-size:12px;color:#888" id="wds-ref">—</div></div>
-      <div class="txr"><div><div class="txl">Status</div></div><div><span class="badge b-amber">Pending (24–48 hrs)</span></div></div>
+      <div class="wd-hist-row"><div style="font-size:13px;font-weight:600">Amount</div><div style="font-size:14px;font-weight:700;font-family:var(--font-head)">₦<span id="wds-amt2">0</span></div></div>
+      <div class="wd-hist-row"><div style="font-size:13px;font-weight:600">Method</div><div id="wds-method" style="font-size:13px">—</div></div>
+      <div class="wd-hist-row"><div style="font-size:13px;font-weight:600">Reference</div><div id="wds-ref" style="font-size:12px;color:var(--ink-3)">—</div></div>
+      <div class="wd-hist-row" style="border:none"><div style="font-size:13px;font-weight:600">Status</div><span class="badge b-amber">Pending (24–48 hrs)</span></div>
     </div>
-    <button class="btn btn-green" onclick="goDashboard()">Back to dashboard</button>
+    <button class="btn btn-primary" onclick="goDashboard()">Back to dashboard</button>
   </div>
 
 </div><!-- /app -->
 
 <script>
-// ── CONFIG ───────────────────────────────────────────────────
 var API_URL = 'https://script.google.com/macros/s/AKfycbyQ4c-CJdQOxqzIOcNkD7z-eVRelMZSUZ6bTDE38J15-f5g4gHq7YX5TaQ5CSo5MVR32Q/exec';
-var SESSION_KEY = 'db_session_token';
+var SESSION_KEY = 'rovo_session_token';
+var EMAIL_VERIFIED_KEY = 'rovo_email_verified';
 
-// ── Live config (fetched from backend so changes in Code.gs apply instantly) ──
-var CFG = {
-  MIN_WITHDRAWAL: 1000,   // default — overwritten on load
-  MAX_WITHDRAWAL: 5000,  // default — overwritten on load
-  SURVEY_REWARD:  50,
-  REFERRAL_REWARD:50
-};
+var CFG = { MIN_WITHDRAWAL:1000, MAX_WITHDRAWAL:5000, SURVEY_REWARD:50, REFERRAL_REWARD:50 };
 
-// ── State ────────────────────────────────────────────────────
 var S = {
   token:'', userId:'', name:'', email:'', myCode:'',
   balance:0, totalEarned:0, refEarned:0, refCount:0,
-  withdrawn:0, surveyDone:false, currentQ:0, answers:{}
+  withdrawn:0, surveyDone:false, answers:{},
+  emailVerified:false, pendingRefCode:''
 };
 
-// ── Questions (all required) ──────────────────────────────────
+// Questions
 var Qs = [
   { id:'q1', type:'checkbox', required:true,
     title:'How do you currently make money or earn extra income as a student?',
-    hint:'Select all that apply — at least one required',
+    hint:'Select all that apply',
     opts:['Family allowance only','Part-time job (shop, restaurant, office)','Freelance work (design, writing, tutoring)','Selling goods or products','Informal delivery or errands for others','No income source currently'] },
   { id:'q2', type:'radio', required:true,
     title:'How much do you currently earn per month from all sources?',
-    hint:'Select one — required',
-    opts:['Less than ₦10,000','₦10,000 – ₦25,000','₦25,001 – ₦50,000','₦50,001 – ₦80,000','More than ₦80,000'] },
+    hint:'Select one',
+    opts:['Less than \u20a610,000','\u20a610,000 \u2013 \u20a625,000','\u20a625,001 \u2013 \u20a650,000','\u20a650,001 \u2013 \u20a680,000','More than \u20a680,000'] },
   { id:'q3', type:'scale', required:true,
-    title:'If you could earn ₦500–₦800 per delivery near your campus on your own schedule, how seriously would you consider it?',
-    hint:'1 = Not at all  ·  5 = I would sign up today — required',
+    title:'If you could earn \u20a6500\u2013\u20a6800 per delivery near your campus on your own schedule, how seriously would you consider it?',
+    hint:'1 = Not at all  \u00b7  5 = I would sign up today',
     min:1, max:5, minL:'Not at all', maxL:'Sign up today' },
   { id:'q3b', type:'text', required:true,
-    title:'What would make you say Yes to earning through deliveries, and what would make you say No?',
-    hint:'Be specific — required', ph:'e.g. "Payment must be guaranteed", "I worry about my safety while delivering"' },
+    title:'What would make you say Yes to delivery work, and what would make you say No?',
+    hint:'Be honest and specific \u2014 this shapes what we build',
+    ph:'e.g. "Payment must be guaranteed", "I worry about safety while delivering"' },
   { id:'q4', type:'radio', required:true,
     title:'How many hours per week are you realistically available for flexible work, on top of your studies?',
-    hint:'Select one — required',
-    opts:['Less than 5 hours/week','5 – 10 hours/week','11 – 15 hours/week','16 – 20 hours/week','More than 20 hours/week'] },
+    hint:'Select one',
+    opts:['Less than 5 hours/week','5 \u2013 10 hours/week','11 \u2013 15 hours/week','16 \u2013 20 hours/week','More than 20 hours/week'] },
   { id:'q5', type:'checkbox', required:true,
     title:'What are your biggest concerns about doing delivery work as a student?',
-    hint:'Select all that apply — at least one required',
-    opts:['Personal safety during deliveries','Not getting paid or being cheated','Time clashing with classes or exams','What classmates or family might think','Not having a motorcycle or bicycle','Packages getting damaged or lost','No major concerns — I would start today'] },
+    hint:'Select all that apply',
+    opts:['Personal safety during deliveries','Not getting paid or being cheated','Time clashing with classes or exams','What classmates or family might think','Not having a motorcycle or bicycle','Packages getting damaged or lost','No major concerns \u2014 I would start today'] },
   { id:'q6', type:'radio', required:true,
     title:'Have you ever helped someone deliver something or run an errand you felt you could have been paid for?',
-    hint:'Select one — required',
-    opts:['Yes — it happens regularly','Yes — a few times','Not really, but I am open to it','No — never done that'] },
+    hint:'Select one',
+    opts:['Yes \u2014 it happens regularly','Yes \u2014 a few times','Not really, but I am open to it','No \u2014 never done that'] },
   { id:'q7', type:'checkbox', required:true,
     title:'What would make you trust a delivery platform enough to register as a courier?',
-    hint:'Select all that apply — at least one required',
+    hint:'Select all that apply',
     opts:['Real testimonials from other students','Guaranteed payment for every delivery','Proper training and onboarding process','In-app emergency or safety button','See delivery destination before accepting','Ability to withdraw earnings instantly'] },
   { id:'q8', type:'radio', required:true,
     title:'How would you prefer to be paid as a courier?',
-    hint:'Select one — required',
-    opts:['Per delivery — more I do, more I earn','By the hour — steady and predictable','Weekly minimum guarantee — a base I can count on','Combination — base plus per-delivery bonus'] },
+    hint:'Select one',
+    opts:['Per delivery \u2014 more I do, more I earn','By the hour \u2014 steady and predictable','Weekly minimum guarantee \u2014 a base I can count on','Combination \u2014 base plus per-delivery bonus'] },
   { id:'q10', type:'scale', required:true,
-    title:'On a scale of 1–10, how urgently do you need a better way to earn money right now?',
-    hint:'1 = Completely fine  ·  10 = Urgently need income — required',
+    title:'On a scale of 1\u201310, how urgently do you need a better way to earn money right now?',
+    hint:'1 = Completely fine  \u00b7  10 = Urgently need income',
     min:1, max:10, minL:'Completely fine', maxL:'Urgently need income' }
 ];
 
-// ── Helpers ───────────────────────────────────────────────────
+// ── MODALS ──────────────────────────────────────────────────
+function openWelcomeModal() {
+  document.getElementById('welcome-modal').classList.add('open');
+}
+function closeWelcomeModal() {
+  document.getElementById('welcome-modal').classList.remove('open');
+  try { sessionStorage.setItem('rovo_welcomed','1'); } catch(e) {}
+}
+function startSurveyFromPopup() {
+  closeWelcomeModal();
+  renderAllQuestions();
+  show('screen-survey');
+}
+
+// ── PAYOUT OTP MODAL ────────────────────────────────────────
+var payoutOTPTimer = null, payoutResendTimer = null;
+
+function openPayoutOTPModal() {
+  document.getElementById('payout-otp-email').textContent = S.email;
+  document.getElementById('payout-otp-input').value = '';
+  var n = document.getElementById('payout-otp-note'); n.textContent=''; n.className='field-note';
+  document.getElementById('payout-otp-modal').classList.add('open');
+  startPayoutOTPCountdown(600);
+  startPayoutResendCooldown();
+}
+function closePayoutOTPModal() {
+  document.getElementById('payout-otp-modal').classList.remove('open');
+  clearInterval(payoutOTPTimer); clearInterval(payoutResendTimer);
+}
+function startPayoutOTPCountdown(secs) {
+  clearInterval(payoutOTPTimer);
+  var rem = secs;
+  payoutOTPTimer = setInterval(function() {
+    rem--;
+    var m=Math.floor(rem/60), s=rem%60;
+    var el=document.getElementById('payout-otp-countdown');
+    if (el) { el.textContent=m+':'+(s<10?'0':'')+s; el.style.color=rem<60?'var(--red)':'var(--teal)'; }
+    if (rem<=0) { clearInterval(payoutOTPTimer); if(el){el.textContent='Expired';el.style.color='var(--red)';} }
+  }, 1000);
+}
+function startPayoutResendCooldown() {
+  var btn=document.getElementById('payout-resend-btn'); if(!btn) return;
+  btn.disabled=true; btn.textContent='Resend (wait 60s)';
+  var s=60;
+  payoutResendTimer = setInterval(function() {
+    s--; if(btn) btn.textContent='Resend (wait '+s+'s)';
+    if(s<=0){clearInterval(payoutResendTimer);if(btn){btn.disabled=false;btn.textContent='Resend code';}}
+  }, 1000);
+}
+function startPayoutOTPFlow() {
+  setBtn('btn-start-payout-otp', true, 'Sending code...');
+  api({ action:'sendOTP', email:S.email, purpose:'payout' }, function(res) {
+    setBtn('btn-start-payout-otp', false, 'Verify my email to unlock payout');
+    if (!res.success) { toast(res.error||'Could not send code.', true); return; }
+    openPayoutOTPModal();
+    toast('Code sent to ' + S.email);
+  });
+}
+function doVerifyPayoutOTP() {
+  var code=(document.getElementById('payout-otp-input').value||'').trim();
+  var note=document.getElementById('payout-otp-note');
+  if (!code||code.length!==6) { toast('Please enter the 6-digit code.', true); return; }
+  setBtn('btn-verify-payout-otp', true, 'Verifying...');
+  api({ action:'verifyPayoutOTP', email:S.email, code:code, token:S.token }, function(res) {
+    setBtn('btn-verify-payout-otp', false, 'Verify & continue to payout');
+    if (!res.success) { note.textContent=res.error||'Incorrect code.'; note.className='field-note bad'; return; }
+    clearInterval(payoutOTPTimer);
+    closePayoutOTPModal();
+    S.emailVerified=true;
+    try { localStorage.setItem(EMAIL_VERIFIED_KEY+'_'+S.userId,'1'); } catch(e) {}
+    document.getElementById('wd-verify-notice').style.display='none';
+    document.getElementById('wd-form-wrap').style.display='block';
+    toast('Email verified! You can now withdraw.');
+  });
+}
+function doResendPayoutOTP() {
+  api({ action:'sendOTP', email:S.email, purpose:'payout' }, function(res) {
+    if (!res.success) { toast(res.error||'Could not resend.', true); return; }
+    document.getElementById('payout-otp-input').value='';
+    var n=document.getElementById('payout-otp-note'); n.textContent=''; n.className='field-note';
+    clearInterval(payoutOTPTimer);
+    startPayoutOTPCountdown(600); startPayoutResendCooldown();
+    toast('New code sent!');
+  });
+}
+function checkEmailVerification() {
+  try { var c=localStorage.getItem(EMAIL_VERIFIED_KEY+'_'+S.userId); if(c==='1') S.emailVerified=true; } catch(e) {}
+  var notice=document.getElementById('wd-verify-notice');
+  var form=document.getElementById('wd-form-wrap');
+  if (!notice||!form) return;
+  notice.style.display=S.emailVerified?'none':'block';
+  form.style.display=S.emailVerified?'block':'none';
+}
+
+// ── CORE ─────────────────────────────────────────────────────
 function show(id) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
-
 var toastT;
 function toast(msg, isErr) {
   clearTimeout(toastT);
-  var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show ' + (isErr ? 'error' : 'ok');
-  toastT = setTimeout(function(){ el.classList.remove('show'); }, 3200);
+  var el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show '+(isErr?'error':'ok');
+  toastT=setTimeout(function(){ el.classList.remove('show'); },3200);
 }
-
 function api(payload, cb) {
-  fetch(API_URL, { method:'POST', body:JSON.stringify(payload), headers:{'Content-Type':'text/plain'} })
-    .then(function(r){ return r.json(); })
-    .then(cb)
-    .catch(function(err){ toast('Connection error. Check your internet.', true); console.error(err); });
+  fetch(API_URL,{method:'POST',body:JSON.stringify(payload),headers:{'Content-Type':'text/plain'}})
+    .then(function(r){return r.json();}).then(cb)
+    .catch(function(err){toast('Connection error. Check your internet.',true);console.error(err);});
 }
-
 function setBtn(id, loading, txt) {
-  var b = document.getElementById(id);
-  if (!b) return;
-  if (loading) { b.innerHTML = '<span class="spin"></span>' + txt; b.disabled = true; }
-  else         { b.innerHTML = txt; b.disabled = false; }
+  var b=document.getElementById(id); if(!b) return;
+  b.innerHTML=loading?'<span class="spin"></span>'+txt:txt; b.disabled=loading;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function togglePw(id,btn){
+  var el=document.getElementById(id);
+  if(el.type==='password'){el.type='text';btn.textContent='Hide';}else{el.type='password';btn.textContent='Show';}
 }
 
-function esc(s){ return s.replace(/'/g,"&#39;").replace(/"/g,'&quot;'); }
-function togglePw(id, btn) {
-  var el = document.getElementById(id);
-  if (el.type === 'password') { el.type = 'text'; btn.textContent = 'Hide'; }
-  else { el.type = 'password'; btn.textContent = 'Show'; }
-}
+// ── SESSION ──────────────────────────────────────────────────
+function saveSession(t){try{localStorage.setItem(SESSION_KEY,t);}catch(e){}}
+function getSession(){try{return localStorage.getItem(SESSION_KEY)||'';}catch(e){return '';}}
+function clearSession(){try{localStorage.removeItem(SESSION_KEY);}catch(e){}}
 
-// ── Session persistence ───────────────────────────────────────
-function saveSession(token) {
-  try { localStorage.setItem(SESSION_KEY, token); } catch(e) {}
-}
-function getSession() {
-  try { return localStorage.getItem(SESSION_KEY) || ''; } catch(e) { return ''; }
-}
-function clearSession() {
-  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
-}
-
-// ── Load config from backend then attempt auto-login ─────────
+// ── CONFIG ───────────────────────────────────────────────────
 function applyConfig(cfg) {
   if (!cfg) return;
-  CFG.MIN_WITHDRAWAL  = cfg.minWithdrawal  || CFG.MIN_WITHDRAWAL;
-  CFG.MAX_WITHDRAWAL  = cfg.maxWithdrawal  || CFG.MAX_WITHDRAWAL;
-  CFG.SURVEY_REWARD   = cfg.surveyReward   || CFG.SURVEY_REWARD;
-  CFG.REFERRAL_REWARD = cfg.referralReward || CFG.REFERRAL_REWARD;
-
-  // Update every visible label in the UI
-  var minFmt = '₦' + CFG.MIN_WITHDRAWAL.toLocaleString();
-  var maxFmt = '₦' + CFG.MAX_WITHDRAWAL.toLocaleString();
-
-  // Stat card on home screen
-  var cfgMin = document.getElementById('cfg-min-display');
-  if (cfgMin) cfgMin.textContent = minFmt;
-
-  // Referral tip callout
-  var cfgRefCount = document.getElementById('cfg-ref-count-needed');
-  if (cfgRefCount) cfgRefCount.textContent = Math.ceil(CFG.MIN_WITHDRAWAL / CFG.REFERRAL_REWARD);
-  var cfgMinRef = document.getElementById('cfg-min-ref');
-  if (cfgMinRef) cfgMinRef.textContent = minFmt;
-
-  // Locked withdraw view
-  ['cfg-min-lock','cfg-min-lock2'].forEach(function(id){
-    var el = document.getElementById(id);
-    if (el) el.textContent = CFG.MIN_WITHDRAWAL.toLocaleString();
-  });
-
-  // Withdrawal amount label
-  var cfgMinLbl = document.getElementById('cfg-min-label');
-  if (cfgMinLbl) cfgMinLbl.textContent = CFG.MIN_WITHDRAWAL.toLocaleString();
-  var cfgMaxLbl = document.getElementById('cfg-max-label');
-  if (cfgMaxLbl) cfgMaxLbl.textContent = CFG.MAX_WITHDRAWAL.toLocaleString();
-
-  // Input element attributes
-  var wdInput = document.getElementById('wd-amount');
-  if (wdInput) {
-    wdInput.min         = CFG.MIN_WITHDRAWAL;
-    wdInput.max         = CFG.MAX_WITHDRAWAL;
-    wdInput.placeholder = 'Min ₦' + CFG.MIN_WITHDRAWAL.toLocaleString() + ', Max ₦' + CFG.MAX_WITHDRAWAL.toLocaleString();
-  }
+  CFG.MIN_WITHDRAWAL = cfg.minWithdrawal  || CFG.MIN_WITHDRAWAL;
+  CFG.MAX_WITHDRAWAL = cfg.maxWithdrawal  || CFG.MAX_WITHDRAWAL;
+  CFG.SURVEY_REWARD  = cfg.surveyReward   || CFG.SURVEY_REWARD;
+  CFG.REFERRAL_REWARD= cfg.referralReward || CFG.REFERRAL_REWARD;
+  var minFmt=CFG.MIN_WITHDRAWAL.toLocaleString(), maxFmt=CFG.MAX_WITHDRAWAL.toLocaleString();
+  document.querySelectorAll('.popup-min-wd').forEach(function(el){el.textContent=minFmt;});
+  ['cfg-min-lock','cfg-min-lock2'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=minFmt;});
+  var a=document.getElementById('cfg-min-label'); if(a) a.textContent=minFmt;
+  var b=document.getElementById('cfg-max-label'); if(b) b.textContent=maxFmt;
+  var w=document.getElementById('wd-amount'); if(w){w.min=CFG.MIN_WITHDRAWAL;w.max=CFG.MAX_WITHDRAWAL;}
 }
 
-// Auto-login on page load
+// ── PAGE LOAD ────────────────────────────────────────────────
 window.addEventListener('load', function() {
-  // Fetch live config from backend first
-  api({ action: 'getConfig' }, function(res) {
-    if (res && res.success) applyConfig(res.config);
-  });
+  api({action:'getConfig'},function(res){if(res&&res.success)applyConfig(res.config);});
 
-  // ── Read injected referral code ─────────────────────────────
-  // Apps Script strips ?ref= from window.location in the browser.
-  // Instead, doGet() injects window.INJECTED_REF_CODE into the HTML.
-  // This is the only reliable way to pass URL params in Apps Script.
+  // Show welcome popup on first visit
   try {
-    var injectedRef = window.INJECTED_REF_CODE || '';
-    if (injectedRef && injectedRef.length > 3) {
-      S.pendingRefCode = injectedRef.toUpperCase();
-      // Pre-fill the referral code field if already visible
-      var refInput = document.getElementById('r-ref');
-      if (refInput) {
-        refInput.value = S.pendingRefCode;
-        liveCheckRef(refInput);
-      }
-      toast('Referral code ' + S.pendingRefCode + ' applied!');
+    if (!sessionStorage.getItem('rovo_welcomed')) openWelcomeModal();
+  } catch(e) { openWelcomeModal(); }
+
+  // Injected ref code from URL
+  try {
+    var ref = window.INJECTED_REF_CODE||'';
+    if (ref&&ref.length>3) {
+      S.pendingRefCode=ref.toUpperCase();
+      var rf=document.getElementById('r-ref');
+      if(rf){rf.value=S.pendingRefCode;liveCheckRef(rf);}
     }
-  } catch(e) {}
+  } catch(e){}
 
-  // ── Restore session ───────────────────────────────────────────
-  var token = getSession();
-  if (!token) return;
-  api({ action:'validateSession', token:token }, function(res) {
-    if (res.success && res.valid) {
-      applyUserState(res, token);
-      if (res.surveyDone) {
-        goDashboard();
-      } else {
-        show('screen-survey');
-        renderQ(S.currentQ);
-      }
+  // Restore session
+  var token=getSession(); if(!token) return;
+  api({action:'validateSession',token:token},function(res){
+    if(res.success&&res.valid){
+      applyUserState(res,token);
+      if(res.surveyDone) goDashboard();
+      else { renderAllQuestions(); show('screen-survey'); }
     }
-    // else: stay on auth screen — ref code already pre-filled above
-  });
-});  // end window load
-
-function applyUserState(res, token) {
-  S.token      = token || S.token;
-  S.userId     = res.userId;
-  S.name       = res.name;
-  S.email      = res.email;
-  S.myCode     = res.myCode;
-  S.balance    = res.balance    || 0;
-  S.totalEarned= res.totalEarned|| 0;
-  S.refEarned  = res.refEarned  || 0;
-  S.refCount   = res.refCount   || 0;
-  S.withdrawn  = res.withdrawn  || 0;
-  S.surveyDone = res.surveyDone || false;
-  updateCodes();
-}
-
-// ── Auth tab switch ───────────────────────────────────────────
-function switchAuth(mode) {
-  document.getElementById('at-register').classList.toggle('active', mode==='register');
-  document.getElementById('at-login').classList.toggle('active', mode==='login');
-  document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
-  document.getElementById('auth-login').style.display    = mode==='login'    ? 'block' : 'none';
-}
-
-// ── Live duplicate checks ─────────────────────────────────────
-var emailCheckT, phoneCheckT, refCheckT;
-
-function liveCheckEmail() {
-  var email = document.getElementById('r-email').value.trim().toLowerCase();
-  var note  = document.getElementById('r-email-note');
-  clearTimeout(emailCheckT);
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    note.textContent = ''; note.className = 'field-note'; return;
-  }
-  note.textContent = 'Checking...'; note.className = 'field-note checking';
-  emailCheckT = setTimeout(function(){
-    api({ action:'checkEmail', email:email }, function(res){
-      if (res.taken) {
-        note.textContent = 'This email is already registered. Please log in.';
-        note.className = 'field-note bad';
-        document.getElementById('r-email').classList.add('err');
-      } else {
-        note.textContent = 'Email available';
-        note.className = 'field-note ok';
-        document.getElementById('r-email').classList.remove('err');
-      }
-    });
-  }, 700);
-}
-
-function liveCheckPhone() {
-  var phone = document.getElementById('r-phone').value.trim().replace(/\s/g,'');
-  var note  = document.getElementById('r-phone-note');
-  clearTimeout(phoneCheckT);
-  if (!phone || phone.length < 10) { note.textContent = ''; note.className = 'field-note'; return; }
-  note.textContent = 'Checking...'; note.className = 'field-note checking';
-  phoneCheckT = setTimeout(function(){
-    api({ action:'checkPhone', phone:phone }, function(res){
-      if (res.taken) {
-        note.textContent = 'This phone number is already registered.';
-        note.className = 'field-note bad';
-        document.getElementById('r-phone').classList.add('err');
-      } else {
-        note.textContent = 'Phone number available';
-        note.className = 'field-note ok';
-        document.getElementById('r-phone').classList.remove('err');
-      }
-    });
-  }, 700);
-}
-
-function liveCheckRef(input) {
-  var code = input.value.trim().toUpperCase();
-  var note = document.getElementById('r-ref-note');
-  clearTimeout(refCheckT);
-  if (!code || code.length < 5) { note.textContent = ''; note.className = 'field-note'; return; }
-  note.textContent = 'Checking...'; note.className = 'field-note checking';
-  refCheckT = setTimeout(function(){
-    api({ action:'checkRef', code:code }, function(res){
-      if (res.valid) { note.textContent = '✓ ' + res.message; note.className = 'field-note ok'; }
-      else           { note.textContent = '✗ Code not found — check and try again'; note.className = 'field-note bad'; }
-    });
-  }, 600);
-}
-
-// ── Password confirm check ────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
-  var p2 = document.getElementById('r-password2');
-  if (p2) p2.addEventListener('input', function() {
-    var p1 = document.getElementById('r-password').value;
-    var note = document.getElementById('r-pw2-note');
-    if (!this.value) { note.textContent = ''; note.className = 'field-note'; return; }
-    if (this.value === p1) { note.textContent = '✓ Passwords match'; note.className = 'field-note ok'; }
-    else                   { note.textContent = 'Passwords do not match'; note.className = 'field-note bad'; }
   });
 });
 
-// ── OTP STATE ─────────────────────────────────────────────────
-// ── OTP + REGISTRATION STATE ─────────────────────────────────
-var OTP = {
-  email:         '',
-  verifyToken:   '',
-  timerInterval: null,
-  resendTimeout: null,
-  secondsLeft:   600
-};
-
-// Pending registration data saved from step 1
-var REG = { name:'', email:'', password:'', phone:'', school:'', refCode:'', fingerprint:'' };
-
-// Build a lightweight device fingerprint
-function getFingerprint() {
-  try {
-    var raw = [navigator.userAgent,navigator.language,screen.width+'x'+screen.height,
-               screen.colorDepth,new Date().getTimezoneOffset(),
-               navigator.hardwareConcurrency,navigator.platform].join('|');
-    var h = 0;
-    for (var i = 0; i < raw.length; i++) { h = ((h << 5) - h) + raw.charCodeAt(i); h |= 0; }
-    return 'FP' + Math.abs(h).toString(16).toUpperCase();
-  } catch(e) { return 'unknown'; }
+function applyUserState(res, token) {
+  S.token=token||S.token; S.userId=res.userId; S.name=res.name; S.email=res.email;
+  S.myCode=res.myCode; S.balance=res.balance||0; S.totalEarned=res.totalEarned||0;
+  S.refEarned=res.refEarned||0; S.refCount=res.refCount||0;
+  S.withdrawn=res.withdrawn||0; S.surveyDone=res.surveyDone||false;
+  updateCodes();
 }
 
-// ── 2-STEP FLOW ───────────────────────────────────────────────
-function goToStep(n) {
-  [1,2].forEach(function(s) {
-    var el  = document.getElementById('reg-step'+s);
-    var dot = document.getElementById('step-dot-'+s);
-    var ind = document.getElementById('step-ind-'+s);
-    if (el) el.style.display = s===n ? 'block' : 'none';
-    if (dot && ind) {
-      dot.className = 'otp-dot ' + (s < n ? 'done' : s===n ? 'active' : '');
-      ind.className = 'otp-step ' + (s < n ? 'done' : s===n ? 'active' : '');
+// ── LIVE CHECKS ──────────────────────────────────────────────
+var emailCheckT, phoneCheckT, refCheckT;
+
+function liveCheckEmail() {
+  var email=document.getElementById('r-email').value.trim().toLowerCase();
+  var note=document.getElementById('r-email-note');
+  clearTimeout(emailCheckT);
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){note.textContent='';note.className='field-note';return;}
+  note.textContent='Checking...';note.className='field-note checking';
+  emailCheckT=setTimeout(function(){
+    api({action:'checkEmail',email:email},function(res){
+      if(res.taken){note.textContent='This email is already registered. Please log in.';note.className='field-note bad';document.getElementById('r-email').classList.add('err');}
+      else{note.textContent='Email available';note.className='field-note ok';document.getElementById('r-email').classList.remove('err');}
+    });
+  },700);
+}
+function liveCheckPhone() {
+  var phone=document.getElementById('r-phone').value.trim().replace(/\s/g,'');
+  var note=document.getElementById('r-phone-note');
+  clearTimeout(phoneCheckT);
+  if(!phone||phone.length<10){note.textContent='';note.className='field-note';return;}
+  note.textContent='Checking...';note.className='field-note checking';
+  phoneCheckT=setTimeout(function(){
+    api({action:'checkPhone',phone:phone},function(res){
+      if(res.taken){note.textContent='Phone already registered.';note.className='field-note bad';document.getElementById('r-phone').classList.add('err');}
+      else{note.textContent='Phone available';note.className='field-note ok';document.getElementById('r-phone').classList.remove('err');}
+    });
+  },700);
+}
+function liveCheckRef(input) {
+  var code=input.value.trim().toUpperCase();
+  var note=document.getElementById('r-ref-note');
+  clearTimeout(refCheckT);
+  if(!code||code.length<5){note.textContent='';note.className='field-note';return;}
+  note.textContent='Checking...';note.className='field-note checking';
+  refCheckT=setTimeout(function(){
+    api({action:'checkRef',code:code},function(res){
+      if(res.valid){note.textContent='\u2713 '+res.message;note.className='field-note ok';}
+      else{note.textContent='\u2717 Code not found';note.className='field-note bad';}
+    });
+  },600);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  var p2=document.getElementById('r-password2');
+  if(p2) p2.addEventListener('input',function(){
+    var p1=document.getElementById('r-password').value;
+    var n=document.getElementById('r-pw2-note');
+    if(!this.value){n.textContent='';n.className='field-note';return;}
+    if(this.value===p1){n.textContent='\u2713 Passwords match';n.className='field-note ok';}
+    else{n.textContent='Passwords do not match';n.className='field-note bad';}
+  });
+});
+
+// ── SURVEY — ALL ON ONE PAGE ─────────────────────────────────
+function renderAllQuestions() {
+  var html='';
+  Qs.forEach(function(q,idx){
+    var saved=S.answers[q.id];
+    html+='<div class="card" style="margin-bottom:.85rem">';
+    html+='<div class="qbadge">Q'+(idx+1)+'</div>';
+    html+='<div class="qtitle">'+q.title+'</div>';
+    if(q.hint) html+='<div class="qhint">'+q.hint+'</div>';
+    if(q.type==='radio'){
+      q.opts.forEach(function(opt){
+        var sel=saved===opt;
+        html+='<div class="opt'+(sel?' sel':'')+'" onclick="pickOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="radio" name="'+q.id+'"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
+      });
+    } else if(q.type==='checkbox'){
+      var sarr=saved||[];
+      q.opts.forEach(function(opt){
+        var sel=sarr.indexOf(opt)!==-1;
+        html+='<div class="opt'+(sel?' sel':'')+'" onclick="toggleOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="checkbox"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
+      });
+    } else if(q.type==='scale'){
+      html+='<div class="scale-row" id="scale-'+q.id+'">';
+      for(var i=q.min;i<=q.max;i++){
+        var sel=saved===i;
+        html+='<button class="sb'+(sel?' sel':'')+'" onclick="pickScale(\''+q.id+'\','+i+',this)">'+i+'</button>';
+      }
+      html+='</div><div class="scale-lbs"><span>'+q.minL+'</span><span>'+q.maxL+'</span></div>';
+    } else if(q.type==='text'){
+      html+='<textarea id="ta-'+q.id+'" placeholder="'+(q.ph||'')+'" oninput="S.answers[\''+q.id+'\']=this.value">'+(saved||'')+'</textarea>';
     }
+    html+='</div>';
   });
-  if (n===1 && S.pendingRefCode) {
-    var rf = document.getElementById('r-ref');
-    if (rf && !rf.value) { rf.value = S.pendingRefCode; liveCheckRef(rf); }
-  }
-  window.scrollTo(0,0);
+  document.getElementById('q-container').innerHTML=html;
 }
 
-function backToStep1() {
-  clearInterval(OTP.timerInterval);
-  clearTimeout(OTP.resendTimeout);
-  OTP.verifyToken = '';
-  goToStep(1);
+function pickOpt(el,qid,val){
+  document.querySelectorAll('[name="'+qid+'"]').forEach(function(r){r.closest('.opt').classList.remove('sel');r.checked=false;});
+  el.classList.add('sel');el.querySelector('input').checked=true;S.answers[qid]=val;
+}
+function toggleOpt(el,qid,val){
+  var arr=S.answers[qid]||[];var i=arr.indexOf(val);
+  if(i===-1){arr.push(val);el.classList.add('sel');el.querySelector('input').checked=true;}
+  else{arr.splice(i,1);el.classList.remove('sel');el.querySelector('input').checked=false;}
+  S.answers[qid]=arr;
+}
+function pickScale(qid,val,btn){
+  document.querySelectorAll('#scale-'+qid+' .sb').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');S.answers[qid]=val;
 }
 
-// STEP 1: validate all details, then send OTP
-function doSendOTP() {
-  var name  = document.getElementById('r-name').value.trim();
-  var email = document.getElementById('r-email').value.trim().toLowerCase();
-  var pass  = document.getElementById('r-password').value.trim();
-  var pass2 = document.getElementById('r-password2').value.trim();
-  var phone = document.getElementById('r-phone').value.trim().replace(/\s/g,'');
-  var school= document.getElementById('r-school').value.trim();
-  var ref   = document.getElementById('r-ref').value.trim().toUpperCase();
-  var enote = document.getElementById('r-email-note');
-  var pnote = document.getElementById('r-phone-note');
-
-  if (!name)                        { toast('Full name is required.', true); return; }
-  if (!email)                       { toast('Email address is required.', true); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Please enter a valid email.', true); return; }
-  if (enote && enote.classList.contains('bad')) { toast('This email is already registered. Log in instead.', true); return; }
-  if (!pass || pass.length < 6)     { toast('Password must be at least 6 characters.', true); return; }
-  if (pass !== pass2)               { toast('Passwords do not match.', true); return; }
-  if (!phone || phone.length < 10)  { toast('Please enter a valid phone number.', true); return; }
-  if (pnote && pnote.classList.contains('bad')) { toast('This phone number is already registered.', true); return; }
-  if (!school)                      { toast('School / university is required.', true); return; }
-
-  REG.name = name; REG.email = email; REG.password = pass;
-  REG.phone = phone; REG.school = school; REG.refCode = ref;
-  REG.fingerprint = getFingerprint();
-  OTP.email = email;
-
-  setBtn('btn-send-otp', true, 'Sending code to your email...');
-  api({ action:'sendOTP', email:email }, function(res) {
-    setBtn('btn-send-otp', false, 'Continue — verify my email');
-    if (!res.success) { toast(res.error||'Could not send code. Try again.', true); return; }
-    document.getElementById('otp-sent-to').textContent = email;
-    document.getElementById('otp-code').value = '';
-    var cn = document.getElementById('otp-code-note');
-    if (cn) { cn.textContent=''; cn.className='field-note'; }
-    toast('Code sent! Check your inbox and spam folder.');
-    goToStep(2);
-    startOTPTimer();
-    startResendCooldown();
+function collectAndContinue() {
+  // Collect textarea values
+  Qs.forEach(function(q){
+    if(q.type==='text'){var ta=document.getElementById('ta-'+q.id);if(ta)S.answers[q.id]=ta.value.trim();}
   });
-}
-
-// STEP 2: verify OTP then register immediately
-function doVerifyOTP() {
-  var code = (document.getElementById('otp-code').value||'').trim();
-  var cn   = document.getElementById('otp-code-note');
-  if (!code||code.length!==6) { toast('Please enter the 6-digit code from your email.', true); return; }
-  setBtn('btn-verify-otp', true, 'Verifying &amp; creating account...');
-  api({ action:'verifyOTP', email:OTP.email, code:code }, function(res) {
-    if (!res.success) {
-      setBtn('btn-verify-otp', false, 'Verify &amp; create my account');
-      if (cn) { cn.textContent=res.error||'Incorrect code.'; cn.className='field-note bad'; }
+  // Validate all
+  for(var i=0;i<Qs.length;i++){
+    var q=Qs[i];var ans=S.answers[q.id];
+    var empty=!ans||(Array.isArray(ans)&&ans.length===0)||ans==='';
+    if(empty){
+      var badges=document.querySelectorAll('.qbadge');
+      if(badges[i]) badges[i].scrollIntoView({behavior:'smooth',block:'center'});
+      toast('Please answer Question '+(i+1)+' before continuing.',true);
       return;
     }
-    OTP.verifyToken = res.verifiedToken;
-    clearInterval(OTP.timerInterval);
-    clearTimeout(OTP.resendTimeout);
-    doRegister();
-  });
-}
-
-function doResendOTP() {
-  api({ action:'sendOTP', email:OTP.email }, function(res) {
-    if (!res.success) { toast(res.error||'Could not resend.', true); return; }
-    document.getElementById('otp-code').value = '';
-    var cn = document.getElementById('otp-code-note');
-    if (cn) { cn.textContent=''; cn.className='field-note'; }
-    clearInterval(OTP.timerInterval);
-    OTP.secondsLeft = 600;
-    startOTPTimer();
-    startResendCooldown();
-    toast('New code sent! Check your inbox.');
-  });
-}
-
-function startOTPTimer() {
-  OTP.secondsLeft = 600;
-  clearInterval(OTP.timerInterval);
-  OTP.timerInterval = setInterval(function() {
-    OTP.secondsLeft--;
-    var m = Math.floor(OTP.secondsLeft/60), s = OTP.secondsLeft%60;
-    var el = document.getElementById('otp-countdown-reg');
-    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = OTP.secondsLeft<60?'#C62828':'#1D9E75'; }
-    if (OTP.secondsLeft <= 0) {
-      clearInterval(OTP.timerInterval);
-      if (el) { el.textContent='Expired'; el.style.color='#C62828'; }
-    }
-  }, 1000);
-}
-
-function startResendCooldown() {
-  var btn = document.getElementById('resend-btn');
-  if (!btn) return;
-  btn.disabled = true; btn.textContent = 'Resend code (wait 60s)';
-  var s = 60;
-  OTP.resendTimeout = setInterval(function() {
-    s--;
-    if (btn) btn.textContent = 'Resend code (wait '+s+'s)';
-    if (s <= 0) { clearInterval(OTP.resendTimeout); if(btn){btn.disabled=false;btn.textContent='Resend code';} }
-  }, 1000);
-}
-
-// Called after OTP verified — creates the account
-function doRegister() {
-  setBtn('btn-verify-otp', true, 'Creating your account...');
-  api({
-    action:'register', name:REG.name, email:REG.email, password:REG.password,
-    phone:REG.phone, school:REG.school, refCode:REG.refCode,
-    verifiedToken:OTP.verifyToken, fingerprint:REG.fingerprint
-  }, function(res) {
-    setBtn('btn-verify-otp', false, 'Verify &amp; create my account');
-    if (!res.success) { toast(res.error||'Registration failed. Try again.', true); return; }
-    saveSession(res.token);
-    applyUserState(res, res.token);
-    OTP.verifyToken=''; OTP.email='';
-    REG={name:'',email:'',password:'',phone:'',school:'',refCode:'',fingerprint:''};
-    toast('Welcome to rovo! Complete the survey to earn ₦'+CFG.SURVEY_REWARD+'.');
-    renderQ(0);
-    show('screen-survey');
-  });
-}
-
-
-// ── LOGIN ─────────────────────────────────────────────────────
-function doLogin() {
-  var email = document.getElementById('l-email').value.trim().toLowerCase();
-  var pass  = document.getElementById('l-password').value.trim();
-
-  if (!email) { toast('Email address is required.', true); return; }
-  if (!pass)  { toast('Password is required.', true); return; }
-
-  setBtn('btn-login', true, 'Logging in...');
-
-  api({ action:'login', email, password:pass }, function(res) {
-    setBtn('btn-login', false, 'Log in to my account');
-    if (!res.success) { toast(res.error || 'Login failed. Try again.', true); return; }
-    saveSession(res.token);
-    applyUserState(res, res.token);
-    toast('Welcome back, ' + res.name.split(' ')[0] + '!');
-    if (res.surveyDone) {
-      goDashboard();
-    } else {
-      renderQ(S.currentQ);
-      show('screen-survey');
-    }
-  });
-}
-
-function doLogout() {
-  clearSession();
-  S = { token:'', userId:'', name:'', email:'', myCode:'', balance:0, totalEarned:0, refEarned:0, refCount:0, withdrawn:0, surveyDone:false, currentQ:0, answers:{} };
-  switchAuth('login');
-  show('screen-auth');
-  toast('You have been logged out.');
-}
-
-// ── SURVEY ────────────────────────────────────────────────────
-function startSurvey() { renderQ(0); show('screen-survey'); }
-
-function renderQ(idx) {
-  S.currentQ = idx;
-  var q   = Qs[idx];
-  var pct = Math.round(((idx+1)/Qs.length)*100);
-
-  document.getElementById('sv-qn').textContent   = idx+1;
-  document.getElementById('sv-prog').style.width = pct+'%';
-  document.getElementById('sv-prog-lbl').textContent = 'Question '+(idx+1)+' of '+Qs.length;
-  document.getElementById('sv-prog-pct').textContent = pct+'%';
-  document.getElementById('sv-bal').textContent  = S.balance;
-  document.getElementById('btn-prev').style.display = idx>0 ? 'block' : 'none';
-  document.getElementById('btn-next').textContent   = idx===Qs.length-1 ? 'Submit survey ✓' : 'Next →';
-
-  var saved = S.answers[q.id];
-  var html  = '<div class="card">';
-  html += '<div class="qbadge">Q'+(idx+1)+'</div>';
-  html += '<div class="qtitle">' + q.title + '</div>';
-  if (q.hint) html += '<div class="qhint">' + q.hint + '</div>';
-
-  if (q.type === 'radio') {
-    q.opts.forEach(function(opt) {
-      var sel = saved === opt;
-      html += '<div class="opt'+(sel?' sel':'')+'" onclick="pickOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="radio" name="'+q.id+'"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
-    });
-  } else if (q.type === 'checkbox') {
-    var sarr = saved || [];
-    q.opts.forEach(function(opt) {
-      var sel = sarr.indexOf(opt) !== -1;
-      html += '<div class="opt'+(sel?' sel':'')+'" onclick="toggleOpt(this,\''+q.id+'\',\''+esc(opt)+'\')"><input type="checkbox"'+(sel?' checked':'')+'><span class="opt-text">'+opt+'</span></div>';
-    });
-  } else if (q.type === 'scale') {
-    html += '<div class="scale-row" id="scale-'+q.id+'">';
-    for (var i=q.min; i<=q.max; i++) {
-      var sel = saved===i;
-      html += '<button class="sb'+(sel?' sel':'')+'" onclick="pickScale(\''+q.id+'\','+i+',this)">'+i+'</button>';
-    }
-    html += '</div><div class="scale-lbs"><span>'+q.minL+'</span><span>'+q.maxL+'</span></div>';
-  } else if (q.type === 'text') {
-    html += '<textarea id="ta-'+q.id+'" placeholder="'+(q.ph||'')+'">'+(saved||'')+'</textarea>';
   }
-
-  html += '</div>';
-  document.getElementById('q-container').innerHTML = html;
-  window.scrollTo(0,0);
+  // Pre-fill ref code if available
+  if(S.pendingRefCode){var rf=document.getElementById('r-ref');if(rf&&!rf.value){rf.value=S.pendingRefCode;liveCheckRef(rf);}}
+  show('screen-register');
 }
 
-function pickOpt(el, qid, val) {
-  document.querySelectorAll('[name="'+qid+'"]').forEach(function(r){ r.closest('.opt').classList.remove('sel'); r.checked=false; });
-  el.classList.add('sel'); el.querySelector('input').checked=true;
-  S.answers[qid] = val;
-}
-function toggleOpt(el, qid, val) {
-  var arr = S.answers[qid] || [];
-  var i   = arr.indexOf(val);
-  if (i===-1){ arr.push(val); el.classList.add('sel'); el.querySelector('input').checked=true; }
-  else { arr.splice(i,1); el.classList.remove('sel'); el.querySelector('input').checked=false; }
-  S.answers[qid] = arr;
-}
-function pickScale(qid, val, btn) {
-  document.querySelectorAll('#scale-'+qid+' .sb').forEach(function(b){ b.classList.remove('sel'); });
-  btn.classList.add('sel');
-  S.answers[qid] = val;
+// ── REGISTER + SUBMIT (combined after survey) ────────────────
+function getFingerprint(){
+  try{
+    var raw=[navigator.userAgent,navigator.language,screen.width+'x'+screen.height,screen.colorDepth,new Date().getTimezoneOffset(),navigator.hardwareConcurrency,navigator.platform].join('|');
+    var h=0;for(var i=0;i<raw.length;i++){h=((h<<5)-h)+raw.charCodeAt(i);h|=0;}
+    return 'FP'+Math.abs(h).toString(16).toUpperCase();
+  }catch(e){return 'unknown';}
 }
 
-function nextQ() {
-  var q = Qs[S.currentQ];
-  if (q.type === 'text') {
-    var ta = document.getElementById('ta-'+q.id);
-    if (ta) S.answers[q.id] = ta.value.trim();
-  }
-  // All questions required
-  var ans = S.answers[q.id];
-  var empty = !ans || (Array.isArray(ans) && ans.length===0) || ans==='';
-  if (empty) { toast('This question is required. Please answer before continuing.', true); return; }
+function doRegisterAndSubmit() {
+  var name  =document.getElementById('r-name').value.trim();
+  var email =document.getElementById('r-email').value.trim().toLowerCase();
+  var pass  =document.getElementById('r-password').value.trim();
+  var pass2 =document.getElementById('r-password2').value.trim();
+  var phone =document.getElementById('r-phone').value.trim().replace(/\s/g,'');
+  var school=document.getElementById('r-school').value.trim();
+  var ref   =document.getElementById('r-ref').value.trim().toUpperCase();
+  var en=document.getElementById('r-email-note'), pn=document.getElementById('r-phone-note');
 
-  if (S.currentQ === Qs.length-1) { submitSurvey(); return; }
-  renderQ(S.currentQ+1);
-}
-function prevQ() { if (S.currentQ>0) renderQ(S.currentQ-1); }
+  if(!name)                   {toast('Full name is required.',true);return;}
+  if(!email)                  {toast('Email address is required.',true);return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Please enter a valid email.',true);return;}
+  if(en&&en.classList.contains('bad')){toast('This email is already registered. Please log in.',true);return;}
+  if(!pass||pass.length<6)    {toast('Password must be at least 6 characters.',true);return;}
+  if(pass!==pass2)            {toast('Passwords do not match.',true);return;}
+  if(!phone||phone.length<10) {toast('Please enter a valid phone number.',true);return;}
+  if(pn&&pn.classList.contains('bad')){toast('This phone number is already registered.',true);return;}
+  if(!school)                 {toast('School / university is required.',true);return;}
 
-function submitSurvey() {
+  setBtn('btn-final-submit',true,'Creating account...');
   show('screen-submitting');
-  api({ action:'submitSurvey', token:S.token, userId:S.userId, answers:S.answers }, function(res) {
-    if (!res.success) { toast(res.error||'Submission failed.', true); renderQ(S.currentQ); show('screen-survey'); return; }
-    S.balance     = res.newBalance;
-    S.totalEarned = res.newBalance;
-    S.surveyDone  = true;
-    updateCodes();
-    document.getElementById('done-bal').textContent   = S.balance;
-    document.getElementById('done-total').textContent = S.totalEarned;
-    show('screen-complete');
+
+  api({action:'register',name:name,email:email,password:pass,phone:phone,school:school,refCode:ref,fingerprint:getFingerprint(),skipEmailVerification:true},function(res){
+    if(!res.success){
+      show('screen-register');
+      setBtn('btn-final-submit',false,'Submit & claim my \u20a650');
+      toast(res.error||'Registration failed. Try again.',true);
+      return;
+    }
+    saveSession(res.token);
+    applyUserState(res,res.token);
+
+    api({action:'submitSurvey',token:res.token,userId:res.userId,answers:S.answers},function(res2){
+      if(!res2.success){
+        show('screen-register');
+        setBtn('btn-final-submit',false,'Submit & claim my \u20a650');
+        toast(res2.error||'Could not save survey. Try again.',true);
+        return;
+      }
+      S.balance=res2.newBalance;S.totalEarned=res2.newBalance;S.surveyDone=true;
+      updateCodes();
+      document.getElementById('done-bal').textContent=S.balance;
+      show('screen-complete');
+    });
   });
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────────
-function goDashboard() {
+// ── LOGIN ────────────────────────────────────────────────────
+function doLogin(){
+  var email=document.getElementById('l-email').value.trim().toLowerCase();
+  var pass=document.getElementById('l-password').value.trim();
+  if(!email){toast('Email address is required.',true);return;}
+  if(!pass) {toast('Password is required.',true);return;}
+  setBtn('btn-login',true,'Logging in...');
+  api({action:'login',email:email,password:pass},function(res){
+    setBtn('btn-login',false,'Log in to my account');
+    if(!res.success){toast(res.error||'Login failed. Try again.',true);return;}
+    saveSession(res.token);applyUserState(res,res.token);
+    toast('Welcome back, '+res.name.split(' ')[0]+'!');
+    if(res.surveyDone) goDashboard();
+    else{renderAllQuestions();show('screen-survey');}
+  });
+}
+function doLogout(){
+  clearSession();
+  S={token:'',userId:'',name:'',email:'',myCode:'',balance:0,totalEarned:0,refEarned:0,refCount:0,withdrawn:0,surveyDone:false,answers:{},emailVerified:false,pendingRefCode:''};
+  show('screen-auth');toast('You have been logged out.');
+}
+function startSurvey(){renderAllQuestions();show('screen-survey');}
+
+// ── DASHBOARD ────────────────────────────────────────────────
+function goDashboard(){
   show('screen-dashboard');
-  document.getElementById('db-user-info').textContent = S.name.split(' ')[0];
-  switchTab('home');
-  loadWallet();
+  document.getElementById('db-user-info').textContent=S.name.split(' ')[0];
+  switchTab('home');loadWallet();
 }
-
-function updateCodes() {
-  ['done-mycode','done-share','ref-code-big','ref-msg-code','db-code'].forEach(function(id){
-    var el = document.getElementById(id);
-    if (el) el.textContent = S.myCode || '—';
+function updateCodes(){
+  ['done-mycode','ref-code-big','db-code'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.textContent=S.myCode||'\u2014';
   });
 }
-
-function loadWallet() {
-  api({ action:'getWallet', token:S.token }, function(res) {
-    if (!res.success) { toast(res.error||'Could not load wallet.', true); return; }
-    S.balance    = res.balance;
-    S.totalEarned= res.totalEarned;
-    S.refEarned  = res.refEarned;
-    S.refCount   = res.refCount;
-    S.withdrawn  = res.withdrawn;
-    S.surveyDone = res.surveyDone;
-    S.myCode     = res.myCode || S.myCode;
+function loadWallet(){
+  api({action:'getWallet',token:S.token},function(res){
+    if(!res.success){toast(res.error||'Could not load wallet.',true);return;}
+    S.balance=res.balance;S.totalEarned=res.totalEarned;S.refEarned=res.refEarned;
+    S.refCount=res.refCount;S.withdrawn=res.withdrawn;S.surveyDone=res.surveyDone;
+    S.myCode=res.myCode||S.myCode;
     updateCodes();
-
-    // Home tab
-    document.getElementById('db-balance').textContent   = res.balance;
-    document.getElementById('db-total').textContent     = res.totalEarned;
-    document.getElementById('db-ref-earned').textContent= res.refEarned;
-    document.getElementById('db-ref-count').textContent = res.refCount;
-    document.getElementById('db-withdrawn').textContent = res.withdrawn;
-    document.getElementById('db-code').textContent      = res.myCode;
-
-    var need = Math.max(0, CFG.MIN_WITHDRAWAL-res.balance);
-    document.getElementById('db-withdraw-note').textContent = res.canWithdraw
-      ? 'Ready to withdraw!' : 'Need ₦'+need+' more to withdraw';
-
-    document.getElementById('survey-cta').style.display          = res.surveyDone ? 'none' : 'block';
-    document.getElementById('survey-done-banner').style.display  = res.surveyDone ? 'block' : 'none';
-
+    document.getElementById('db-balance').textContent   =res.balance;
+    document.getElementById('db-total').textContent     =res.totalEarned;
+    document.getElementById('db-ref-count').textContent =res.refCount;
+    document.getElementById('db-withdrawn').textContent =res.withdrawn;
+    document.getElementById('db-code').textContent      =res.myCode;
+    var need=Math.max(0,CFG.MIN_WITHDRAWAL-res.balance);
+    document.getElementById('db-withdraw-note').textContent=res.canWithdraw?'Ready to withdraw!':'Need \u20a6'+need+' more';
+    document.getElementById('survey-cta').style.display        =res.surveyDone?'none':'block';
+    document.getElementById('survey-done-banner').style.display=res.surveyDone?'block':'none';
+    var rsc=document.getElementById('ref-stat-count');if(rsc)rsc.textContent=res.refCount;
+    var rse=document.getElementById('ref-stat-earned');if(rse)rse.textContent=res.refEarned;
     // Transactions
-    var txEl = document.getElementById('db-tx-list');
-    if (!res.transactions || res.transactions.length===0) {
-      txEl.innerHTML = '<div style="text-align:center;padding:.75rem;font-size:13px;color:#888">No transactions yet</div>';
-    } else {
-      txEl.innerHTML = res.transactions.map(function(tx){
-        return '<div class="txr"><div><div class="txl">'+tx.note+'</div><div class="txs">'+fmtDate(tx.time)+'</div></div>' +
-               '<div class="txa '+(tx.type==='credit'?'plus':'minus')+'">'+(tx.type==='credit'?'+':'-')+'₦'+tx.amount+'</div></div>';
-      }).join('');
-    }
-
-    // Referrals tab
-    var refEl = document.getElementById('ref-list');
-    if (!res.referrals || res.referrals.length===0) {
-      refEl.innerHTML = '<div style="text-align:center;padding:.75rem;font-size:13px;color:#888">No referrals yet. Share your code!</div>';
-    } else {
-      refEl.innerHTML = res.referrals.map(function(r){
-        var maskedEmail = r.email ? r.email.substring(0,3)+'***@***' : '—';
-        return '<div class="txr"><div><div class="txl">'+maskedEmail+'</div><div class="txs">Used your code · '+fmtDate(r.time)+'</div></div><div class="txa plus">+₦50</div></div>';
-      }).join('');
-    }
-
-    // Withdrawal tab
-    var bal = res.balance;
-    document.getElementById('wd-avail').textContent   = bal;
-    document.getElementById('wd-lock-bal').textContent= bal;
-    var need2 = Math.max(0, CFG.MIN_WITHDRAWAL-bal);
-    document.getElementById('wd-lock-need').textContent = need2;
-    document.getElementById('wd-lock-refs').textContent = Math.ceil(need2/50);
-    document.getElementById('wd-locked-view').style.display   = bal>=CFG.MIN_WITHDRAWAL ? 'none' : 'block';
-    document.getElementById('wd-unlocked-view').style.display = bal>=CFG.MIN_WITHDRAWAL ? 'block' : 'none';
-
-    // Withdrawal history
-    var wdHist = document.getElementById('wd-history');
-    if (!res.withdrawals || res.withdrawals.length===0) {
-      wdHist.innerHTML = '<div style="text-align:center;padding:.5rem;font-size:13px;color:#888">No withdrawal history yet</div>';
-    } else {
-      wdHist.innerHTML = res.withdrawals.map(function(w){
-        var badgeCls = w.status==='paid' ? 'b-green' : w.status==='pending' ? 'b-amber' : 'b-red';
-        return '<div class="wd-hist-row">' +
-               '<div><div class="txl">₦'+w.amount+' — '+w.method+'</div><div class="txs">'+fmtDate(w.time)+'</div></div>' +
-               '<span class="badge '+badgeCls+'">'+w.status+'</span></div>';
-      }).join('');
-    }
+    var txEl=document.getElementById('db-tx-list');
+    if(!res.transactions||res.transactions.length===0){txEl.innerHTML='<div style="text-align:center;padding:.75rem;font-size:13px;color:var(--ink-3)">No transactions yet</div>';}
+    else{txEl.innerHTML=res.transactions.map(function(tx){
+      var icon=tx.type==='credit'?'&#128176;':'&#128228;';
+      var bg=tx.type==='credit'?'var(--teal-l)':'var(--amber-l)';
+      return '<div class="tx-item"><div class="tx-dot" style="background:'+bg+'">'+icon+'</div>'+
+        '<div class="tx-info"><div class="tx-name">'+tx.note+'</div><div class="tx-date">'+fmtDate(tx.time)+'</div></div>'+
+        '<div class="tx-amt '+(tx.type==='credit'?'plus':'minus')+'">'+(tx.type==='credit'?'+':'-')+'\u20a6'+tx.amount+'</div></div>';
+    }).join('');}
+    // Referrals
+    var refEl=document.getElementById('ref-list');
+    if(!res.referrals||res.referrals.length===0){refEl.innerHTML='<div style="text-align:center;padding:.75rem;font-size:13px;color:var(--ink-3)">No referrals yet. Share your code!</div>';}
+    else{refEl.innerHTML=res.referrals.map(function(r){
+      var masked=r.email?r.email.substring(0,3)+'***@***':'\u2014';
+      return '<div class="tx-item"><div class="tx-dot" style="background:var(--teal-l)">&#128100;</div>'+
+        '<div class="tx-info"><div class="tx-name">'+masked+'</div><div class="tx-date">Used your code \u00b7 '+fmtDate(r.time)+'</div></div>'+
+        '<div class="tx-amt plus">+\u20a650</div></div>';
+    }).join('');}
+    // Withdraw
+    var bal=res.balance;
+    document.getElementById('wd-avail').textContent   =bal;
+    document.getElementById('wd-lock-bal').textContent=bal;
+    var need2=Math.max(0,CFG.MIN_WITHDRAWAL-bal);
+    document.getElementById('wd-lock-need').textContent=need2;
+    document.getElementById('wd-lock-refs').textContent=Math.ceil(need2/50);
+    document.getElementById('wd-locked-view').style.display  =bal>=CFG.MIN_WITHDRAWAL?'none':'block';
+    document.getElementById('wd-unlocked-view').style.display=bal>=CFG.MIN_WITHDRAWAL?'block':'none';
+    if(bal>=CFG.MIN_WITHDRAWAL) checkEmailVerification();
+    var wdHist=document.getElementById('wd-history');
+    if(!res.withdrawals||res.withdrawals.length===0){wdHist.innerHTML='<div style="text-align:center;padding:.5rem;font-size:13px;color:var(--ink-3)">No withdrawal history yet</div>';}
+    else{wdHist.innerHTML=res.withdrawals.map(function(w){
+      var cls=w.status==='paid'?'b-green':w.status==='pending'?'b-amber':'b-red';
+      return '<div class="wd-hist-row"><div><div style="font-size:13px;font-weight:600">\u20a6'+w.amount+' \u2014 '+w.method+'</div><div style="font-size:11px;color:var(--ink-3)">'+fmtDate(w.time)+'</div></div><span class="badge '+cls+'">'+w.status+'</span></div>';
+    }).join('');}
   });
 }
-
-function switchTab(tab) {
+function switchTab(tab){
   ['home','referrals','withdraw'].forEach(function(t){
-    document.getElementById('tab-btn-'+t).classList.toggle('active', t===tab);
-    document.getElementById('tab-'+t).style.display = t===tab ? 'block' : 'none';
+    document.getElementById('tab-btn-'+t).classList.toggle('active',t===tab);
+    document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
   });
-  if (tab==='withdraw' && S.balance>=CFG.MIN_WITHDRAWAL) {
-    document.getElementById('wd-avail').textContent = S.balance;
-  }
-  if (tab==='referrals') { updateRefLinkPreview(); }
+  if(tab==='withdraw'&&S.balance>=CFG.MIN_WITHDRAWAL){document.getElementById('wd-avail').textContent=S.balance;checkEmailVerification();}
+  if(tab==='referrals') updateRefLinkPreview();
 }
 
-function toggleWdFields() {
-  var m = document.getElementById('wd-method').value;
-  document.getElementById('wd-bank-fields').style.display   = m==='bank' ? 'block' : 'none';
-  document.getElementById('wd-wallet-fields').style.display = (m&&m!=='bank') ? 'block' : 'none';
+// ── WITHDRAWAL ───────────────────────────────────────────────
+function toggleWdFields(){
+  var m=document.getElementById('wd-method').value;
+  document.getElementById('wd-bank-fields').style.display=m==='bank'?'block':'none';
+  document.getElementById('wd-wallet-fields').style.display=(m&&m!=='bank')?'block':'none';
 }
-
-function validateWdAmt() {
-  var amt  = parseInt(document.getElementById('wd-amount').value)||0;
-  var note = document.getElementById('wd-amt-note');
-  if (amt < CFG.MIN_WITHDRAWAL)  { note.textContent='Minimum is ₦'+CFG.MIN_WITHDRAWAL; note.className='field-note bad'; }
-  else if (amt > CFG.MAX_WITHDRAWAL) { note.textContent='Maximum per request is ₦'+CFG.MAX_WITHDRAWAL.toLocaleString(); note.className='field-note bad'; }
-  else if (amt > S.balance)      { note.textContent='Exceeds your balance (₦'+S.balance+')'; note.className='field-note bad'; }
-  else                           { note.textContent='Balance after withdrawal: ₦'+(S.balance-amt); note.className='field-note ok'; }
+function validateWdAmt(){
+  var amt=parseInt(document.getElementById('wd-amount').value)||0;
+  var note=document.getElementById('wd-amt-note');
+  if(amt<CFG.MIN_WITHDRAWAL){note.textContent='Minimum is \u20a6'+CFG.MIN_WITHDRAWAL;note.className='field-note bad';}
+  else if(amt>CFG.MAX_WITHDRAWAL){note.textContent='Maximum is \u20a6'+CFG.MAX_WITHDRAWAL.toLocaleString();note.className='field-note bad';}
+  else if(amt>S.balance){note.textContent='Exceeds your balance (\u20a6'+S.balance+')';note.className='field-note bad';}
+  else{note.textContent='Balance after: \u20a6'+(S.balance-amt);note.className='field-note ok';}
 }
-
-function doWithdraw() {
-  var method   = document.getElementById('wd-method').value;
-  var amount   = parseInt(document.getElementById('wd-amount').value)||0;
-  var bank     = (document.getElementById('wd-bank')||{}).value||'';
-  var acct     = (document.getElementById('wd-acct')||{}).value||'';
-  var acctName = (document.getElementById('wd-acct-name')||{}).value||'';
-  var walletNum= (document.getElementById('wd-wallet-num')||{}).value||'';
-
-  if (!method) { toast('Please select a payment method.', true); return; }
-  if (method==='bank') {
-    if (!bank)    { toast('Bank name is required.', true); return; }
-    if (!acct)    { toast('Account number is required.', true); return; }
-    if (!acctName){ toast('Account name is required.', true); return; }
-  } else {
-    if (!walletNum){ toast('Wallet phone number is required.', true); return; }
-  }
-  if (amount < CFG.MIN_WITHDRAWAL) { toast('Minimum withdrawal is ₦'+CFG.MIN_WITHDRAWAL+'.', true); return; }
-  if (amount > CFG.MAX_WITHDRAWAL) { toast('Maximum single withdrawal is ₦'+CFG.MAX_WITHDRAWAL.toLocaleString()+'.', true); return; }
-  if (amount > S.balance)          { toast('Amount exceeds your available balance.', true); return; }
-
-  setBtn('wd-btn', true, 'Submitting...');
-
-  api({ action:'requestWithdrawal', token:S.token, amount, method, bank, acct, acctName, walletNum }, function(res) {
-    setBtn('wd-btn', false, 'Submit withdrawal request');
-    if (!res.success) { toast(res.error||'Withdrawal failed.', true); return; }
-    S.balance = res.newBalance;
-    document.getElementById('wds-amt').textContent  = amount;
-    document.getElementById('wds-amt2').textContent = amount;
-    document.getElementById('wds-method').textContent = method.charAt(0).toUpperCase()+method.slice(1);
-    document.getElementById('wds-ref').textContent   = res.withdrawalId;
+function doWithdraw(){
+  if(!S.emailVerified){try{var c=localStorage.getItem(EMAIL_VERIFIED_KEY+'_'+S.userId);if(c==='1')S.emailVerified=true;}catch(e){}}
+  if(!S.emailVerified){toast('Please verify your email first.',true);startPayoutOTPFlow();return;}
+  var method=document.getElementById('wd-method').value;
+  var amount=parseInt(document.getElementById('wd-amount').value)||0;
+  var bank=(document.getElementById('wd-bank')||{}).value||'';
+  var acct=(document.getElementById('wd-acct')||{}).value||'';
+  var acctName=(document.getElementById('wd-acct-name')||{}).value||'';
+  var walletNum=(document.getElementById('wd-wallet-num')||{}).value||'';
+  if(!method){toast('Please select a payment method.',true);return;}
+  if(method==='bank'){if(!bank){toast('Bank name required.',true);return;}if(!acct){toast('Account number required.',true);return;}if(!acctName){toast('Account name required.',true);return;}}
+  else{if(!walletNum){toast('Wallet phone number required.',true);return;}}
+  if(amount<CFG.MIN_WITHDRAWAL){toast('Minimum withdrawal is \u20a6'+CFG.MIN_WITHDRAWAL+'.',true);return;}
+  if(amount>CFG.MAX_WITHDRAWAL){toast('Maximum is \u20a6'+CFG.MAX_WITHDRAWAL.toLocaleString()+'.',true);return;}
+  if(amount>S.balance){toast('Amount exceeds your balance.',true);return;}
+  setBtn('wd-btn',true,'Submitting...');
+  api({action:'requestWithdrawal',token:S.token,amount:amount,method:method,bank:bank,acct:acct,acctName:acctName,walletNum:walletNum},function(res){
+    setBtn('wd-btn',false,'Submit withdrawal request');
+    if(!res.success){toast(res.error||'Withdrawal failed.',true);return;}
+    S.balance=res.newBalance;
+    document.getElementById('wds-amt').textContent =amount;
+    document.getElementById('wds-amt2').textContent=amount;
+    document.getElementById('wds-method').textContent=method.charAt(0).toUpperCase()+method.slice(1);
+    document.getElementById('wds-ref').textContent=res.withdrawalId;
     show('screen-wd-success');
   });
 }
 
-function copyCode(id) {
-  var code = (document.getElementById(id)||{}).textContent||'';
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(code).then(function(){ toast('Code '+code+' copied!'); });
-  } else { toast('Your code: '+code); }
+// ── REFERRAL / SHARE ────────────────────────────────────────
+function copyCode(id){
+  var code=(document.getElementById(id)||{}).textContent||'';
+  if(navigator.clipboard){navigator.clipboard.writeText(code).then(function(){toast('Code '+code+' copied!');});}
+  else{toast('Your code: '+code);}
+}
+function getReferralLink(){
+  var base=API_URL;
+  if(base==='PASTE_YOUR_WEB_APP_URL_HERE') base=window.location.href.split('?')[0];
+  return base+'?ref='+encodeURIComponent(S.myCode);
+}
+function shareOnWhatsApp(){
+  if(!S.myCode){toast('Please log in first.',true);return;}
+  var link=getReferralLink();
+  var msg='Hey! I just filled a 5-minute survey for rovo and earned N50 cash!'+
+    '\n\nrovo is a new Lagos delivery startup. They pay students to share their opinion.'+
+    '\n\nOpen my personal link below. Your referral code fills in automatically:'+
+    '\n'+link+
+    '\n\nWe BOTH earn N50 when you complete the survey! My code: '+S.myCode;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+function copyReferralLink(){
+  var link=getReferralLink();
+  if(navigator.clipboard){navigator.clipboard.writeText(link).then(function(){toast('Referral link copied!');});}
+  else{toast('Your link: '+link);}
+  var p=document.getElementById('ref-link-preview');if(p)p.textContent=link;
+}
+function updateRefLinkPreview(){
+  var p=document.getElementById('ref-link-preview');if(p&&S.myCode)p.textContent=getReferralLink();
 }
 
-function getReferralLink() {
-  // Use API_URL (the deployed Web App URL) as the base.
-  // When someone opens WEB_APP_URL?ref=DB-XXXXX, Google Apps Script
-  // reads e.parameter.ref in doGet() and injects it into the page.
-  // This is the only way URL params work in Apps Script Web Apps.
-  var base = API_URL;
-  if (base === 'PASTE_YOUR_WEB_APP_URL_HERE') {
-    // Fallback for testing — use current location
-    base = window.location.href.split('?')[0];
-  }
-  return base + '?ref=' + encodeURIComponent(S.myCode);
-}
-
-function shareOnWhatsApp() {
-  if (!S.myCode) { toast('Please log in first.', true); return; }
-  var link = getReferralLink();
-  var msg = 'Hey! I just filled a 5-minute survey for rovo and earned N50 cash!' +
-    '\n\nIt is for a new Lagos app called rovo.' +
-    '\n\nOpen my personal link below. Your referral code fills in automatically:' +
-    '\n' + link +
-    '\n\nWe BOTH earn N50 when you complete the survey! My code: ' + S.myCode;
-  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
-}
-
-function copyReferralLink() {
-  var link = getReferralLink();
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(link).then(function(){ toast('Referral link copied!'); });
-  } else { toast('Your link: ' + link); }
-  var p = document.getElementById('ref-link-preview');
-  if (p) p.textContent = link;
-}
-
-function updateRefLinkPreview() {
-  var p = document.getElementById('ref-link-preview');
-  if (p && S.myCode) p.textContent = getReferralLink();
-}
-
-function showForgotPassword() {
-  document.getElementById('fp-email').value = '';
-  var n = document.getElementById('fp-email-note');
-  n.textContent = ''; n.className = 'field-note';
+// ── FORGOT / RESET ────────────────────────────────────────────
+function showForgotPassword(){
+  document.getElementById('fp-email').value='';
+  var n=document.getElementById('fp-email-note');n.textContent='';n.className='field-note';
   show('screen-forgot');
 }
-
 var rpTimerInterval;
-function startRpCountdown(seconds) {
-  clearInterval(rpTimerInterval);
-  var rem = seconds;
-  function tick() {
-    var m = Math.floor(rem/60), s = rem%60;
-    var el = document.getElementById('rp-countdown');
-    if (el) { el.textContent = m+':'+(s<10?'0':'')+s; el.style.color = rem<60 ? '#C62828' : '#1D9E75'; }
-    if (rem <= 0) { clearInterval(rpTimerInterval); if(el) el.textContent = 'Expired'; }
-    rem--;
+function startRpCountdown(secs){
+  clearInterval(rpTimerInterval);var rem=secs;
+  function tick(){
+    var m=Math.floor(rem/60),s=rem%60;var el=document.getElementById('rp-countdown');
+    if(el){el.textContent=m+':'+(s<10?'0':'')+s;el.style.color=rem<60?'var(--red)':'var(--teal)';}
+    if(rem<=0){clearInterval(rpTimerInterval);if(el)el.textContent='Expired';}rem--;
   }
-  tick();
-  rpTimerInterval = setInterval(tick, 1000);
+  tick();rpTimerInterval=setInterval(tick,1000);
 }
-
-function doSendResetOTP() {
-  var email = document.getElementById('fp-email').value.trim().toLowerCase();
-  var note  = document.getElementById('fp-email-note');
-  if (!email) { toast('Email address is required.', true); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Please enter a valid email.', true); return; }
-  setBtn('btn-fp-send', true, 'Sending code...');
-  api({ action:'sendOTP', email:email, purpose:'reset' }, function(res) {
-    setBtn('btn-fp-send', false, 'Send reset code to my email');
-    if (!res.success) { note.textContent = res.error||'Could not send code.'; note.className='field-note bad'; return; }
-    window._resetEmail = email;
-    document.getElementById('reset-email-display').textContent = email;
-    document.getElementById('rp-code').value = '';
-    document.getElementById('rp-password').value = '';
-    document.getElementById('rp-password2').value = '';
-    document.getElementById('rp-code-note').textContent = '';
-    document.getElementById('rp-match-note').textContent = '';
-    show('screen-reset');
-    startRpCountdown(600);
-    toast('Reset code sent! Check your inbox and spam folder.');
+function doSendResetOTP(){
+  var email=document.getElementById('fp-email').value.trim().toLowerCase();
+  var note=document.getElementById('fp-email-note');
+  if(!email){toast('Email is required.',true);return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Please enter a valid email.',true);return;}
+  setBtn('btn-fp-send',true,'Sending code...');
+  api({action:'sendOTP',email:email,purpose:'reset'},function(res){
+    setBtn('btn-fp-send',false,'Send reset code');
+    if(!res.success){note.textContent=res.error||'Could not send code.';note.className='field-note bad';return;}
+    window._resetEmail=email;
+    document.getElementById('reset-email-display').textContent=email;
+    ['rp-code','rp-password','rp-password2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+    ['rp-code-note','rp-match-note'].forEach(function(id){var el=document.getElementById(id);if(el){el.textContent='';el.className='field-note';}});
+    show('screen-reset');startRpCountdown(600);toast('Reset code sent!');
+  });
+}
+function doResendResetOTP(){
+  if(!window._resetEmail){show('screen-forgot');return;}
+  setBtn('btn-rp-resend',true,'Sending...');
+  api({action:'sendOTP',email:window._resetEmail,purpose:'reset'},function(res){
+    setBtn('btn-rp-resend',false,'Send a new code');
+    if(!res.success){toast(res.error||'Could not resend.',true);return;}
+    document.getElementById('rp-code').value='';startRpCountdown(600);toast('New code sent!');
+  });
+}
+function checkRpMatch(){
+  var p1=document.getElementById('rp-password').value,p2=document.getElementById('rp-password2').value;
+  var n=document.getElementById('rp-match-note');
+  if(!p2){n.textContent='';n.className='field-note';return;}
+  if(p1===p2){n.textContent='Passwords match';n.className='field-note ok';}
+  else{n.textContent='Passwords do not match';n.className='field-note bad';}
+}
+function doResetPassword(){
+  var code=String(document.getElementById('rp-code').value||'').trim();
+  var pass=document.getElementById('rp-password').value.trim();
+  var pass2=document.getElementById('rp-password2').value.trim();
+  var email=window._resetEmail||'';
+  var cn=document.getElementById('rp-code-note');
+  if(!code||code.length!==6){toast('Please enter the 6-digit code.',true);return;}
+  if(!pass||pass.length<6){toast('Password must be at least 6 characters.',true);return;}
+  if(pass!==pass2){toast('Passwords do not match.',true);return;}
+  setBtn('btn-rp-submit',true,'Resetting...');
+  api({action:'resetPassword',email:email,code:code,newPassword:pass},function(res){
+    setBtn('btn-rp-submit',false,'Set new password');
+    if(!res.success){cn.textContent=res.error||'Reset failed.';cn.className='field-note bad';return;}
+    clearInterval(rpTimerInterval);window._resetEmail='';
+    toast('Password reset! Please log in.');
+    document.getElementById('l-email').value=email;
+    show('screen-login');
   });
 }
 
-function doResendResetOTP() {
-  if (!window._resetEmail) { show('screen-forgot'); return; }
-  setBtn('btn-rp-resend', true, 'Sending...');
-  api({ action:'sendOTP', email:window._resetEmail, purpose:'reset' }, function(res) {
-    setBtn('btn-rp-resend', false, 'Send a new code');
-    if (!res.success) { toast(res.error||'Could not resend.', true); return; }
-    document.getElementById('rp-code').value = '';
-    startRpCountdown(600);
-    toast('New reset code sent!');
-  });
+function fmtDate(d){
+  if(!d) return '\u2014';
+  try{return new Date(d).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'});}
+  catch(e){return String(d).substring(0,10);}
 }
 
-function checkRpMatch() {
-  var p1 = document.getElementById('rp-password').value;
-  var p2 = document.getElementById('rp-password2').value;
-  var n  = document.getElementById('rp-match-note');
-  if (!p2) { n.textContent=''; n.className='field-note'; return; }
-  if (p1===p2) { n.textContent='Passwords match'; n.className='field-note ok'; }
-  else         { n.textContent='Passwords do not match'; n.className='field-note bad'; }
-}
-
-function doResetPassword() {
-  var code  = String(document.getElementById('rp-code').value||'').trim();
-  var pass  = document.getElementById('rp-password').value.trim();
-  var pass2 = document.getElementById('rp-password2').value.trim();
-  var email = window._resetEmail||'';
-  var cn    = document.getElementById('rp-code-note');
-  if (!code||code.length!==6) { toast('Please enter the 6-digit code.', true); return; }
-  if (!pass||pass.length<6)   { toast('Password must be at least 6 characters.', true); return; }
-  if (pass!==pass2)           { toast('Passwords do not match.', true); return; }
-  setBtn('btn-rp-submit', true, 'Resetting...');
-  api({ action:'resetPassword', email:email, code:code, newPassword:pass }, function(res) {
-    setBtn('btn-rp-submit', false, 'Set new password');
-    if (!res.success) { cn.textContent=res.error||'Reset failed.'; cn.className='field-note bad'; return; }
-    clearInterval(rpTimerInterval);
-    window._resetEmail = '';
-    toast('Password reset! Please log in with your new password.');
-    document.getElementById('l-email').value = email;
-    switchAuth('login');
-    show('screen-auth');
-  });
-}
-
-function fmtDate(d) {
-  if (!d) return '—';
-  try { return new Date(d).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}); }
-  catch(e){ return String(d).substring(0,10); }
-}
 </script>
 </body>
 </html>
