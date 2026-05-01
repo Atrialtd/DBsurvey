@@ -425,23 +425,71 @@ textarea{resize:vertical;min-height:80px}
 
   <!-- SCREEN: REGISTER (after survey) -->
   <div id="screen-register" class="screen">
-    <div style="background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:20px;padding:1.25rem 1.4rem;margin-bottom:1rem;color:#fff;text-align:center;box-shadow:0 4px 20px rgba(29,158,117,.3)">
-      <div style="font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Almost done!</div>
-      <div style="font-family:var(--font-head);font-size:20px;font-weight:800">Create your account</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:.3rem">Your survey answers are saved. Create an account to get your &#8358;50.</div>
+
+    <!-- Step indicator -->
+    <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:1.1rem">
+      <div id="reg-ind-1" style="display:flex;align-items:center;gap:.35rem">
+        <div id="reg-dot-1" style="width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-head)">1</div>
+        <span style="font-size:13px;font-weight:600;color:var(--teal)">Your details</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);border-radius:2px;margin:0 .3rem"></div>
+      <div id="reg-ind-2" style="display:flex;align-items:center;gap:.35rem">
+        <div id="reg-dot-2" style="width:26px;height:26px;border-radius:50%;background:var(--border);color:var(--ink-3);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-head)">2</div>
+        <span id="reg-label-2" style="font-size:13px;font-weight:600;color:var(--ink-3)">Verify email</span>
+      </div>
     </div>
-    <div class="card">
-      <div class="fg"><label class="fl">Full name <span class="req">*</span></label><input type="text" id="r-name" placeholder="e.g. Amaka Okonkwo" autocomplete="name"></div>
-      <div class="fg"><label class="fl">Email address <span class="req">*</span></label><input type="email" id="r-email" placeholder="e.g. amaka@gmail.com" oninput="liveCheckEmail()" autocomplete="email"><div class="field-note" id="r-email-note"></div></div>
-      <div class="fg"><label class="fl">Password <span class="req">*</span> <span style="font-weight:400;color:var(--ink-3)">(min 6 chars)</span></label><div class="pw-wrap"><input type="password" id="r-password" placeholder="Choose a password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password',this)">Show</button></div></div>
-      <div class="fg"><label class="fl">Confirm password <span class="req">*</span></label><div class="pw-wrap"><input type="password" id="r-password2" placeholder="Repeat your password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password2',this)">Show</button></div><div class="field-note" id="r-pw2-note"></div></div>
-      <div class="fg"><label class="fl">Phone number <span class="req">*</span></label><input type="tel" id="r-phone" placeholder="e.g. 08012345678" oninput="liveCheckPhone()" autocomplete="tel"><div class="field-note" id="r-phone-note"></div></div>
-      <div class="fg"><label class="fl">School / University <span class="req">*</span></label><input type="text" id="r-school" placeholder="e.g. UNILAG, LASU, Yabatech"></div>
-      <div class="fg" style="margin-bottom:0"><label class="fl">Referral code <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label><input type="text" id="r-ref" placeholder="e.g. DB-AMAKA123" style="text-transform:uppercase" oninput="liveCheckRef(this)"><div class="field-note" id="r-ref-note"></div></div>
+
+    <!-- STEP 1: Details form -->
+    <div id="reg-step-1">
+      <div style="background:linear-gradient(135deg,#1D9E75,#16836A);border-radius:20px;padding:1.1rem 1.4rem;margin-bottom:1rem;color:#fff;text-align:center;box-shadow:0 4px 20px rgba(29,158,117,.3)">
+        <div style="font-size:11px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem">Almost done!</div>
+        <div style="font-family:var(--font-head);font-size:20px;font-weight:800">Create your account</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:.3rem">Your survey answers are saved. Fill in your details to claim your &#8358;50.</div>
+      </div>
+      <div class="card">
+        <div class="fg"><label class="fl">Full name <span class="req">*</span></label><input type="text" id="r-name" placeholder="e.g. Amaka Okonkwo" autocomplete="name"></div>
+        <div class="fg"><label class="fl">Email address <span class="req">*</span></label><input type="email" id="r-email" placeholder="e.g. amaka@gmail.com" oninput="liveCheckEmail()" autocomplete="email"><div class="field-note" id="r-email-note"></div></div>
+        <div class="fg"><label class="fl">Password <span class="req">*</span> <span style="font-weight:400;color:var(--ink-3)">(min 6 chars)</span></label><div class="pw-wrap"><input type="password" id="r-password" placeholder="Choose a password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password',this)">Show</button></div></div>
+        <div class="fg"><label class="fl">Confirm password <span class="req">*</span></label><div class="pw-wrap"><input type="password" id="r-password2" placeholder="Repeat your password" autocomplete="new-password"><button class="pw-toggle" type="button" onclick="togglePw('r-password2',this)">Show</button></div><div class="field-note" id="r-pw2-note"></div></div>
+        <div class="fg"><label class="fl">Phone number <span class="req">*</span></label><input type="tel" id="r-phone" placeholder="e.g. 08012345678" oninput="liveCheckPhone()" autocomplete="tel"><div class="field-note" id="r-phone-note"></div></div>
+        <div class="fg"><label class="fl">School / University <span class="req">*</span></label><input type="text" id="r-school" placeholder="e.g. UNILAG, LASU, Yabatech"></div>
+        <div class="fg" style="margin-bottom:0"><label class="fl">Referral code <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label><input type="text" id="r-ref" placeholder="e.g. DB-AMAKA123" style="text-transform:uppercase" oninput="liveCheckRef(this)"><div class="field-note" id="r-ref-note"></div></div>
+      </div>
+      <div class="warning-box"><strong>&#9888; Use your real details.</strong> Your name, email and phone are used to process your &#8358;50 payout. Fake details block your account permanently.</div>
+      <button class="btn btn-primary" id="btn-send-reg-otp" onclick="doSendRegOTP()" style="font-size:16px;padding:1rem">Continue &#8212; verify my email</button>
+      <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:.5rem;line-height:1.6">We will send a 6-digit code to confirm your email is real.</p>
     </div>
-    <div class="warning-box"><strong>&#9888; Use your real details.</strong> Your name, email and phone are used to process your &#8358;50 payout. Fake details block your account permanently.</div>
-    <button class="btn btn-primary" id="btn-final-submit" onclick="doRegisterAndSubmit()" style="font-size:16px;padding:1rem">Submit &amp; claim my &#8358;50</button>
-    <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:.5rem;line-height:1.6">One account per person only.</p>
+
+    <!-- STEP 2: OTP verification -->
+    <div id="reg-step-2" style="display:none">
+      <div style="text-align:center;padding:.75rem 0 1rem">
+        <div style="width:52px;height:52px;border-radius:14px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:.35rem">Check your email</div>
+        <div style="font-size:13px;color:var(--ink-3);line-height:1.6">We sent a 6-digit code to<br><strong id="reg-otp-email-display" style="color:var(--teal)">your email</strong></div>
+      </div>
+      <div class="card">
+        <input type="number" id="reg-otp-input" placeholder="000000" maxlength="6"
+          style="text-align:center;font-size:28px;font-weight:800;letter-spacing:8px;padding:.85rem;width:100%;border:2px solid var(--teal);border-radius:10px;font-family:var(--font-head)"
+          oninput="if(this.value.length>6)this.value=this.value.slice(0,6)"
+          onkeydown="if(event.key==='Enter')doVerifyRegOTP()">
+        <div class="field-note" id="reg-otp-note" style="text-align:center;margin-top:.5rem"></div>
+        <div style="text-align:center;font-size:13px;color:var(--ink-3);margin-top:.65rem">
+          Code expires in <strong id="reg-otp-countdown" style="color:var(--teal)">10:00</strong>
+        </div>
+        <div style="text-align:center;margin-top:.65rem">
+          <button id="reg-resend-btn" onclick="doResendRegOTP()" disabled
+            style="background:none;border:none;color:var(--teal);font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;font-family:var(--font-body)">
+            Resend code (wait 60s)
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btn-verify-reg-otp" onclick="doVerifyRegOTP()" style="font-size:16px;padding:1rem">Verify &amp; claim my &#8358;50</button>
+      <button class="btn btn-outline" onclick="backToRegDetails()" style="margin-top:0;font-size:13px">&#8592; Back &amp; edit details</button>
+      <p style="font-size:12px;color:var(--ink-3);text-align:center;margin-top:.35rem;line-height:1.6">Can't find it? Check your spam or junk folder.</p>
+    </div>
+
   </div>
 
   <!-- SCREEN: SUBMITTING -->
@@ -644,14 +692,7 @@ textarea{resize:vertical;min-height:80px}
           <div style="font-size:32px;font-weight:800;font-family:var(--font-head)">₦<span id="wd-avail">0</span></div>
         </div>
 
-        <!-- Email verification notice (shows if not verified) -->
-        <div id="wd-verify-notice" style="display:none">
-          <div class="warning-box">
-            <strong>&#9993; Email verification required.</strong> Before your first withdrawal, we need to verify your email address. Tap below to receive a 6-digit code.
-          </div>
-          <button class="btn btn-primary" id="btn-start-payout-otp" onclick="startPayoutOTPFlow()">Verify my email to unlock payout</button>
-          <hr class="divider">
-        </div>
+
 
         <!-- Withdrawal form (shown after email verified) -->
         <div id="wd-form-wrap">
@@ -846,9 +887,7 @@ function doVerifyPayoutOTP() {
     closePayoutOTPModal();
     S.emailVerified=true;
     try { localStorage.setItem(EMAIL_VERIFIED_KEY+'_'+S.userId,'1'); } catch(e) {}
-    document.getElementById('wd-verify-notice').style.display='none';
-    document.getElementById('wd-form-wrap').style.display='block';
-    toast('Email verified! You can now withdraw.');
+    toast('Email verified!');
   });
 }
 function doResendPayoutOTP() {
@@ -861,14 +900,7 @@ function doResendPayoutOTP() {
     toast('New code sent!');
   });
 }
-function checkEmailVerification() {
-  try { var c=localStorage.getItem(EMAIL_VERIFIED_KEY+'_'+S.userId); if(c==='1') S.emailVerified=true; } catch(e) {}
-  var notice=document.getElementById('wd-verify-notice');
-  var form=document.getElementById('wd-form-wrap');
-  if (!notice||!form) return;
-  notice.style.display=S.emailVerified?'none':'block';
-  form.style.display=S.emailVerified?'block':'none';
-}
+function checkEmailVerification() { /* no longer needed - email verified at registration */ }
 
 // ── CORE ─────────────────────────────────────────────────────
 function show(id) {
@@ -1089,14 +1121,19 @@ function getFingerprint(){
   }catch(e){return 'unknown';}
 }
 
-function doRegisterAndSubmit() {
-  var name  =document.getElementById('r-name').value.trim();
-  var email =document.getElementById('r-email').value.trim().toLowerCase();
-  var pass  =document.getElementById('r-password').value.trim();
-  var pass2 =document.getElementById('r-password2').value.trim();
-  var phone =document.getElementById('r-phone').value.trim().replace(/\s/g,'');
-  var school=document.getElementById('r-school').value.trim();
-  var ref   =document.getElementById('r-ref').value.trim().toUpperCase();
+// ── REGISTRATION OTP STATE ───────────────────────────────────
+var REG_OTP = { verifiedToken:'', timerInterval:null, resendInterval:null };
+var REG_DATA = {}; // holds form values between step 1 and step 2
+
+// Step 1: validate form, send OTP to email
+function doSendRegOTP() {
+  var name  = document.getElementById('r-name').value.trim();
+  var email = document.getElementById('r-email').value.trim().toLowerCase();
+  var pass  = document.getElementById('r-password').value.trim();
+  var pass2 = document.getElementById('r-password2').value.trim();
+  var phone = document.getElementById('r-phone').value.trim().replace(/\s/g,'');
+  var school= document.getElementById('r-school').value.trim();
+  var ref   = document.getElementById('r-ref').value.trim().toUpperCase();
   var en=document.getElementById('r-email-note'), pn=document.getElementById('r-phone-note');
 
   if(!name)                   {toast('Full name is required.',true);return;}
@@ -1109,13 +1146,111 @@ function doRegisterAndSubmit() {
   if(pn&&pn.classList.contains('bad')){toast('This phone number is already registered.',true);return;}
   if(!school)                 {toast('School / university is required.',true);return;}
 
-  setBtn('btn-final-submit',true,'Creating account...');
+  // Save form data before OTP step
+  REG_DATA = {name,email,password:pass,phone,school,refCode:ref,fingerprint:getFingerprint()};
+
+  setBtn('btn-send-reg-otp',true,'Sending code...');
+  api({action:'sendOTP',email:email,purpose:'register'},function(res){
+    setBtn('btn-send-reg-otp',false,'Continue \u2014 verify my email');
+    if(!res.success){toast(res.error||'Could not send code. Try again.',true);return;}
+    // Show OTP step
+    document.getElementById('reg-otp-email-display').textContent = email;
+    document.getElementById('reg-otp-input').value = '';
+    document.getElementById('reg-otp-note').textContent = '';
+    document.getElementById('reg-otp-note').className = 'field-note';
+    // Update step indicators
+    document.getElementById('reg-dot-1').style.background='var(--teal-d)';
+    document.getElementById('reg-dot-2').style.background='var(--teal)';
+    document.getElementById('reg-dot-2').style.color='#fff';
+    document.getElementById('reg-label-2').style.color='var(--teal)';
+    document.getElementById('reg-step-1').style.display='none';
+    document.getElementById('reg-step-2').style.display='block';
+    window.scrollTo(0,0);
+    startRegOTPTimer();
+    startRegResendCooldown();
+    toast('Code sent! Check your inbox and spam folder.');
+  });
+}
+
+function backToRegDetails() {
+  clearInterval(REG_OTP.timerInterval);
+  clearInterval(REG_OTP.resendInterval);
+  REG_OTP.verifiedToken = '';
+  document.getElementById('reg-step-1').style.display='block';
+  document.getElementById('reg-step-2').style.display='none';
+  document.getElementById('reg-dot-2').style.background='var(--border)';
+  document.getElementById('reg-dot-2').style.color='var(--ink-3)';
+  document.getElementById('reg-label-2').style.color='var(--ink-3)';
+  window.scrollTo(0,0);
+}
+
+// Step 2: verify OTP then register + submit survey
+function doVerifyRegOTP() {
+  var code = (document.getElementById('reg-otp-input').value||'').trim();
+  var note = document.getElementById('reg-otp-note');
+  if(!code||code.length!==6){toast('Please enter the 6-digit code from your email.',true);return;}
+  setBtn('btn-verify-reg-otp',true,'Verifying...');
+  api({action:'verifyOTP',email:REG_DATA.email,code:code},function(res){
+    if(!res.success){
+      setBtn('btn-verify-reg-otp',false,'Verify & claim my \u20a650');
+      note.textContent=res.error||'Incorrect code. Please try again.';
+      note.className='field-note bad';
+      return;
+    }
+    REG_OTP.verifiedToken = res.verifiedToken;
+    clearInterval(REG_OTP.timerInterval);
+    clearInterval(REG_OTP.resendInterval);
+    doRegisterAndSubmit();
+  });
+}
+
+function doResendRegOTP() {
+  api({action:'sendOTP',email:REG_DATA.email,purpose:'register'},function(res){
+    if(!res.success){toast(res.error||'Could not resend.',true);return;}
+    document.getElementById('reg-otp-input').value='';
+    document.getElementById('reg-otp-note').textContent='';
+    document.getElementById('reg-otp-note').className='field-note';
+    clearInterval(REG_OTP.timerInterval);
+    startRegOTPTimer();
+    startRegResendCooldown();
+    toast('New code sent! Check your inbox.');
+  });
+}
+
+function startRegOTPTimer(){
+  clearInterval(REG_OTP.timerInterval);
+  var rem=600;
+  REG_OTP.timerInterval=setInterval(function(){
+    rem--;
+    var m=Math.floor(rem/60),s=rem%60;
+    var el=document.getElementById('reg-otp-countdown');
+    if(el){el.textContent=m+':'+(s<10?'0':'')+s;el.style.color=rem<60?'var(--red)':'var(--teal)';}
+    if(rem<=0){clearInterval(REG_OTP.timerInterval);if(el){el.textContent='Expired';el.style.color='var(--red)';}}
+  },1000);
+}
+
+function startRegResendCooldown(){
+  var btn=document.getElementById('reg-resend-btn');
+  if(!btn)return;
+  btn.disabled=true;btn.textContent='Resend code (wait 60s)';
+  var s=60;
+  REG_OTP.resendInterval=setInterval(function(){
+    s--;if(btn)btn.textContent='Resend code (wait '+s+'s)';
+    if(s<=0){clearInterval(REG_OTP.resendInterval);if(btn){btn.disabled=false;btn.textContent='Resend code';}}
+  },1000);
+}
+
+// Called after OTP verified — creates account and submits survey
+function doRegisterAndSubmit() {
+  setBtn('btn-verify-reg-otp',true,'Creating your account...');
   show('screen-submitting');
 
-  api({action:'register',name:name,email:email,password:pass,phone:phone,school:school,refCode:ref,fingerprint:getFingerprint(),skipEmailVerification:true},function(res){
+  api({action:'register',name:REG_DATA.name,email:REG_DATA.email,password:REG_DATA.password,
+    phone:REG_DATA.phone,school:REG_DATA.school,refCode:REG_DATA.refCode,
+    fingerprint:REG_DATA.fingerprint,verifiedToken:REG_OTP.verifiedToken},function(res){
     if(!res.success){
       show('screen-register');
-      setBtn('btn-final-submit',false,'Submit & claim my \u20a650');
+      setBtn('btn-verify-reg-otp',false,'Verify & claim my \u20a650');
       toast(res.error||'Registration failed. Try again.',true);
       return;
     }
@@ -1125,13 +1260,14 @@ function doRegisterAndSubmit() {
     api({action:'submitSurvey',token:res.token,userId:res.userId,answers:S.answers},function(res2){
       if(!res2.success){
         show('screen-register');
-        setBtn('btn-final-submit',false,'Submit & claim my \u20a650');
+        setBtn('btn-verify-reg-otp',false,'Verify & claim my \u20a650');
         toast(res2.error||'Could not save survey. Try again.',true);
         return;
       }
       S.balance=res2.newBalance;S.totalEarned=res2.newBalance;S.surveyDone=true;
       updateCodes();
       document.getElementById('done-bal').textContent=S.balance;
+      REG_DATA={};REG_OTP.verifiedToken='';
       show('screen-complete');
     });
   });
@@ -1217,7 +1353,7 @@ function loadWallet(){
     document.getElementById('wd-lock-refs').textContent=Math.ceil(need2/50);
     document.getElementById('wd-locked-view').style.display  =bal>=CFG.MIN_WITHDRAWAL?'none':'block';
     document.getElementById('wd-unlocked-view').style.display=bal>=CFG.MIN_WITHDRAWAL?'block':'none';
-    if(bal>=CFG.MIN_WITHDRAWAL) checkEmailVerification();
+    
     var wdHist=document.getElementById('wd-history');
     if(!res.withdrawals||res.withdrawals.length===0){wdHist.innerHTML='<div style="text-align:center;padding:.5rem;font-size:13px;color:var(--ink-3)">No withdrawal history yet</div>';}
     else{wdHist.innerHTML=res.withdrawals.map(function(w){
@@ -1231,7 +1367,7 @@ function switchTab(tab){
     document.getElementById('tab-btn-'+t).classList.toggle('active',t===tab);
     document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
   });
-  if(tab==='withdraw'&&S.balance>=CFG.MIN_WITHDRAWAL){document.getElementById('wd-avail').textContent=S.balance;checkEmailVerification();}
+  if(tab==='withdraw'&&S.balance>=CFG.MIN_WITHDRAWAL){document.getElementById('wd-avail').textContent=S.balance;}
   if(tab==='referrals') updateRefLinkPreview();
 }
 
@@ -1250,8 +1386,6 @@ function validateWdAmt(){
   else{note.textContent='Balance after: \u20a6'+(S.balance-amt);note.className='field-note ok';}
 }
 function doWithdraw(){
-  if(!S.emailVerified){try{var c=localStorage.getItem(EMAIL_VERIFIED_KEY+'_'+S.userId);if(c==='1')S.emailVerified=true;}catch(e){}}
-  if(!S.emailVerified){toast('Please verify your email first.',true);startPayoutOTPFlow();return;}
   var method=document.getElementById('wd-method').value;
   var amount=parseInt(document.getElementById('wd-amount').value)||0;
   var bank=(document.getElementById('wd-bank')||{}).value||'';
