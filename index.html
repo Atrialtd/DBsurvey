@@ -1429,9 +1429,8 @@ function copyCode(id){
   else{toast('Your code: '+code);}
 }
 function getReferralLink(){
-  var base=API_URL;
-  if(base==='PASTE_YOUR_WEB_APP_URL_HERE') base=window.location.href.split('?')[0];
-  return base+'?ref='+encodeURIComponent(S.myCode);
+  var base = window.location.href.split('?')[0];
+  return base + '?ref=' + encodeURIComponent(S.myCode);
 }
 function shareOnWhatsApp(){
   if(!S.myCode){toast('Please log in first.',true);return;}
