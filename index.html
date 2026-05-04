@@ -970,15 +970,16 @@ window.addEventListener('load', function() {
     if (!sessionStorage.getItem('rovo_welcomed')) openWelcomeModal();
   } catch(e) { openWelcomeModal(); }
 
-  // Injected ref code from URL
+// Read ?ref= directly from the URL (works on Netlify static hosting)
   try {
-    var ref = window.INJECTED_REF_CODE||'';
-    if (ref&&ref.length>3) {
-      S.pendingRefCode=ref.toUpperCase();
-      var rf=document.getElementById('r-ref');
-      if(rf){rf.value=S.pendingRefCode;liveCheckRef(rf);}
+    var urlParams = new URLSearchParams(window.location.search);
+    var ref = urlParams.get('ref') || window.INJECTED_REF_CODE || '';
+    if (ref && ref.length > 3) {
+      S.pendingRefCode = ref.toUpperCase();
+      var rf = document.getElementById('r-ref');
+      if (rf) { rf.value = S.pendingRefCode; liveCheckRef(rf); }
     }
-  } catch(e){}
+  } catch(e) {}
 
   // Restore session
   var token=getSession(); if(!token) return;
