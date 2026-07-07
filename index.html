@@ -1598,13 +1598,8 @@ function fmtDate(d){
 var SUPPORT_URL = 'https://support.rovo.ng/';
 
 function openSupportDesk() {
-  var iframe  = document.getElementById('support-iframe');
-  var overlay = document.getElementById('support-overlay');
-  var drawer  = document.getElementById('support-drawer');
-  if (!iframe.src || iframe.src === 'about:blank') iframe.src = SUPPORT_URL;
-  overlay.style.display = 'block';
-  drawer.style.display  = 'flex';
-  document.body.style.overflow = 'hidden';
+  window.open(https://support.rovo.ng/, '_blank');
+}
 }
 function closeSupportDesk() {
   document.getElementById('support-overlay').style.display = 'none';
