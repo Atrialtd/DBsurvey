@@ -1564,5 +1564,53 @@ function fmtDate(d){
 }
 
 </script>
+  <!-- ── SUPPORT BUBBLE ── -->
+<div id="support-bubble" onclick="openSupportDesk()" title="Get help">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+</div>
+
+<!-- ── SUPPORT MODAL ── -->
+<div id="support-overlay" onclick="closeSupportDesk()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;backdrop-filter:blur(3px)"></div>
+<div id="support-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:85vh;background:#fff;border-radius:20px 20px 0 0;z-index:9999;flex-direction:column;overflow:hidden">
+  <div style="background:#1D9E75;padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:#fff">rovo Support</span>
+    </div>
+    <button onclick="closeSupportDesk()" style="background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:13px;padding:5px 12px;cursor:pointer;font-family:Arial">Close</button>
+  </div>
+  <iframe id="support-iframe" src="" style="flex:1;border:none;width:100%;height:100%" allow="forms"></iframe>
+</div>
+
+<style>
+#support-bubble{
+  position:fixed;bottom:80px;right:20px;width:52px;height:52px;
+  background:#1D9E75;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;cursor:pointer;z-index:997;
+  box-shadow:0 4px 16px rgba(29,158,117,.45);
+  transition:transform .15s,box-shadow .15s;
+}
+#support-bubble:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(29,158,117,.55);}
+#support-bubble:active{transform:scale(.95);}
+</style>
+
+<script>
+var SUPPORT_URL = 'https://support.rovo.ng/';
+
+function openSupportDesk() {
+  var iframe  = document.getElementById('support-iframe');
+  var overlay = document.getElementById('support-overlay');
+  var drawer  = document.getElementById('support-drawer');
+  if (!iframe.src || iframe.src === 'about:blank') iframe.src = SUPPORT_URL;
+  overlay.style.display = 'block';
+  drawer.style.display  = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeSupportDesk() {
+  document.getElementById('support-overlay').style.display = 'none';
+  document.getElementById('support-drawer').style.display  = 'none';
+  document.body.style.overflow = '';
+}
+</script>
 </body>
 </html>
