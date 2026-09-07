@@ -247,43 +247,110 @@ textarea{resize:vertical;min-height:80px}
 
 <!-- ════════ WELCOME POPUP ════════ -->
 <div class="modal-overlay" id="welcome-modal">
-  <div class="modal-sheet" style="max-height:90vh;overflow-y:auto">
+  <div class="modal-sheet" style="max-height:92vh;overflow-y:auto">
     <div class="modal-handle"></div>
-    <div style="text-align:center;margin-bottom:1rem">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:38px;width:auto;display:block;margin:0 auto">
-    </div>
-    <div style="background:linear-gradient(135deg,var(--teal-l),#fff);border:1px solid #A8DDD0;border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem">
-      <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--teal-d);margin-bottom:.5rem">What is rovo and why does your opinion matter?</div>
-      <div style="font-size:13px;color:var(--ink-2);line-height:1.7">rovo is a Lagos delivery startup building a platform where <strong>students earn money</strong> doing deliveries around their campus. We are not built yet. Before we build, we need to understand <em>you</em> &#8212; your income, your concerns, and what would make you say yes or no. Your honest answers shape the product. <strong style="color:var(--teal-d)">Every respondent gets paid.</strong></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1rem">
-      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
-        <div style="width:30px;height:30px;border-radius:8px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg></div>
-        <div><div style="font-size:12px;font-weight:700">5 minutes</div><div style="font-size:11px;color:var(--ink-3)">Quick questions</div></div>
+
+    <!-- Step 1: Who are you? -->
+    <div id="wm-step1">
+      <div style="text-align:center;margin-bottom:1rem">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:36px;width:auto;display:block;margin:0 auto">
       </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
-        <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-        <div><div style="font-size:12px;font-weight:700">Earn &#8358;50</div><div style="font-size:11px;color:var(--ink-3)">Paid to your account</div></div>
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:.35rem">Welcome to rovo</div>
+        <div style="font-size:13px;color:var(--ink-3);line-height:1.6">Before we begin, tell us who you are.<br>This loads the right survey for you.</div>
       </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
-        <div style="width:30px;height:30px;border-radius:8px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-        <div><div style="font-size:12px;font-weight:700">Refer &amp; earn</div><div style="font-size:11px;color:var(--ink-3)">&#8358;50 per friend</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.25rem">
+        <button onclick="selectUserType('student')" id="btn-type-student" style="background:#fff;border:2px solid var(--border);border-radius:14px;padding:1.1rem .85rem;cursor:pointer;transition:all .15s;text-align:center">
+          <div style="font-size:26px;margin-bottom:.4rem">&#127891;</div>
+          <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:.25rem">I am a Student</div>
+          <div style="font-size:11px;color:var(--ink-3);line-height:1.4">I want to earn &#8358;50 by sharing my opinion</div>
+        </button>
+        <button onclick="selectUserType('business')" id="btn-type-business" style="background:#fff;border:2px solid var(--border);border-radius:14px;padding:1.1rem .85rem;cursor:pointer;transition:all .15s;text-align:center">
+          <div style="font-size:26px;margin-bottom:.4rem">&#127978;</div>
+          <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:.25rem">I am a Business Owner</div>
+          <div style="font-size:11px;color:var(--ink-3);line-height:1.4">I want to share my opinion and earn as a business owner</div>
+        </button>
       </div>
-      <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
-        <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-        <div><div style="font-size:12px;font-weight:700">Min &#8358;<span class="popup-min-wd">1,000</span></div><div style="font-size:11px;color:var(--ink-3)">To withdraw</div></div>
+      <p style="font-size:11px;color:var(--ink-4);text-align:center">Tap one to continue</p>
+    </div>
+
+    <!-- Step 2a: Student info -->
+    <div id="wm-step2-student" style="display:none">
+      <div style="text-align:center;margin-bottom:1rem">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:36px;width:auto;display:block;margin:0 auto">
+      </div>
+      <div style="background:linear-gradient(135deg,var(--teal-l),#fff);border:1px solid #A8DDD0;border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem">
+        <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--teal-d);margin-bottom:.5rem">What is rovo and why does your opinion matter?</div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.7">rovo is a Lagos delivery startup building a platform where <strong>students earn money</strong> doing deliveries around their campus. We are not built yet. Before we build, we need to understand <em>you</em>. <strong style="color:var(--teal-d)">Your honest answers shape the product. Every respondent gets paid.</strong></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1rem">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">5 minutes</div><div style="font-size:11px;color:var(--ink-3)">Quick questions</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Earn &#8358;50</div><div style="font-size:11px;color:var(--ink-3)">Paid to your account</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Refer &amp; earn</div><div style="font-size:11px;color:var(--ink-3)">&#8358;50 per friend</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Min &#8358;<span class="popup-min-wd">1,000</span></div><div style="font-size:11px;color:var(--ink-3)">To withdraw</div></div>
+        </div>
+      </div>
+      <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:.8rem 1rem;font-size:13px;color:#795548;line-height:1.55;margin-bottom:1.1rem">
+        <strong style="color:#5D4037">&#9888; Important:</strong> Use your <strong>real name, email and phone</strong>. Wrong details delay or block your payout. One account per person.
+      </div>
+      <button class="btn btn-primary" onclick="startSurveyFromPopup()">Start student survey &amp; earn &#8358;50</button>
+      <button class="btn btn-outline" onclick="goBackToStep1()" style="margin-top:0;font-size:13px">&#8592; Back</button>
+      <div style="text-align:center;margin-top:.65rem">
+        <span style="font-size:13px;color:var(--ink-3)">Already have an account?</span>
+        <a href="#" onclick="closeWelcomeModal();show('screen-login');return false" style="font-size:13px;color:var(--teal);font-weight:600;margin-left:.3rem">Log in</a>
       </div>
     </div>
-    <div style="background:#FFF8E1;border:1px solid #FFD54F;border-radius:10px;padding:.8rem 1rem;font-size:13px;color:#795548;line-height:1.55;margin-bottom:1.1rem">
-      <strong style="color:#5D4037">&#9888; Important:</strong> Use your <strong>real name, email and phone</strong>. Wrong details delay or block your payout. One account per person.
+
+    <!-- Step 2b: Business owner info -->
+    <div id="wm-step2-business" style="display:none">
+      <div style="text-align:center;margin-bottom:1rem">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MjIgMjgxIiB3aWR0aD0iODIyIiBoZWlnaHQ9IjI4MSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIEBpbXBvcnQgdXJsKCdodHRwczovL2ZvbnRzLmdvb2dsZWFwaXMuY29tL2NzczI/ZmFtaWx5PVBvcHBpbnM6d2dodEA3MDAmYW1wO2Rpc3BsYXk9c3dhcCcpOwogICAgICAucm0geyBmb250LWZhbWlseTogJ1BvcHBpbnMnLCAnQXJpYWwgUm91bmRlZCBNVCBCb2xkJywgQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MjIiIGhlaWdodD0iMjgxIiBmaWxsPSIjRkZGRkZGIi8+CiAgPCEtLSByb3ZvIHdvcmRtYXJrIC0tPgogIDx0ZXh0IHg9IjYwIiB5PSIyMjEiIGNsYXNzPSJybSIgZm9udC1zaXplPSIyODAiIGZpbGw9IiMxRDlFNzUiIGxldHRlci1zcGFjaW5nPSItNCI+cm92bzwvdGV4dD4KICA8IS0tIEdyZWVuIGRvdCDigJQgdG9wLXJpZ2h0LCB0aWdodCB0byB0ZXh0LCBzYW1lIGhlaWdodCBhcyBpY29uIGRvdCAtLT4KICA8Y2lyY2xlIGN4PSI3NDQiIGN5PSI4MiIgcj0iMTgiIGZpbGw9IiMxRDlFNzUiLz4KPC9zdmc+" alt="rovo" style="height:36px;width:auto;display:block;margin:0 auto">
+      </div>
+      <div style="background:linear-gradient(135deg,#E8EAF6,#fff);border:1px solid #9FA8DA;border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem">
+        <div style="font-family:var(--font-head);font-size:13px;font-weight:700;color:#1A237E;margin-bottom:.5rem">Why your business insights matter</div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.7">rovo is building a same-day delivery platform for Lagos businesses. Before we build, we need to understand your real delivery challenges, what you currently spend, and what would make a delivery platform actually useful for your business. <strong style="color:#1A237E">10 questions. Your input directly shapes what we build.</strong></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1rem">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#E8F5E9;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 12"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">5 minutes</div><div style="font-size:11px;color:var(--ink-3)">Quick questions</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#E8EAF6;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A237E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Shape rovo</div><div style="font-size:11px;color:var(--ink-3)">Your input builds the product</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#FFF3E0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Anonymous</div><div style="font-size:11px;color:var(--ink-3)">Answers are confidential</div></div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:11px;padding:.65rem .8rem;display:flex;align-items:center;gap:.55rem">
+          <div style="width:30px;height:30px;border-radius:8px;background:#E8EAF6;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A237E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div><div style="font-size:12px;font-weight:700">Early access</div><div style="font-size:11px;color:var(--ink-3)">First to know when we launch</div></div>
+        </div>
+      </div>
+      <div style="background:#E8EAF6;border:1px solid #9FA8DA;border-radius:10px;padding:.8rem 1rem;font-size:13px;color:#1A237E;line-height:1.55;margin-bottom:1.1rem">
+        <strong>&#9888; Please use your real business email.</strong> We may follow up with early access offers or partnership opportunities based on your responses.
+      </div>
+      <button class="btn" onclick="startSurveyFromPopup()" style="background:#1A237E;color:#fff;font-size:15px;padding:.95rem">Start business survey</button>
+      <button class="btn btn-outline" onclick="goBackToStep1()" style="margin-top:0;font-size:13px">&#8592; Back</button>
+      <div style="text-align:center;margin-top:.65rem">
+        <span style="font-size:13px;color:var(--ink-3)">Already have an account?</span>
+        <a href="#" onclick="closeWelcomeModal();show('screen-login');return false" style="font-size:13px;color:var(--teal);font-weight:600;margin-left:.3rem">Log in</a>
+      </div>
     </div>
-    <button class="btn btn-primary" onclick="startSurveyFromPopup()">Start survey &amp; earn &#8358;50</button>
-    <div style="text-align:center;margin-top:.65rem">
-      <span style="font-size:13px;color:var(--ink-3)">Already have an account?</span>
-      <a href="#" onclick="closeWelcomeModal();show('screen-login');return false" style="font-size:13px;color:var(--teal);font-weight:600;margin-left:.3rem">Log in</a>
-    </div>
+
   </div>
-</div>
 </div>
 
 <!-- ════════ PAYOUT OTP MODAL ════════ -->
@@ -410,12 +477,12 @@ textarea{resize:vertical;min-height:80px}
 
   <!-- SCREEN: SURVEY — all questions on one page -->
   <div id="screen-survey" class="screen">
-    <div class="sv-header">
+    <div class="sv-header" id="sv-header-bar">
       <div class="sv-header-row">
-        <div><div class="sv-label">rovo Student Survey</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-top:2px">Earn &#8358;50</div></div>
-        <div style="text-align:right"><div class="sv-label">Total questions</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff">11</div></div>
+        <div><div class="sv-label" id="sv-survey-label">rovo Student Survey</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-top:2px" id="sv-survey-reward">Earn &#8358;50</div></div>
+        <div style="text-align:right"><div class="sv-label">Total questions</div><div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff" id="sv-total-count">11</div></div>
       </div>
-      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.5rem">Answer all 11 questions honestly then tap Continue at the bottom</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:.5rem" id="sv-hint-text">Answer all 11 questions honestly then tap Continue at the bottom</div>
     </div>
     <div id="q-container"></div>
     <div style="margin-top:1rem">
@@ -775,6 +842,74 @@ var API_URL = 'https://script.google.com/macros/s/AKfycbw0cRNh4-Vgucr-nnEg-VqXHW
 var SESSION_KEY = 'rovo_session_token';
 var EMAIL_VERIFIED_KEY = 'rovo_email_verified';
 
+// ── USER TYPE ─────────────────────────────────────────────────
+var USER_TYPE = 'student'; // 'student' | 'business'
+
+function selectUserType(type) {
+  USER_TYPE = type;
+  var sb = document.getElementById('btn-type-student');
+  var bb = document.getElementById('btn-type-business');
+  if (sb) { sb.style.background = type==='student' ? 'var(--teal-l)' : '#fff'; sb.style.borderColor = type==='student' ? 'var(--teal)' : 'var(--border)'; }
+  if (bb) { bb.style.background = type==='business'? '#E8EAF6'        : '#fff'; bb.style.borderColor = type==='business'? '#1A237E'        : 'var(--border)'; }
+  document.getElementById('wm-step1').style.display = 'none';
+  document.getElementById('wm-step2-student').style.display  = type==='student'  ? 'block' : 'none';
+  document.getElementById('wm-step2-business').style.display = type==='business' ? 'block' : 'none';
+}
+
+function goBackToStep1() {
+  document.getElementById('wm-step1').style.display = 'block';
+  document.getElementById('wm-step2-student').style.display  = 'none';
+  document.getElementById('wm-step2-business').style.display = 'none';
+}
+
+// ── BUSINESS OWNER QUESTIONS ──────────────────────────────────
+var BQs = [
+  { id:'bq1', type:'radio', required:true,
+    title:'What type of business do you operate?',
+    hint:'Select one',
+    opts:['Pharmacy or chemist','Supermarket or grocery store','Restaurant or food business','Laundry or dry cleaner','Fashion or tailoring','Bakery or confectionery','E-commerce or online selling','Professional services (medical, legal, consulting)','Other retail or trade business'] },
+  { id:'bq2', type:'radio', required:true,
+    title:'Where is your business primarily located in Lagos?',
+    hint:'Select one',
+    opts:['Lagos Island / Victoria Island / Ikoyi','Lekki / Ajah / Sangotedo','Surulere / Yaba / Ojuelegba','Ikeja / Maryland / Ojodu','Oshodi / Isolo / Mushin','Alimosho / Egbeda / Ipaja','Ikorodu','Badagry / Agbara','Other area in Lagos'] },
+  { id:'bq3', type:'radio', required:true,
+    title:'How many deliveries or orders does your business fulfil per week on average?',
+    hint:'Select one',
+    opts:['Less than 5 deliveries per week','5 \u2013 15 deliveries per week','16 \u2013 30 deliveries per week','31 \u2013 60 deliveries per week','More than 60 deliveries per week','We do not currently offer delivery'] },
+  { id:'bq4', type:'checkbox', required:true,
+    title:'How do you currently handle deliveries for your business?',
+    hint:'Select all that apply',
+    opts:['We use in-house staff or riders','We use a third-party logistics company','We use okada riders informally','Customers come to collect in person','We use food or delivery apps (Glovo, Chowdeck, etc.)','We do not currently offer delivery'] },
+  { id:'bq5', type:'checkbox', required:true,
+    title:'What are your biggest challenges with your current delivery arrangement?',
+    hint:'Select all that apply',
+    opts:['Riders are unreliable \u2014 they cancel or do not show up','Delivery cost is too high for the business','No real-time tracking for me or my customers','Packages get damaged or lost','Customers complain about delays','Difficult to manage alongside running the business','No reliable delivery option exists in my area','No significant challenges at the moment'] },
+  { id:'bq6', type:'radio', required:true,
+    title:'How much does your business currently spend on delivery and logistics per month?',
+    hint:'Select one',
+    opts:['Nothing \u2014 we do not offer delivery yet','Less than \u20a610,000','\u20a610,000 \u2013 \u20a630,000','\u20a630,001 \u2013 \u20a660,000','\u20a660,001 \u2013 \u20a6100,000','More than \u20a6100,000'] },
+  { id:'bq7', type:'radio', required:true,
+    title:'How quickly do your customers typically need their orders delivered?',
+    hint:'Select one',
+    opts:['Within 1 hour (same neighbourhood)','Same day anywhere in Lagos','Next day is acceptable','2 \u2013 3 days is fine','Speed does not matter \u2014 customers collect in person'] },
+  { id:'bq8', type:'radio', required:true,
+    title:'Have you ever lost a customer or a sale because of a delivery problem?',
+    hint:'Select one',
+    opts:['Yes \u2014 it happens regularly and it hurts the business','Yes \u2014 a few times','Maybe \u2014 I am not always sure why customers leave','No \u2014 delivery has not been a major issue for us'] },
+  { id:'bq9', type:'checkbox', required:true,
+    title:'What features would matter most to you in a delivery platform for your business?',
+    hint:'Select all that apply',
+    opts:['Real-time tracking for me and my customers','Proof of delivery \u2014 photo and signature','Guaranteed courier availability when I need one','Transparent fixed pricing per delivery','Ability to schedule deliveries in advance','Dashboard to manage and track all deliveries','Cash collection from customers on my behalf','Bulk order management for high-volume days'] },
+  { id:'bq10', type:'scale', required:true,
+    title:'If rovo offered reliable same-day delivery across Lagos for a predictable monthly subscription, how likely are you to sign up?',
+    hint:'1 = Not likely at all  \u00b7  5 = I would sign up immediately',
+    min:1, max:5, minL:'Not likely', maxL:'Sign up immediately' },
+  { id:'bq10b', type:'text', required:true,
+    title:'What is the one thing that would make rovo the right delivery partner for your business \u2014 and the one thing that would stop you?',
+    hint:'One or two sentences is enough',
+    ph:'e.g. "I would use rovo if couriers are reliable. I would not use it if I cannot track deliveries in real time."' }
+];
+
 var CFG = { MIN_WITHDRAWAL:1000, MAX_WITHDRAWAL:5000, SURVEY_REWARD:50, REFERRAL_REWARD:50 };
 
 var S = {
@@ -875,7 +1010,28 @@ function closeWelcomeModal() {
 function startSurveyFromPopup() {
   closeWelcomeModal();
   renderAllQuestions();
+  updateSurveyHeader();
   show('screen-survey');
+}
+
+function updateSurveyHeader() {
+  var isBusiness = USER_TYPE === 'business';
+  var header = document.getElementById('sv-header-bar');
+  var label  = document.getElementById('sv-survey-label');
+  var reward = document.getElementById('sv-survey-reward');
+  var count  = document.getElementById('sv-total-count');
+  var hint   = document.getElementById('sv-hint-text');
+  if (header) {
+    header.style.background = isBusiness
+      ? 'linear-gradient(135deg,#1A237E,#0D1B6E)'
+      : 'linear-gradient(135deg,#1D9E75,#16836A)';
+  }
+  if (label)  label.textContent  = isBusiness ? 'rovo Business Survey' : 'rovo Student Survey';
+  if (reward) reward.textContent = isBusiness ? 'Share your insights' : 'Earn ₦50';
+  if (count)  count.textContent  = isBusiness ? '11' : '11';
+  if (hint)   hint.textContent   = isBusiness
+    ? 'Answer all 11 questions honestly then tap Continue at the bottom'
+    : 'Answer all 11 questions honestly then tap Continue at the bottom';
 }
 
 // ── PAYOUT OTP MODAL ────────────────────────────────────────
@@ -1038,11 +1194,30 @@ function applyUserState(res, token) {
 // ── LIVE CHECKS ──────────────────────────────────────────────
 var emailCheckT, phoneCheckT, refCheckT;
 
+function isEmailDomainAllowed(email) {
+  var allowed = window.ALLOWED_EMAIL_DOMAINS || ['gmail.com','outlook.com','yahoo.com'];
+  var domain  = (email || '').split('@')[1];
+  if (!domain) return false;
+  return allowed.indexOf(domain.toLowerCase().trim()) !== -1;
+}
+
+function getEmailDomainError() {
+  var allowed = window.ALLOWED_EMAIL_DOMAINS || ['gmail.com','outlook.com','yahoo.com'];
+  return 'Only ' + allowed.map(function(d){return '@'+d;}).join(', ') + ' email addresses are accepted.';
+}
+
 function liveCheckEmail() {
   var email=document.getElementById('r-email').value.trim().toLowerCase();
   var note=document.getElementById('r-email-note');
   clearTimeout(emailCheckT);
   if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){note.textContent='';note.className='field-note';return;}
+  // Domain check first
+  if(!isEmailDomainAllowed(email)){
+    note.textContent=getEmailDomainError();
+    note.className='field-note bad';
+    document.getElementById('r-email').classList.add('err');
+    return;
+  }
   note.textContent='Checking...';note.className='field-note checking';
   emailCheckT=setTimeout(function(){
     api({action:'checkEmail',email:email},function(res){
@@ -1090,8 +1265,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
 // ── SURVEY — ALL ON ONE PAGE ─────────────────────────────────
 function renderAllQuestions() {
+  var questions = USER_TYPE === 'business' ? BQs : Qs;
   var html='';
-  Qs.forEach(function(q,idx){
+  questions.forEach(function(q,idx){
     var saved=S.answers[q.id];
     html+='<div class="card" style="margin-bottom:.85rem">';
     html+='<div class="qbadge">Q'+(idx+1)+'</div>';
@@ -1140,12 +1316,13 @@ function pickScale(qid,val,btn){
 
 function collectAndContinue() {
   // Collect textarea values
-  Qs.forEach(function(q){
+  var questions = USER_TYPE === 'business' ? BQs : Qs;
+  questions.forEach(function(q){
     if(q.type==='text'){var ta=document.getElementById('ta-'+q.id);if(ta)S.answers[q.id]=ta.value.trim();}
   });
   // Validate all
-  for(var i=0;i<Qs.length;i++){
-    var q=Qs[i];var ans=S.answers[q.id];
+  for(var i=0;i<questions.length;i++){
+    var q=questions[i];var ans=S.answers[q.id];
     var empty=!ans||(Array.isArray(ans)&&ans.length===0)||ans==='';
     if(empty){
       var badges=document.querySelectorAll('.qbadge');
@@ -1186,6 +1363,7 @@ function doSendRegOTP() {
   if(!name)                   {toast('Full name is required.',true);return;}
   if(!email)                  {toast('Email address is required.',true);return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Please enter a valid email.',true);return;}
+  if(!isEmailDomainAllowed(email)){toast(getEmailDomainError(),true);return;}
   if(en&&en.classList.contains('bad')){toast('This email is already registered. Please log in.',true);return;}
   if(!pass||pass.length<6)    {toast('Password must be at least 6 characters.',true);return;}
   if(pass!==pass2)            {toast('Passwords do not match.',true);return;}
@@ -1194,7 +1372,7 @@ function doSendRegOTP() {
   if(!school)                 {toast('School / university is required.',true);return;}
 
   // Save form data before OTP step
-  REG_DATA = {name,email,password:pass,phone,school,refCode:ref,fingerprint:getFingerprint()};
+  REG_DATA = {name,email,password:pass,phone,school,refCode:ref,fingerprint:getFingerprint(),userType:USER_TYPE};
 
   setBtn('btn-send-reg-otp',true,'Sending code...');
   api({action:'sendOTP',email:email,purpose:'register'},function(res){
@@ -1294,7 +1472,7 @@ function doRegisterAndSubmit() {
 
   api({action:'register',name:REG_DATA.name,email:REG_DATA.email,password:REG_DATA.password,
     phone:REG_DATA.phone,school:REG_DATA.school,refCode:REG_DATA.refCode,
-    fingerprint:REG_DATA.fingerprint,verifiedToken:REG_OTP.verifiedToken},function(res){
+    fingerprint:REG_DATA.fingerprint,verifiedToken:REG_OTP.verifiedToken,userType:REG_DATA.userType||USER_TYPE},function(res){
     if(!res.success){
       show('screen-register');
       setBtn('btn-verify-reg-otp',false,'Verify & claim my \u20a650');
@@ -1304,7 +1482,7 @@ function doRegisterAndSubmit() {
     saveSession(res.token);
     applyUserState(res,res.token);
 
-    api({action:'submitSurvey',token:res.token,userId:res.userId,answers:S.answers},function(res2){
+    api({action:'submitSurvey',token:res.token,userId:res.userId,answers:S.answers,userType:USER_TYPE},function(res2){
       if(!res2.success){
         show('screen-register');
         setBtn('btn-verify-reg-otp',false,'Verify & claim my \u20a650');
@@ -1314,6 +1492,16 @@ function doRegisterAndSubmit() {
       S.balance=res2.newBalance;S.totalEarned=res2.newBalance;S.surveyDone=true;
       updateCodes();
       document.getElementById('done-bal').textContent=S.balance;
+      // Adapt complete screen for user type
+      var isBiz = USER_TYPE === 'business';
+      var dTitle = document.getElementById('done-title');
+      var dSub   = document.getElementById('done-subtitle');
+      var dWrap  = document.getElementById('done-bal-wrap');
+      var cHero  = document.querySelector('.complete-hero');
+      if(dTitle) dTitle.textContent = isBiz ? 'Thank you for your insights!' : 'Survey complete!';
+      if(dSub)   dSub.textContent  = isBiz ? 'Your responses help shape rovo for Lagos businesses.' : '₦50 credited to your wallet';
+      if(dWrap && isBiz) dWrap.style.display = 'none';
+      if(cHero && isBiz) cHero.style.background = 'linear-gradient(135deg,#1A237E,#0D1B6E)';
       REG_DATA={};REG_OTP.verifiedToken='';
       show('screen-complete');
     });
@@ -1563,48 +1751,6 @@ function fmtDate(d){
   catch(e){return String(d).substring(0,10);}
 }
 
-</script>
-  <!-- ── SUPPORT BUBBLE ── -->
-<div id="support-bubble" onclick="openSupportDesk()" title="Get help">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-</div>
-
-<!-- ── SUPPORT MODAL ── -->
-<div id="support-overlay" onclick="closeSupportDesk()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;backdrop-filter:blur(3px)"></div>
-<div id="support-drawer" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:85vh;background:#fff;border-radius:20px 20px 0 0;z-index:9999;flex-direction:column;overflow:hidden">
-  <div style="background:#1D9E75;padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-    <div style="display:flex;align-items:center;gap:.6rem">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:#fff">rovo Support</span>
-    </div>
-    <button onclick="closeSupportDesk()" style="background:rgba(255,255,255,.2);border:none;border-radius:6px;color:#fff;font-size:13px;padding:5px 12px;cursor:pointer;font-family:Arial">Close</button>
-  </div>
-  <iframe id="support-iframe" src="" style="flex:1;border:none;width:100%;height:100%" allow="forms"></iframe>
-</div>
-
-<style>
-#support-bubble{
-  position:fixed;bottom:80px;right:20px;width:52px;height:52px;
-  background:#1D9E75;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;cursor:pointer;z-index:997;
-  box-shadow:0 4px 16px rgba(29,158,117,.45);
-  transition:transform .15s,box-shadow .15s;
-}
-#support-bubble:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(29,158,117,.55);}
-#support-bubble:active{transform:scale(.95);}
-</style>
-
-<script>
-var SUPPORT_URL = 'https://support.rovo.ng/';
-
-function openSupportDesk() {
-  window.open(SUPPORT_URL, '_blank');
-}
-function closeSupportDesk() {
-  document.getElementById('support-overlay').style.display = 'none';
-  document.getElementById('support-drawer').style.display  = 'none';
-  document.body.style.overflow = '';
-}
 </script>
 </body>
 </html>
